@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Male_Fashion Template">
+    <meta name="keywords" content="Male_Fashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/resources/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/style.css" type="text/css">
+</head>
+<body>
+
+<div th:insert="~{header :: header}"></div>
+
+<form th:action="@{/account/save}" method="post">
+    <div class="container-fluid col-md-6">
+        <div class="mb-3">
+            <label for="login" class="form-label">Login</label>
+            <input type="text" class="form-control w-50" id="login" placeholder="Enter login">
+<!--            <div id="loginHelp" class="form-text">Enter the login</div>-->
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control w-50" id="password" placeholder="Enter the Password">
+        </div>
+        <!--  <div class="mb-3 form-check">-->
+        <!--    <input type="checkbox" class="form-check-input" id="exampleCheck1">-->
+        <!--    <label class="form-check-label" for="exampleCheck1">Check me out</label>-->
+        <!--  </div>-->
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <div>
+            <button type="button" onclick="window.location.href='/account/register'" class="btn btn-light">Register</button>
+        </div>
+    </div>
+</form>
+
+<div th:insert="~{footer :: footer}"></div>
+
+</body>
+</html>

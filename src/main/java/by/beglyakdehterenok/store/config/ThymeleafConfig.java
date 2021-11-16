@@ -15,6 +15,7 @@ public class ThymeleafConfig {
         resolver.setCharacterEncoding("UTF-8");
         resolver.setPrefix("/WEB-INF/templates/");
         resolver.setSuffix(".html");
+        resolver.setCacheable(true);
         return resolver;
     }
 

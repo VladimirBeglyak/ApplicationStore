@@ -1,10 +1,9 @@
 package by.beglyakdehterenok.store.config;
 
+import by.beglyakdehterenok.store.entity.Storage;
+import by.beglyakdehterenok.store.mapper.StorageMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -60,18 +59,29 @@ public class DatabaseConfig {
     public Properties jpaProperties(){
         Properties properties = new Properties();
         properties.setProperty("hibernate.dialect",environment.getRequiredProperty("hibernate.dialect"));
-        properties.setProperty("hibernate.format_sql",environment.getRequiredProperty("hibernate.format_sql"));
-        properties.setProperty("hibernate.show_sql",environment.getRequiredProperty("hibernate.show_sql"));
+//        properties.setProperty("hibernate.format_sql",environment.getRequiredProperty("hibernate.format_sql"));
+//        properties.setProperty("hibernate.show_sql",environment.getRequiredProperty("hibernate.show_sql"));
         properties.setProperty("hibernate.hbm2ddl.auto",environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
 
         return properties;
     }
 
     @Bean
+    @Scope("prototype")
     public PlatformTransactionManager transactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-
         return transactionManager;
+    }
+
+    @Bean
+    @Scope("prototype")
+    public Storage storage(){
+        return new Storage();
+    }
+
+    @Bean
+    public StorageMapperImpl storageMapper(){
+        return new StorageMapperImpl();
     }
 }

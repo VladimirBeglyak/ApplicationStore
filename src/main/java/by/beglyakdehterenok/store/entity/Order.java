@@ -1,22 +1,31 @@
 package by.beglyakdehterenok.store.entity;
 
-//@Entity
-//@Table
-//@NoArgsConstructor
-//@Data
+import lombok.*;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "orders")
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString(exclude = "account")
 public class Order extends BaseEntity {
 
-//    @ManyToOne
-//    @JoinColumn(name = "account_id")
-//    private Account account;
-//
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "clothing_id")
-//    private Clothing clothing;
-//
-//    @Column(nullable = false)
-//    private int quantity;
-//
+    @Column(name = "name")
+    private String name;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private Account account;
+
+    @ManyToOne()
+    @JoinColumn(name = "clothing_id")
+    private Clothing clothing;
+
+    @Column(nullable = false)
+    private Long quantity;
+
 //    @Column(name = "final_price", nullable = false)
 //    private double finalPrice = quantity*clothing.getPrice();
 }

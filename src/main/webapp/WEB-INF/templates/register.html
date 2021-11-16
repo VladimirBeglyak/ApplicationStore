@@ -2,86 +2,104 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-            crossorigin="anonymous"></script>
+    <meta name="description" content="Male_Fashion Template">
+    <meta name="keywords" content="Male_Fashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Register</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/resources/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/style.css" type="text/css">
 </head>
 <body>
 
-<form action="#" th:action="@{/save}" th:object="${newAccount}" method="post">
-    <div>
+<div th:insert="~{header :: header}"></div>
 
-        <label for="firstName" th:text="#{account.form.first_name}"></label>
-        <input type="text" id="firstName" th:field="*{firstName}"/><br>
+<div class="container-fluid col-md-7">
+    <form action="#" th:action="@{/account/save}" th:object="${newAccount}" method="post">
+        <div>
 
-        <label for="lastName" th:text="#{account.form.last_name}"></label>
-        <input type="text" id="lastName" th:field="*{lastName}"/><br>
+            <label for="firstName" th:text="#{account.form.first_name}"></label>
+            <input type="text" id="firstName" th:field="*{firstName}" class="form-control w-25"/><br>
 
-    </div>
-    
-    
-    <div>
-        <ul>
-            <li th:each="role : ${allRoles}">
-                <input id="roles" type="checkbox" th:field="*{role}" th:value="${role.name()}">
-                <label for="roles" th:text="${#strings.toLowerCase(role.name())}"></label>
-            </li>
-        </ul>
-    </div>
+            <label for="lastName" th:text="#{account.form.last_name}"></label>
+            <input type="text" id="lastName" th:field="*{lastName}" class="form-control w-25"/><br>
 
-    <div>
-        <ul>
-            <li th:each="gender : ${allGenders}">
-                <input id="genders" type="radio" th:field="*{gender}" th:value="${gender.name()}">
-                <label for="genders" th:text="${#strings.toLowerCase(gender.name())}"></label>
-            </li>
-        </ul>
-    </div>
+        </div>
 
 
-<!--    <label for="birthday">Last Name:</label>-->
-<!--    <input type="date" id="birthday" th:field="*{birthday}"/><br>-->
+        <div>
+            <ul style="list-style-type:none">Role:
+                <li th:each="role : ${allRoles}">
+                    <input id="roles" type="checkbox"  th:field="*{role}" th:value="${role.name()}" >
+                    <label for="roles" th:text="${#strings.toLowerCase(role.name())}"></label>
+                </li>
+            </ul>
+        </div>
 
-    <div>
+        <div>
+            <ul style="list-style-type: none">Gender:
+                <li th:each="gender : ${allGenders}">
+                    <input id="genders" type="radio"  th:field="*{gender}" th:value="${gender.name()}">
+                    <label for="genders" th:text="${#strings.toLowerCase(gender.name())}"></label>
+                </li>
+            </ul>
+        </div>
 
-        <label for="country" th:text="#{account.form.country}"></label>
-        <input type="text" id="country" th:field="*{address.country}"/><br>
+        <div>
 
-        <label for="town">Town:</label>
-        <input type="text" id="town" th:field="*{address.town}"/><br>
+            <label for="country" th:text="#{account.form.country}"></label>
+            <input type="text" id="country" th:field="*{address.country}" class="form-control w-25"/><br>
 
-        <label for="street">Street:</label>
-        <input type="text" id="street" th:field="*{address.street}"/><br>
+            <label for="town">Town:</label>
+            <input type="text" id="town" th:field="*{address.town}" class="form-control w-25"/><br>
 
-        <label for="apartment">Apartment:</label>
-        <input type="text" id="apartment" th:field="*{address.apartment}"/><br>
+            <label for="street">Street:</label>
+            <input type="text" id="street" th:field="*{address.street}" class="form-control w-25"/><br>
 
-    </div>
+            <label for="apartment">Apartment:</label>
+            <input type="text" id="apartment" th:field="*{address.apartment}" class="form-control w-25"/><br>
 
-    <div>
+        </div>
 
-        <label for="phoneNumber">Phone Number:</label>
-        <input type="text" id="phoneNumber" th:field="*{phoneNumber}"/><br>
+        <div>
 
-        <label for="birthday">Birthday:</label>
-        <input type="date" id="birthday" th:field="*{birthday}"/><br>
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control w-25"/><br>
+            <br>
+            <!--        <label for="birthday">Birthday:</label>-->
+            <!--        <input type="date" id="birthday" th:field="*{birthday}"/><br>-->
 
-        <label for="email">Email:</label>
-        <input type="text" id="email" th:field="*{email}"/><br>
+            <label for="email">Email:</label>
+            <input type="text" id="email" th:field="*{email}" class="form-control w-25"/>
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red"></p>
+            <br>
 
-        <label for="login">Login:</label>
-        <input type="text" id="login" th:field="*{login}"/><br>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" th:field="*{password}"/><br>
+            <label for="login">Login:</label>
+            <input type="text" id="login" th:field="*{login}" class="form-control w-25"/><br>
 
-    </div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" th:field="*{password}" class="form-control w-25"/><br>
 
-    <button type="submit" class="btn btn-success">OK</button>
-</form>
+        </div>
+
+        <button type="submit" class="btn btn-success">OK</button>
+    </form>
+</div>
+
+<div th:insert="~{footer :: footer}"></div>
 
 </body>
 </html>
