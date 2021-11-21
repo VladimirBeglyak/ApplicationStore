@@ -20,7 +20,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        Account account = accountRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
+        Account account = accountRepository.findByLogin(login)
+                .orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
+        System.out.println("user from DB : " + account);
         return SecurityAccount.fromAccount(account);
     }
 

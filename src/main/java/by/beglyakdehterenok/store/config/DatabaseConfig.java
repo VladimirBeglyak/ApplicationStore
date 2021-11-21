@@ -1,7 +1,5 @@
 package by.beglyakdehterenok.store.config;
 
-import by.beglyakdehterenok.store.entity.Storage;
-import by.beglyakdehterenok.store.mapper.StorageMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
@@ -72,16 +70,5 @@ public class DatabaseConfig {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
         return transactionManager;
-    }
-
-    @Bean
-    @Scope("prototype")
-    public Storage storage(){
-        return new Storage();
-    }
-
-    @Bean
-    public StorageMapperImpl storageMapper(){
-        return new StorageMapperImpl();
     }
 }

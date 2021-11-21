@@ -4,40 +4,42 @@ import by.beglyakdehterenok.store.config.DatabaseConfig;
 import by.beglyakdehterenok.store.entity.*;
 import by.beglyakdehterenok.store.repository.AccountRepository;
 import by.beglyakdehterenok.store.repository.OrderRepository;
-import by.beglyakdehterenok.store.repository.StorageRepository;
+import by.beglyakdehterenok.store.service.OrderService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityTransaction;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
+import java.util.Optional;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = DatabaseConfig.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class AccountRepositoryTest {
+public class AccountRepositoryTest extends BaseTest<Account> {
 
     @Autowired
     private AccountRepository accountRepository;
 
-    @Autowired
-    private StorageRepository storageRepository;
 
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private OrderService orderService;
+
 
     @Test
-    public void addNewAccount() {
+    @Override
+    List<Account> findAll() {
+        return accountRepository.findAll();
+    }
+
+    @Test
+    @Override
+    public void save() {
         Account account = new Account();
         account.setFirstName("Vladimir");
         account.setLastName("Beglyak");
@@ -56,35 +58,27 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    @Transactional
-    public void addNewOrderByAccount() {
-        Account account = accountRepository.findById(2L).get();
+    @Override
+    void delete() {
+        accountRepository.deleteById(1L);
+    }
+
+    @Test
+    @Override
+    public Optional<Account> findById(){
+        Optional<Account> account = accountRepository.findById(1L);
         System.out.println(account);
-        Clothing clothing = storageRepository.getOne(1L).getClothing();
-        Order order = new Order();
-        order.setName("First Order");
-        order.setQuantity(1L);
-        order.setAccount(account);
-        account.addOrder(order);
-        order.setClothing(clothing);
-
-        orderRepository.save(order);
-
-        System.out.println();
+        System.out.println(account.get().getRole().getPermissions());
+        System.out.println(account.get().getRole().getAuthorities());
+        return account;
     }
 
     @Test
-    public void addNewOrderSimple(){
-        Order order = new Order();
-        order.setQuantity(1L);
-        order.setName("First Order");
-        orderRepository.save(order);
-    }
-
-    @Test
-    public void findAllOrder(){
-        orderRepository.findAll()
-                .forEach(order -> System.out.println(order));
+    @Override
+    public void update(){
+        Account account = accountRepository.findById(1L).get();
+        account.setLastName("TEST");
+        accountRepository.saveAndFlush(account);
     }
 
 

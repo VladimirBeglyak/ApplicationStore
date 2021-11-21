@@ -1,13 +1,11 @@
 package by.beglyakdehterenok.store.controller;
 
-import by.beglyakdehterenok.store.entity.*;
 import by.beglyakdehterenok.store.service.BrandService;
 import by.beglyakdehterenok.store.service.CategoryService;
 import by.beglyakdehterenok.store.service.ClothingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/clothes")
@@ -17,6 +15,7 @@ public class ClothingController {
     private final ClothingService clothingService;
     private final CategoryService categoryService;
     private final BrandService brandService;
+
 
     @Autowired
     public ClothingController(ClothingService clothingService, CategoryService categoryService, BrandService brandService) {
@@ -31,28 +30,35 @@ public class ClothingController {
 //        model.addAttribute("clothing",clothing);
 //    }
 
-    @GetMapping("/add")
-    public ModelAndView addClothing(ModelAndView modelAndView) {
-        Clothing clothing = new Clothing();
-//        modelAndView.addObject("allSeasons", Season.values());
-//        modelAndView.addObject("allTypes", Type.values());
-        modelAndView.addObject("allCategories", categoryService.findAll());
-        modelAndView.addObject("allSizes", Size.values());
-        modelAndView.addObject("allBrands", brandService.findAll());
-        modelAndView.addObject("newClothing", clothing);
-        modelAndView.setViewName("clothes-add");
-        return modelAndView;
-    }
-
-    @PostMapping("/save")
-    public String addNewClothingToCatalog(@ModelAttribute("newClothing") Clothing clothing,
-                                          @RequestParam("brandId") Long brandId,
-                                          @RequestParam("categoryId") Long categoryId,
-                                          @RequestParam("count") Long count) {
-        clothingService.addNewClothingToStorage(brandId,categoryId,clothing,count);
-
-        return "redirect:/catalog/";
-    }
+//    @GetMapping("/add")
+//    public ModelAndView addClothing(ModelAndView modelAndView) {
+//        Clothing clothing = new Clothing();
+//        modelAndView.addObject("allCategories", categoryService.findAll());
+//        modelAndView.addObject("allSizes", Size.values());
+//        modelAndView.addObject("allSeasons",Season.values());
+//        modelAndView.addObject("allTypes",Type.values());
+//        modelAndView.addObject("allBrands", brandService.findAll());
+//        modelAndView.addObject("newClothing", clothing);
+//        modelAndView.setViewName("clothes-add");
+//        return modelAndView;
+//    }
+//
+//    @PostMapping("/save")
+//    public String addNewClothingToCatalog(@ModelAttribute("newClothing") Clothing clothing,
+//                                          @RequestParam("count") Long count
+////                                          @RequestParam("img") MultipartFile multipartFile
+//                                          ) throws IOException {
+//
+////        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+////        clothing.setImagePath(fileName);
+//        System.out.println("count = " + count);
+//        System.out.println(clothing);
+//        Clothing savedClothing = clothingService.addNewClothingToStorage(clothing,count);
+////        String uploadDir = "clothing-photos/" + savedClothing.getId();
+////        FileUploadUtil.saveFile(uploadDir,fileName,multipartFile);
+//
+//        return "redirect:/catalog/";
+//    }
 //*************Misha*************************************
 //    private final ClothingService clothingService;
 //    private final OrderService orderService;

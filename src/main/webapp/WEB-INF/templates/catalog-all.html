@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Catalog</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Male_Fashion Template">
+    <meta name="keywords" content="Male_Fashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/resources/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/style.css" type="text/css">
+</head>
+<body>
+
+<div th:insert="~{header :: header}"></div>
+<div class="container-fluid">
+    <table class="table caption-top table-light table-hover table-bordered">
+        <caption>Catalog</caption>
+        <thead class="table-dark">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Count</th>
+            <th>Size</th>
+            <th>Season</th>
+            <th>Type</th>
+            <th>Brand</th>
+            <th>Category</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="clothing : ${allClothingOnStorage}">
+            <td th:text="${clothing.id}"></td>
+            <td th:text="${clothing.name}"></td>
+            <td th:text="${clothing.price}"></td>
+            <td th:text="${clothing.count}"></td>
+            <td th:text="${clothing.size.name()}"></td>
+            <td th:text="${clothing.season.name()}"></td>
+            <td th:text="${clothing.type.name()}"></td>
+            <td th:text="${clothing.brand.name}"></td>
+            <td th:text="${clothing.category.name}"></td>
+            <td>
+                <a th:href="@{/catalog/delete(clothingId=${clothing.id})}">Delete</a>
+            </td>
+            <td>
+                <a th:href="@{/catalog/update(clothingId=${clothing.id})}">Update</a>
+            </td>
+<!--            <td><a th:href="@{/account/details(clothingId=${storage.id})}">Show more details</a></td>-->
+        </tr>
+        </tbody>
+
+    </table>
+
+    <button type="button" onclick="window.location.href='/catalog/add'" class="btn btn-success">Add New Clothing</button>
+
+</div>
+
+<div th:insert="~{footer :: footer}"></div>
+
+</body>
+</html>

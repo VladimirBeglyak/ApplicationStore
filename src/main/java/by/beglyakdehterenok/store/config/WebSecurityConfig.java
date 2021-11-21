@@ -1,13 +1,13 @@
 package by.beglyakdehterenok.store.config;
 
-import by.beglyakdehterenok.store.entity.Role;
+import by.beglyakdehterenok.store.entity.Permission;
+import by.beglyakdehterenok.store.exception.MyAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,34 +15,23 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AndRequestMatcher;
-
-import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true) //для работы preAuthorities
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
+    private final MyAccessDeniedHandler myAccessDeniedHandler;
 
     @Autowired
-    public WebSecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
+    public WebSecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, MyAccessDeniedHandler myAccessDeniedHandler) {
         this.userDetailsService = userDetailsService;
+        this.myAccessDeniedHandler = myAccessDeniedHandler;
     }
 
-//    private final DataSource dataSource;
-
-//    private final AccessDeniedHandler accessDeniedHandler;
-
-//    @Autowired
-//    public WebSecurityConfig(DataSource dataSource /*AccessDeniedHandler accessDeniedHandler*/) {
-//        this.dataSource = dataSource;
-////        this.accessDeniedHandler = accessDeniedHandler;
-//    }
-//
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
 
@@ -50,23 +39,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeRequests().antMatchers("/**").permitAll()
-//                .antMatchers("/male-fashion","/order/new","/account","/register","/save","/clothes/save","/clothes/add","/catalog/**","/catalog/all","/order/**").permitAll()
-                .anyRequest().hasAnyAuthority(Role.values().toString())
+                .authorizeRequests()
+                .antMatchers("/").permitAll()
+                    .antMatchers("/account/all/**","/catalog/all/**","/catalog/save/**").hasAuthority(Permission.ACCOUNT_WRITE.getPermission())
+//                .antMatchers(HttpMethod.GET,"/sec/user").hasAnyAuthority(Permission.ACCOUNT_READ.getPermission(),Permission.ACCOUNT_WRITE.getPermission())
+//                .antMatchers(HttpMethod.GET,"/sec/admin").hasAuthority(Permission.ACCOUNT_WRITE.getPermission())
+                .anyRequest().permitAll()
+
+//                .antMatchers(HttpMethod.GET,"/catalog/all").hasAuthority(Permission.ACCOUNT_READ.getPermission())
+//                .antMatchers(HttpMethod.GET,"/account/all").hasAuthority(Permission.ACCOUNT_READ.getPermission()) // это если убрать preAuthority в controllers
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/shop",true)
+//                .loginPage("/auth/login").permitAll()
+                .defaultSuccessUrl("/shop")
                 .and()
-                .logout()
-//                .logoutRequestMatcher(new AndRequestMatcher("auth/logout","POST"))
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/account");
+                .exceptionHandling().accessDeniedHandler(myAccessDeniedHandler);
 //                .and()
-//                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
-
+//                .logout()
+//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout","POST"))
+//                .invalidateHttpSession(true)
+//                .clearAuthentication(true)
+//                .deleteCookies("JSESSIONID")
+//                .logoutSuccessUrl("/shop");
     }
 
     @Override
@@ -75,10 +69,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    protected DaoAuthenticationProvider daoAuthenticationProvider(){
+    protected DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+
         return daoAuthenticationProvider;
     }
 
@@ -86,16 +81,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-//                .antMatchers("/resources/img/","/resources/**","../webapp/resources/**","/../webapp/resources/**");
-        .antMatchers("webapp/**");
+                .antMatchers("webapp/**", "config/translations_ru_RU.properties", "config/translations.properties", "config/translations_en_US.properties");
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.jdbcAuthentication()
-//                .dataSource(dataSource)
-//                .passwordEncoder(passwordEncoder())
-//                .usersByUsernameQuery("select login,password,role from accounts where login=?")
-//                .authoritiesByUsernameQuery("select a.login,a.role from accounts a where login=?");
-//    }
+
 }

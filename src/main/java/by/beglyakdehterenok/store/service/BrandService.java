@@ -1,23 +1,27 @@
 package by.beglyakdehterenok.store.service;
 
+import by.beglyakdehterenok.store.dto.BrandDto;
+import by.beglyakdehterenok.store.dto.CategoryDto;
 import by.beglyakdehterenok.store.entity.Brand;
+import by.beglyakdehterenok.store.mapper.BrandMapperImpl;
 import by.beglyakdehterenok.store.repository.BrandRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BrandService implements BaseService<Brand,Long>{
 
-    private BrandRepository brandRepository;
+    private final BrandRepository brandRepository;
+    private final BrandMapperImpl brandMapper;
 
-    @Autowired
-    public void setBrandRepository(BrandRepository brandRepository) {
+    public BrandService(BrandRepository brandRepository, BrandMapperImpl brandMapper) {
         this.brandRepository = brandRepository;
+        this.brandMapper = brandMapper;
     }
+
 
     @Override
     public List<Brand> findAll(){
@@ -32,5 +36,11 @@ public class BrandService implements BaseService<Brand,Long>{
     @Override
     public Optional<Brand> findById(Long id){
         return brandRepository.findById(id);
+    }
+
+    public List<BrandDto> findAllBrandsDto(){
+        return brandRepository.findAll().stream()
+                .map(category -> brandMapper.mapFrom(category))
+                .collect(Collectors.toList());
     }
 }

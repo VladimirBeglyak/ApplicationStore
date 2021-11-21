@@ -9,5 +9,6 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 public class CategoryDto {
+    private Long id;
     private String name;
 }

@@ -8,7 +8,8 @@ import javax.persistence.*;
 @Table(name = "orders")
 @Getter
 @Setter
-@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
 @ToString(exclude = "account")
 public class Order extends BaseEntity {
 
@@ -26,6 +27,4 @@ public class Order extends BaseEntity {
     @Column(nullable = false)
     private Long quantity;
 
-//    @Column(name = "final_price", nullable = false)
-//    private double finalPrice = quantity*clothing.getPrice();
 }

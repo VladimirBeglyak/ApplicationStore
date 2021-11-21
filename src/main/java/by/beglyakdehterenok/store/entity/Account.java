@@ -1,9 +1,13 @@
 package by.beglyakdehterenok.store.entity;
 
+import by.beglyakdehterenok.store.validation.CheckEmail;
 import lombok.*;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 //import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,9 +27,6 @@ public class Account extends BaseEntity {
 
     @Column(name = "last_name")
     private String lastName;
-
-//    @Transient
-//    private String fullName = this.firstName + " " + this.lastName;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
@@ -50,32 +51,18 @@ public class Account extends BaseEntity {
     private String email;
 
     @Column(nullable = false, length = 50, unique = true)
+    @NotEmpty(message = "account.form.valid.login")
     private String login;
 
     @Column(nullable = false, unique = true)
+    @Size(min = 5, message = "the password is to small")
     private String password;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Order> orders=new ArrayList<>();
 
     public void addOrder(Order order){
             orders.add(order);
     }
-
-    @Transient
-    public void removeOrder(Order order){
-        orders.remove(order);
-    }
-
-    @Transient
-    public void removeAllOrders(List<Order> orders){
-        orders.removeAll(orders);
-    }
-
-    @Transient
-    public void subtractAmount(Double amount){
-        this.accountAmount -= amount;
-    }
-
 
 }

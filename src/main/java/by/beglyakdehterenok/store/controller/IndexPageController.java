@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/shop")
 public class IndexPageController {
 
-    @GetMapping("/")
+    @GetMapping
     public String showHomePage(){
         return "index";
     }

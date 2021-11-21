@@ -60,9 +60,11 @@ public class SecurityAccount implements UserDetails {
         return isActive;
     }
 
+
     public static UserDetails fromAccount(Account account){
         return new User(
-                account.getLogin(),account.getPassword(),
+                account.getLogin(),
+                account.getPassword(),
                 account.getRole().getAuthorities()
         );
     }

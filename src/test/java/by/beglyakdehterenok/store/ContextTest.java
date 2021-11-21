@@ -19,7 +19,7 @@ import java.util.List;
 public class ContextTest {
 
     @Test
-    public void test1(){
+    public void getContextTest(){
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(DatabaseConfig.class);
 
         Arrays.stream(context.getBeanDefinitionNames())

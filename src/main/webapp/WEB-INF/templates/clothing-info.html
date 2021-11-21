@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Male_Fashion Template">
+    <meta name="keywords" content="Male_Fashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Catalog | Add</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/resources/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/style.css" type="text/css">
+</head>
+<body>
+
+<div th:insert="~{header :: header}"></div>
+
+<h2>Add new Clothes to Storage</h2>
+
+<div class="container-fluid col-md-7">
+    <form th:action="@{/catalog/save}" th:object="${newClothing}" method="post">
+
+        <input type="hidden" th:field="*{id}">
+
+        <div class="row">
+            <div class="col">
+                <label for="category">Category:
+                    <select id="category" th:field="*{category.id}" class="form-control">
+                        <option th:each="cat : ${allCategories}"
+                                th:value="${cat.id}"
+                                th:text="${cat.name}">
+                        </option>
+                    </select>
+                </label>
+                <br>
+                <button type="button" onclick="window.location.href='/catalog/add-new-category'" class="btn btn-dark">
+                    Add new Category
+                </button>
+            </div>
+
+            <div class="col">
+                <label for="brand">Brand:
+                    <select id="brand" th:field="*{brand.id}" class="form-control">
+                        <option th:each="br : ${allBrands}"
+                                th:value="${br.id}"
+                                th:text="${br.name}">
+                        </option>
+                    </select>
+                </label>
+                <br>
+                <button type="button" onclick="window.location.href='/catalog/add-new-brand'" class="btn btn-dark">Add
+                    new Brand
+                </button>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col">
+                <label for="season">Season:</label>
+                <select th:field="*{season}" id="season" class="form-control">
+                    <option th:each="s : ${allSeasons}"
+                            th:value="${s.name()}"
+                            th:text="${s.name()}"></option>
+                </select>
+                <br>
+            </div>
+
+            <div class="col">
+                <label for="type">Type:</label>
+                <select th:field="*{type}" id="type" class="form-control">
+                    <option th:each="t : ${allTypes}"
+                            th:value="${t.name()}"
+                            th:text="${t.name()}"></option>
+                </select>
+                <br>
+            </div>
+        </div>
+
+        <div>
+            <label for="description">Description:</label>
+            <input type="text" id="description"
+                   th:field="*{description}" class="form-control wide"/>
+        </div>
+
+        <br>
+
+
+        <div class="row">
+            <div class="col">
+                <label th:for="name">Name:</label>
+                <input type="text" th:field="*{name}" class="form-control"/>
+                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red"></p>
+            </div>
+        </div>
+
+        <br>
+
+        <div>
+            <label th:for="price">Price:</label>
+            <input type="text" th:field="*{price}" class="form-control"/>
+            <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color: red"></p>
+        </div>
+
+        <br>
+
+        <div class="col">
+            <ul>Choose size:
+                <br>
+                <li th:each="size : ${allSizes}" style="list-style: none">
+                    <input type="radio" id="size"
+                           th:field="*{size}"
+                           th:value="${size.name()}">
+                    <label for="size" th:text="${size.name()}"></label>
+                </li>
+            </ul>
+        </div>
+
+        <br>
+
+        <div>
+            <label >Count of clothing:</label>
+            <input type="text" th:field="*{count}" class="form-control">
+        </div>
+        <br>
+
+        <button class="btn btn-success" type="submit" th:text="Save"></button>
+    </form>
+
+    <br>
+
+<!--    <div>-->
+<!--        <form th:action="@{/catalog/delete}">-->
+<!--            <button type="submit" th:value="${newClothing.id}" th:name="clothingId" class="btn btn-danger">Delete</button>-->
+<!--        </form>-->
+<!--    </div>-->
+
+</div>
+
+
+<div th:insert="~{footer :: footer}"></div>
+
+</body>
+</html>

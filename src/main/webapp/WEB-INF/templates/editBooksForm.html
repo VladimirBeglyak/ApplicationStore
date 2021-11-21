@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<tr th:each="book, itemStat : ${form.booksDto}">
+  <td>
+    <input hidden th:name="|books[${itemStat.index}].id|" th:value="${book.getId()}"/>
+  </td>
+  <td>
+    <input th:name="|books[${itemStat.index}].title|" th:value="${book.getTitle()}"/>
+  </td>
+  <td>
+    <input th:name="|books[${itemStat.index}].author|" th:value="${book.getAuthor()}"/>
+  </td>
+</tr>
+</body>
+</html>

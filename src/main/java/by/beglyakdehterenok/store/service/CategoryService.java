@@ -5,9 +5,7 @@ import by.beglyakdehterenok.store.dto.CategoryDto;
 import by.beglyakdehterenok.store.entity.Category;
 import by.beglyakdehterenok.store.mapper.CategoryMapperImpl;
 import by.beglyakdehterenok.store.repository.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,23 +14,24 @@ import java.util.stream.Collectors;
 @Service
 public class CategoryService implements BaseService<Category,Long>{
 
-    private CategoryRepository categoryRepository;
-    private CategoryMapperImpl categoryMapper;
+    private final CategoryRepository categoryRepository;
+    private final CategoryMapperImpl categoryMapper;
 
-    @Autowired
-    public void setCategoryRepository(CategoryRepository categoryRepository) {
+    public CategoryService(CategoryRepository categoryRepository, CategoryMapperImpl categoryMapper) {
         this.categoryRepository = categoryRepository;
+        this.categoryMapper = categoryMapper;
     }
+
 
     @Override
     public List<Category> findAll(){
         return categoryRepository.findAll();
     }
 
-    public List<Category> findAllCategoriesDto(){
-        return categoryRepository.findAll();/*.stream()
+    public List<CategoryDto> findAllCategoriesDto(){
+        return categoryRepository.findAll().stream()
                 .map(category -> categoryMapper.mapFrom(category))
-                .collect(Collectors.toList());*/
+                .collect(Collectors.toList());
     }
 
     @Override

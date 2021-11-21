@@ -6,25 +6,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@SessionAttributes("account")
+@RequestMapping("/auth")
 public class LoginController {
 
-    private final AccountService accountService;
-
-    @Autowired
-    public LoginController(AccountService accountService) {
-        this.accountService = accountService;
-    }
-
     @GetMapping("/login")
-    public ModelAndView showLoginPage(ModelAndView model){
-//        model.addObject("loginAccountDto", new LoginAccountDto());
-        model.setViewName("login");
-        return model;
+    public String showLoginPage(){
+        return "login";
     }
 
 //    @PostMapping("/login/entry")

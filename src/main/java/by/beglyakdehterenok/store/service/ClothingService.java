@@ -1,14 +1,15 @@
 package by.beglyakdehterenok.store.service;
 
 
+import by.beglyakdehterenok.store.dto.ClothingDto;
 import by.beglyakdehterenok.store.entity.Brand;
 import by.beglyakdehterenok.store.entity.Category;
 import by.beglyakdehterenok.store.entity.Clothing;
-import by.beglyakdehterenok.store.entity.Storage;
+import by.beglyakdehterenok.store.entity.Size;
+import by.beglyakdehterenok.store.mapper.ClothingMapperImpl;
 import by.beglyakdehterenok.store.repository.BrandRepository;
 import by.beglyakdehterenok.store.repository.CategoryRepository;
 import by.beglyakdehterenok.store.repository.ClothingRepository;
-import by.beglyakdehterenok.store.repository.StorageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,36 +23,65 @@ public class ClothingService{
     private final ClothingRepository clothingRepository;
     private final CategoryRepository categoryRepository;
     private final BrandRepository brandRepository;
-    private final StorageRepository storageRepository;
+    private final ClothingMapperImpl clothingMapper;
 
     @Autowired
-    public ClothingService(ClothingRepository clothingRepository, CategoryRepository categoryRepository, BrandRepository brandRepository, StorageRepository storageRepository) {
+    public ClothingService(ClothingRepository clothingRepository, CategoryRepository categoryRepository, BrandRepository brandRepository, ClothingMapperImpl clothingMapper) {
         this.clothingRepository = clothingRepository;
         this.categoryRepository = categoryRepository;
         this.brandRepository = brandRepository;
-        this.storageRepository = storageRepository;
+        this.clothingMapper = clothingMapper;
     }
 
     @Transactional
-    public void addNewClothingToStorage(Long brandId,Long categoryId,Clothing clothing,Long count){
-        Brand brand = brandRepository.getOne(brandId);
-        Category category = categoryRepository.getOne(categoryId);
-        Storage storage = new Storage();
-        clothing.addCategory(category);
+    public void addNewClothing(Clothing clothing){
+//        Storage storage = new Storage();
+        Brand brand = brandRepository.getOne(clothing.getBrand().getId());
+        Category category = categoryRepository.getOne(clothing.getCategory().getId());
+        clothing.setCategory(category);
         clothing.setBrand(brand);
-        storage.setCount(count);
-        storage.setClothing(clothing);
-        storageRepository.save(storage);
+//        storage.setCount(count);
+//        storage.setClothing(clothing);
+//        Storage savedStorage = storageRepository.save(storage);
+        clothingRepository.save(clothing);
     }
 
     @Transactional
-    public List<Storage> findAll(){
-        List<Storage> storages = storageRepository.findAll();
-        List<Clothing> clothing = storages.stream()
-                .map(storage1 -> storage1.getClothing())
-                .collect(Collectors.toList());
-        return storages;
+    public List<Clothing> findAll(){
+//        List<Storage> storages = storageRepository.findAll();
+//        List<Clothing> clothing = storages.stream()
+//                .map(storage1 -> storage1.getClothing())
+//                .collect(Collectors.toList());
+        return clothingRepository.findAll();
     }
+
+    @Transactional
+    public Clothing findById(Long id){
+        return clothingRepository.getOne(id);
+    }
+
+    @Transactional
+    public ClothingDto findClothingDtoById(Long id){
+        return clothingMapper.mapFrom(clothingRepository.getOne(id));
+    }
+
+    @Transactional
+    public void deleteClothing(Long id){
+        clothingRepository.deleteById(id);
+    }
+
+    @Transactional
+    public List<Size> findAllSizesByClothingName(String name){
+        return clothingRepository.findAllSizesByClothing(name);
+    }
+
+    @Transactional
+    public List<ClothingDto> findAllAndGroupByName(){
+       return clothingRepository.findAllAndGroupByName().stream()
+                .map(clothing -> clothingMapper.mapFrom(clothing))
+               .collect(Collectors.toList());
+    }
+
 
 
 //

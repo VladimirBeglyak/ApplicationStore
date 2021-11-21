@@ -6,15 +6,20 @@ import by.beglyakdehterenok.store.entity.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Set;
 
 public interface ClothingRepository extends JpaRepository<Clothing, Long>,
-        CrudRepository<Clothing,Long> {
+        CrudRepository<Clothing, Long> {
 
-//    @Query("select c.sizes from Clothing c")
-//    public Set<Size> findAllSizes();
+    @Query("select c from Clothing c group by c.name")
+    List<Clothing> findAllAndGroupByName();
+
+
+    @Query("select c.size from Clothing c where c.name=:name")
+    List<Size> findAllSizesByClothing(@Param("name") String name);
 
 
 //    List<Clothing> findAllByOrderByPriceAsc();

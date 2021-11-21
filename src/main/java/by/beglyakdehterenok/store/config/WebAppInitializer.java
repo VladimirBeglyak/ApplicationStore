@@ -3,13 +3,18 @@ package by.beglyakdehterenok.store.config;
 import by.beglyakdehterenok.store.config.DatabaseConfig;
 import by.beglyakdehterenok.store.config.WebConfig;
 import by.beglyakdehterenok.store.config.WebSecurityConfig;
+import org.springframework.web.context.support.GenericWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import javax.servlet.Filter;
+import javax.servlet.*;
 
 public class WebAppInitializer extends
         AbstractAnnotationConfigDispatcherServletInitializer {
+
+//    private String TMP_FOLDER="/tmp";
+//    private int MAX_UPLOAD_SIZE=5*1024*1024;
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
@@ -33,4 +38,16 @@ public class WebAppInitializer extends
         filter.setForceEncoding(true);
         return new Filter[]{filter};
     }
+
+//    @Override
+//    public void onStartup(ServletContext servletContext) throws ServletException {
+//        ServletRegistration.Dynamic appServlet = servletContext.
+//                addServlet("mvc", new DispatcherServlet(new GenericWebApplicationContext()));
+//
+//        appServlet.setLoadOnStartup(1);
+//
+//        MultipartConfigElement multipartConfigElement = new MultipartConfigElement(TMP_FOLDER, MAX_UPLOAD_SIZE, MAX_UPLOAD_SIZE * 2, MAX_UPLOAD_SIZE / 2);
+//
+//        appServlet.setMultipartConfig(multipartConfigElement);
+//    }
 }

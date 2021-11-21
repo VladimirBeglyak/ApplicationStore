@@ -1,19 +1,23 @@
 package by.beglyakdehterenok.store.controller;
 
+import by.beglyakdehterenok.store.dto.BrandDto;
 import by.beglyakdehterenok.store.dto.CategoryDto;
-import by.beglyakdehterenok.store.dto.StorageDto;
+import by.beglyakdehterenok.store.dto.ClothingDto;
 import by.beglyakdehterenok.store.entity.*;
+import by.beglyakdehterenok.store.mapper.ClothingMapperImpl;
 import by.beglyakdehterenok.store.service.BrandService;
 import by.beglyakdehterenok.store.service.CategoryService;
 import by.beglyakdehterenok.store.service.ClothingService;
-import by.beglyakdehterenok.store.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/catalog")
@@ -23,85 +27,149 @@ public class CatalogController {
     private final BrandService brandService;
     private final CategoryService categoryService;
     private final ClothingService clothingService;
-    private final StorageService storageService;
+    private final ClothingMapperImpl clothingMapper;
 
     @Autowired
-    public CatalogController(BrandService brandService, CategoryService categoryService, ClothingService clothingService, StorageService storageService) {
+    public CatalogController(BrandService brandService, CategoryService categoryService, ClothingService clothingService, ClothingMapperImpl clothingMapper) {
         this.brandService = brandService;
         this.categoryService = categoryService;
         this.clothingService = clothingService;
-        this.storageService = storageService;
+        this.clothingMapper = clothingMapper;
     }
 
     @ModelAttribute
-    public void addNewAttributes(Model model){
-        Category category = new Category();
+    public void addAttributes(Model model) {
+
         Brand brand = new Brand();
-        List<StorageDto> storages = storageService.findAll();
-        List<Storage> allClothing = clothingService.findAll();
-        List<Category> allCategories = categoryService.findAll();
-        List<Brand> allBrands = brandService.findAll();
+        Category category = new Category();
+        List<ClothingDto> allClothing = clothingService.findAllAndGroupByName();
+        List<CategoryDto> allCategories = categoryService.findAllCategoriesDto();
+        List<BrandDto> allBrands = brandService.findAllBrandsDto();
         Size[] sizes = Size.values();
-        model.addAttribute("allClothing",allClothing);
-        model.addAttribute("allSizes",sizes);
-        model.addAttribute("allStorage",storages);
-        model.addAttribute("allCategories",allCategories);
-        model.addAttribute("allBrands",allBrands);
-        model.addAttribute("newBrand",brand);
-        model.addAttribute("newCategory",category);
+
+        model.addAttribute("allSeasons", Season.values());
+        model.addAttribute("allTypes", Type.values());
+        model.addAttribute("allClothing", allClothing);
+        model.addAttribute("allSizes", sizes);
+        model.addAttribute("allCategories", allCategories);
+        model.addAttribute("allBrands", allBrands);
+        model.addAttribute("newBrand", brand);
+        model.addAttribute("newCategory", category);
+        model.addAttribute("newClothing", new Clothing());
     }
 
     @GetMapping("/")
-    public String showMainPageCatalog(){
-
+    public String showMainPageCatalog() {
         return "shop";
     }
 
-    @GetMapping("/all")
-    public String showCatalog(){
-        System.out.println(storageService.findAll());
-        if (storageService.findAll().isEmpty()){
-            return "redirect:/clothes/add";
-        } else {
-            return "catalog";
-        }
-//        return "catalog";
+    @GetMapping("/add")
+//    @PreAuthorize("hasAuthority('admin:write')")
+    public String addNewClothingToCatalog() {
+        return "clothing-info";
     }
 
+//    @GetMapping("/all")
+//    public String showCatalog(){
+//        System.out.println(storageService.findAll());
+//        if (storageService.findAll().isEmpty()){
+//            return "redirect:/catalog/add";
+//        } else {
+//            return "catalog";
+//        }
+
+//    }
+
     @GetMapping("/add-new-brand")
-    public String addNewBrand(){
+    public String addNewBrand() {
         return "brand-add";
     }
 
     @PostMapping("/save-new-brand")
-    public String saveNewBrand(@ModelAttribute Brand brand){
+    public String saveNewBrand(@ModelAttribute Brand brand) {
         brandService.save(brand);
-        return "redirect:/clothes/add";
+        return "redirect:/catalog/add";
     }
 
     @GetMapping("/add-new-category")
-    public String addNewCategory(ModelAndView modelAndView){
+    public String addNewCategory(ModelAndView modelAndView) {
         return "category-add";
     }
 
     @PostMapping("/save-new-category")
-    public String saveNewCategory(@ModelAttribute Category category){
+    public String saveNewCategory(@ModelAttribute Category category) {
         categoryService.save(category);
-        return "redirect:/clothes/add";
+        return "redirect:/catalog/add";
     }
 
-    @RequestMapping("/delete")
-    public String deleteClothingFromStorage(@RequestParam("clothingId") Long id){
-        storageService.deleteClothingFromStorage(id);
+    @PostMapping("/save")
+//    @PreAuthorize("hasAuthority('account:write')")
+    public String saveNewClothingToCatalog(@Valid @ModelAttribute("newClothing") Clothing clothing,
+                                           BindingResult bindingResult
+//                                           @RequestParam("countOfClothing") Long countOfClothing
+//                                          @RequestParam("img") MultipartFile multipartFile
+    ) {
+        if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getErrorCount());
+            System.out.println(clothing);
+            return "clothing-info";
+        }
+//        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+//        clothing.setImagePath(fileName);
+        System.out.println(clothing);
+
+        clothingService.addNewClothing(clothing);
+
+//        Clothing savedClothing = clothingService.addNewClothingToStorage(clothing, countOfClothing);
+//        String uploadDir = "clothing-photos/" + savedClothing.getId();
+//        FileUploadUtil.saveFile(uploadDir,fileName,multipartFile);
+
         return "redirect:/catalog/all";
     }
 
-    @RequestMapping("/update")
-    public String updateInfo(@RequestParam("clothingId") Long id,Model model){
-        Clothing clothing = storageService.findClothingById(id);
-        model.addAttribute("newClothing",clothing);
-        return "clothes-update";
+    @GetMapping("/delete")
+//    @PreAuthorize("hasAuthority('account:write')")
+    public String deleteClothingFromStorage(@RequestParam("clothingId") Long id) {
+        System.out.println("id = " + id);
+        clothingService.deleteClothing(id);
+        return "forward:/catalog/all";
     }
+
+    @RequestMapping("/update")
+//    @PreAuthorize("hasAuthority('account:write')")
+    public String updateInfo(@RequestParam("clothingId") Long id, Model model) {
+        ClothingDto clothing = clothingService.findClothingDtoById(id);
+        System.out.println(clothing);
+        model.addAttribute("newClothing", clothing);
+        return "clothing-info";
+    }
+
+    @GetMapping("/all")
+//    @PreAuthorize("hasAuthority('account:write')")
+    public String showAllCatalogForManagerAndAdmin(Model model) {
+
+        List<Clothing> storageServiceAll = clothingService.findAll();
+
+        System.out.println(storageServiceAll);
+        model.addAttribute("allClothingOnStorage", storageServiceAll);
+        return "catalog-all";
+    }
+
+    @GetMapping("/{id}")
+    public String showDetails(@PathVariable("id") Long id,Model model){
+        ClothingDto clothing = clothingService.findClothingDtoById(id);
+        List<Size> allSizesByClothingName = clothingService.findAllSizesByClothingName(clothing.getName());
+
+        model.addAttribute("allSizesByClothingName",allSizesByClothingName);
+        model.addAttribute("clothingDetails",clothing);
+
+        return "shop-details";
+    }
+
+//    @GetMapping("/sort")
+//    public ModelAndView sortByCategory(@RequestParam("category") String name){
+//
+//    }
     //Misha*******************************
 
 //    private final ClothingService clothingService;

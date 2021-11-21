@@ -1,21 +1,22 @@
 package by.beglyakdehterenok.store.controller;
 
 
-import by.beglyakdehterenok.store.entity.Account;
 import by.beglyakdehterenok.store.entity.Order;
 import by.beglyakdehterenok.store.service.AccountService;
 import by.beglyakdehterenok.store.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("/order")
+@SessionAttributes("cart")
 public class OrderController {
 
     private final OrderService orderService;
@@ -28,18 +29,18 @@ public class OrderController {
     }
 
     @ModelAttribute
-    public void createNewOrder(Model model){
-//        Account account = new Account();
-//        account.setId(1L);
-        Order order = new Order();
-        model.addAttribute("newOrder",order);
-//        model.addAttribute("accountId",account);
+    public List<Order> cart(){
+        List<Order> cart = new ArrayList<>();
+        return cart;
     }
 
-    @GetMapping("/new")
-    public String save(@RequestParam("clothingId") Long id, Model model){
+    @GetMapping("/add-to-cart")
+    public String save(@RequestParam("clothingId") Long id,
+                       @SessionAttribute("cart") List<Order> cart,
+                       Model model){
+
         model.addAttribute("clothingId",id);
-        return "order-add";
+        return "redirect:/catalog";
     }
 
     @PostMapping("/new")
@@ -48,11 +49,11 @@ public class OrderController {
                        @RequestParam("clothingId") Long clothingId,
                        Model model){
 
-        String login = ((UsernamePasswordAuthenticationToken) authentication).getName();
+        String login = authentication.getName();
         Long id = accountService.getAccountIdByLogin(login);
         orderService.addNewOrder(id,clothingId,order);
 
-        return "redirect:/account";
+        return "redirect:/catalog";
     }
 
 

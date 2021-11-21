@@ -72,7 +72,7 @@
                 <div class="col-lg-6 col-md-5">
                     <div class="header__top__right">
                         <div class="header__top__links">
-                            <a th:href="@{/login/}">Sign in</a>
+                            <a th:href="@{/auth/login/}">Sign in</a>
                             <a href="#">FAQs</a>
                         </div>
                         <div class="header__top__hover">
@@ -81,6 +81,13 @@
                                 <li>USD</li>
                                 <li>EUR</li>
                                 <li>USD</li>
+                            </ul>
+                        </div>
+                        <div class="header__top__hover">
+                            <span>Lang<i class="arrow_carrot-down"></i></span>
+                            <ul>
+                                <li><a th:href="@{/shop(lang=en_US)}" th:text="EN"></a></li>
+                                <li><a th:href="@{/shop(lang=ru_RU)}" th:text="RU"></a></li>
                             </ul>
                         </div>
                     </div>
@@ -98,8 +105,8 @@
             <div class="col-lg-6 col-md-6">
                 <nav class="header__menu mobile-menu">
                     <ul>
-                        <li class="active"><a th:href="@{/shop/}">Home</a></li>
-                        <li><a th:href="@{/catalog/}">Shop</a></li>
+                        <li class="active"><a th:href="@{/shop/}"><span th:text="#{navbar.home}"></span></a></li>
+                        <li><a th:href="@{/catalog/}"><span th:text="#{navbar.shop}"></span></a></li>
                         <li><a href="#">Pages</a>
                             <ul class="dropdown">
                                 <li><a th:href="@{/shop/about-us/}">About Us</a></li>

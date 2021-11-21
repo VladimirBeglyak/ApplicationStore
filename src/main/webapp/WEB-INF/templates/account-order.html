@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order By Account</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Male_Fashion Template">
+    <meta name="keywords" content="Male_Fashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/resources/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/style.css" type="text/css">
+</head>
+<body>
+
+<div th:insert="~{header :: header}"></div>
+<table class="table table-light table-hover table-bordered">
+    <caption>Orders</caption>
+    <thead class="table-dark">
+    <tr>
+        <th>id</th>
+        <th>Name of Clothing</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Total Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${ordersByAccountId}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.clothing.name}"></td>
+        <td th:text="${order.clothing.price}"></td>
+        <td th:text="${order.quantity}"></td>
+        <td th:text="${order.quantity*order.clothing.price}"></td>
+<!--        <td>-->
+<!--            <a th:href="@{/account/delete(accountId=${account.id})}">Delete</a>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--            <a th:href="@{/account/update(accountId=${account.id})}">Update</a>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--            <a th:href="@{/account/update(accountId=${account.id})}">Show more details</a>-->
+<!--        </td>-->
+    </tr>
+    </tbody>
+    <tfooter>
+        <tr>
+            <td>Total:</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td th:text="${totalSumOfOrderByAccount}"></td>
+        </tr>
+    </tfooter>
+
+</table>
+<div class="container-fluid">
+
+</div>
+
+
+<div th:insert="~{footer :: footer}"></div>
+
+</body>
+</html>

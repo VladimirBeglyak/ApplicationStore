@@ -8,6 +8,6 @@ import lombok.*;
 @Getter
 @EqualsAndHashCode
 public class BrandDto {
+    private Long id;
     private String name;
-    private int countOfClothing;
 }
