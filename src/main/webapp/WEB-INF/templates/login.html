@@ -26,21 +26,20 @@
 
 <div th:insert="~{header :: header}"></div>
 
-<form th:action="@{/account/save}" method="post">
+<form action="/auth/login" method="post">
     <div class="container-fluid col-md-6">
         <div class="mb-3">
             <label for="login" class="form-label">Login</label>
-            <input type="text" class="form-control w-50" id="login" placeholder="Enter login">
+            <input type="text" class="form-control w-50" id="login" name="username" placeholder="Enter login">
         </div>
+
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control w-50" id="password" placeholder="Enter the Password">
+            <input type="password" class="form-control w-50" id="password" name="password" placeholder="Enter the Password">
         </div>
-        <!--  <div class="mb-3 form-check">-->
-        <!--    <input type="checkbox" class="form-check-input" id="exampleCheck1">-->
-        <!--    <label class="form-check-label" for="exampleCheck1">Check me out</label>-->
-        <!--  </div>-->
+
         <button type="submit" class="btn btn-primary">Submit</button>
+
         <div>
             <button type="button" onclick="window.location.href='/account/register'" class="btn btn-light">Register</button>
         </div>

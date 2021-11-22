@@ -19,6 +19,12 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping("/success")
+    public String auth(){
+
+        return "redirect:/catalog/";
+    }
+
 //    @PostMapping("/login/entry")
 //    public String loginEntry(LoginAccountDto accountDto, Model model){
 //        Account account = accountService.findByLogin(accountDto.getLogin());

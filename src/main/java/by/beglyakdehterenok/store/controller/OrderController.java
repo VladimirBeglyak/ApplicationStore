@@ -52,7 +52,7 @@ public class OrderController {
                        @CurrentSecurityContext(expression = "authentication.name") Authentication authentication,
                        Model model){
         if (authentication==null){
-            return "login";
+            return "redirect:/auth/login";
         }
 
         Order order = orderService.addNewOrderToCart(name, size, quantity, authentication.getName());

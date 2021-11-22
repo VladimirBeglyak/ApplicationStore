@@ -50,8 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.GET,"/account/all").hasAuthority(Permission.ACCOUNT_READ.getPermission()) // это если убрать preAuthority в controllers
                 .and()
                 .formLogin()
-//                .loginPage("/auth/login").permitAll()
-                .defaultSuccessUrl("/shop")
+                .loginPage("/auth/login").permitAll()
+                .defaultSuccessUrl("/auth/success")
                 .and()
                 .exceptionHandling().accessDeniedHandler(myAccessDeniedHandler);
 //                .and()
