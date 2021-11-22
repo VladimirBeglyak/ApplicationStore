@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Male_Fashion Template">
+    <meta name="keywords" content="Male_Fashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/resources/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/style.css" type="text/css">
+</head>
+<body>
+
+<div th:insert="~{header :: header}"></div>
+<div class="container-fluid">
+    <table class="table caption-top table-light table-hover table-bordered">
+        <caption>Accounts</caption>
+        <thead class="table-dark">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone Number</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="account : ${allAccounts}">
+            <td th:text="${account.firstName}"></td>
+            <td th:text="${account.lastName}"></td>
+            <td th:text="${account.phoneNumber}"></td>
+            <td>
+                <a th:href="@{/account/delete(accountId=${account.id})}">Delete</a>
+            </td>
+            <td>
+                <a th:href="@{/account/update(accountId=${account.id})}">Update</a>
+            </td>
+            <td><a th:href="@{/account/details(accountId=${account.id})}">Show more details</a></td>
+        </tr>
+        </tbody>
+
+    </table>
+
+    <button type="button" onclick="window.location.href='/account/register'" class="btn btn-success">Add New Account</button>
+
+</div>
+
+<div th:insert="~{footer :: footer}"></div>
+
+</body>
+</html>
