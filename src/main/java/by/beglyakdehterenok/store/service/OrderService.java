@@ -1,7 +1,9 @@
 package by.beglyakdehterenok.store.service;
 
 import by.beglyakdehterenok.store.entity.Account;
+import by.beglyakdehterenok.store.entity.Clothing;
 import by.beglyakdehterenok.store.entity.Order;
+import by.beglyakdehterenok.store.entity.Size;
 import by.beglyakdehterenok.store.repository.AccountRepository;
 import by.beglyakdehterenok.store.repository.ClothingRepository;
 import by.beglyakdehterenok.store.repository.OrderRepository;
@@ -29,21 +31,16 @@ public class OrderService {
     }
 
     @Transactional
-    public void addNewOrder(Long accountId,Long clothingId,Order order){
-        Account account = accountRepository.getOne(accountId);
-//        Storage storage = storageRepository.getOne(clothingId);
+    public Order addNewOrderToCart(String nameOfChooseClothing, String size, Long countOfClothing, String login){
+        Clothing clothing = clothingRepository.findByNameAndSize(nameOfChooseClothing, Size.valueOf(size));
+        Account account = accountRepository.findByLogin(login).get();
+        Order order = new Order();
+        order.setClothing(clothing);
         order.setAccount(account);
-        account.addOrder(order);
-//        order.setClothing(storage.getClothing());
-        orderRepository.save(order);
-//        storage.setCount(storage.getCount()-order.getQuantity());
-//        storageRepository.flush();
+        order.setQuantity(countOfClothing);
+        return order;
     }
 
-//    public Order findById(Long id){
-//        return orderRepository.findById(id).get();
-//    }
-//
     public List<Order> findAllByAccountIdOrderByIdDesc(Long id){
         return orderRepository.findAllByAccount_IdOrderById(id);
     }

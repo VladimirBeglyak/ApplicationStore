@@ -1,8 +1,10 @@
 package by.beglyakdehterenok.store.controller;
 
 
+import by.beglyakdehterenok.store.entity.Cart;
 import by.beglyakdehterenok.store.entity.Order;
 import by.beglyakdehterenok.store.service.AccountService;
+import by.beglyakdehterenok.store.service.ClothingService;
 import by.beglyakdehterenok.store.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/order")
@@ -21,27 +24,57 @@ public class OrderController {
 
     private final OrderService orderService;
     private final AccountService accountService;
+    private final ClothingService clothingService;
 
     @Autowired
-    public OrderController(OrderService orderService, AccountService accountService) {
+    public OrderController(OrderService orderService, AccountService accountService, ClothingService clothingService) {
         this.orderService = orderService;
         this.accountService = accountService;
+        this.clothingService = clothingService;
     }
 
-    @ModelAttribute
-    public List<Order> cart(){
-        List<Order> cart = new ArrayList<>();
-        return cart;
+    @ModelAttribute("cart")
+    public Cart addAttributeCart(){
+        return new Cart();
     }
 
-    @GetMapping("/add-to-cart")
-    public String save(@RequestParam("clothingId") Long id,
-                       @SessionAttribute("cart") List<Order> cart,
+    @GetMapping("/shopping-cart")
+    public String showShoppingCart(){
+        return "shopping-cart";
+    }
+
+
+    @PostMapping("/add-to-cart")
+    public String save(@RequestParam("nameOfChooseClothing") String name,
+                       @RequestParam("choosedSize") String size,
+                       @RequestParam("quantity") Long quantity,
+                       @ModelAttribute("cart") Cart cart,
+                       @CurrentSecurityContext(expression = "authentication.name") Authentication authentication,
                        Model model){
+        if (authentication==null){
+            return "login";
+        }
 
-        model.addAttribute("clothingId",id);
-        return "redirect:/catalog";
+        Order order = orderService.addNewOrderToCart(name, size, quantity, authentication.getName());
+        cart.getOrders().add(order);
+
+        return "redirect:/order/shopping-cart";
     }
+
+    @GetMapping("/delete/{id}")
+    public String deleteOrderFromCart(@PathVariable("id") Long id, @ModelAttribute("cart") Cart cart){
+        Order deletedOrder = cart.getOrders().stream()
+                .filter(order -> order.getClothing().getId().equals(id))
+                .findFirst().get();
+
+        cart.getOrders().remove(deletedOrder);
+
+        return "redirect:/order/shopping-cart";
+    }
+
+
+
+
 
     @PostMapping("/new")
     public String save(@ModelAttribute ("newOrder") Order order,
@@ -51,7 +84,7 @@ public class OrderController {
 
         String login = authentication.getName();
         Long id = accountService.getAccountIdByLogin(login);
-        orderService.addNewOrder(id,clothingId,order);
+//        orderService.addNewOrder(id,clothingId,order);
 
         return "redirect:/catalog";
     }

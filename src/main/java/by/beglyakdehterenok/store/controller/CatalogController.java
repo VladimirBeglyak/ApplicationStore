@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/catalog")
-//@SessionAttributes("sortType")
 public class CatalogController {
 
     private final BrandService brandService;
@@ -37,11 +37,13 @@ public class CatalogController {
         this.clothingMapper = clothingMapper;
     }
 
+
     @ModelAttribute
     public void addAttributes(Model model) {
 
         Brand brand = new Brand();
         Category category = new Category();
+        Order order = new Order();
         List<ClothingDto> allClothing = clothingService.findAllAndGroupByName();
         List<CategoryDto> allCategories = categoryService.findAllCategoriesDto();
         List<BrandDto> allBrands = brandService.findAllBrandsDto();
@@ -56,6 +58,8 @@ public class CatalogController {
         model.addAttribute("newBrand", brand);
         model.addAttribute("newCategory", category);
         model.addAttribute("newClothing", new Clothing());
+        model.addAttribute("newOrder",order);
+
     }
 
     @GetMapping("/")
@@ -164,6 +168,20 @@ public class CatalogController {
         model.addAttribute("clothingDetails",clothing);
 
         return "shop-details";
+    }
+
+    @GetMapping("/sort/category/{name}")
+    public String showCatalogByCategory(@PathVariable("name") String categoryName, Model model){
+        List<ClothingDto> clothingDtoList = clothingService.findAllByCategory(categoryName);
+        model.addAttribute("allClothing",clothingDtoList);
+        return "shop";
+    }
+
+    @GetMapping("/sort/brand/{name}")
+    public String showCatalogByBrand(@PathVariable("name") String brandName, Model model){
+        List<ClothingDto> clothingDtoList = clothingService.findAllByBrand(brandName);
+        model.addAttribute("allClothing",clothingDtoList);
+        return "shop";
     }
 
 //    @GetMapping("/sort")

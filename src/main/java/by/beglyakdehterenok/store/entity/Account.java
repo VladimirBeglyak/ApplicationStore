@@ -18,6 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class Account extends BaseEntity {
@@ -58,7 +59,7 @@ public class Account extends BaseEntity {
     @Size(min = 5, message = "the password is to small")
     private String password;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Order> orders=new ArrayList<>();
 
     public void addOrder(Order order){

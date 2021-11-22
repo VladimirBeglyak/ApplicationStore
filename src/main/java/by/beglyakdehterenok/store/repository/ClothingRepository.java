@@ -21,6 +21,14 @@ public interface ClothingRepository extends JpaRepository<Clothing, Long>,
     @Query("select c.size from Clothing c where c.name=:name")
     List<Size> findAllSizesByClothing(@Param("name") String name);
 
+    @Query("select c from Clothing c where c.category.name=:name group by c.name")
+    List<Clothing> findAllByCategory(@Param("name") String name);
+
+    @Query("select c from Clothing c where c.brand.name=:name group by c.name")
+    List<Clothing> findAllByBrand(@Param("name") String name);
+
+    Clothing findByNameAndSize(String name, Size size);
+
 
 //    List<Clothing> findAllByOrderByPriceAsc();
 //    List<Clothing> findAllByOrderByPriceDesc();

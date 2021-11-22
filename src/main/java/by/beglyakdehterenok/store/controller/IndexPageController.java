@@ -33,11 +33,6 @@ public class IndexPageController {
         return "shop-details";
     }
 
-    @GetMapping("/shopping-cart")
-    public String showShoppingCartPage(){
-        return "shopping-cart";
-    }
-
     @GetMapping("/checkout")
     public String showCheckOutPage(){
         return "checkout";

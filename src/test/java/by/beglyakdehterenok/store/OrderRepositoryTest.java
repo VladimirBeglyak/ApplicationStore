@@ -47,10 +47,10 @@ public class OrderRepositoryTest extends BaseTest<Order>{
 
     @Test
     public void saveFromService(){
-        Order order = new Order();
-        order.setQuantity(4L);
-        order.setName("Order");
-        orderService.addNewOrder(1L,4L,order);
+//        Order order = new Order();
+//        order.setQuantity(4L);
+//        order.setName("Order");
+//        orderService.addNewOrderToCart(1L,4L,order);
     }
 
     @Test

@@ -82,6 +82,23 @@ public class ClothingService{
                .collect(Collectors.toList());
     }
 
+    @Transactional
+    public List<ClothingDto> findAllByCategory(String name){
+        return clothingRepository.findAllByCategory(name).stream()
+                .map(clothing -> clothingMapper.mapFrom(clothing))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<ClothingDto> findAllByBrand(String name){
+        return clothingRepository.findAllByBrand(name).stream()
+                .map(clothing -> clothingMapper.mapFrom(clothing))
+                .collect(Collectors.toList());
+    }
+
+
+
+
 
 
 //
