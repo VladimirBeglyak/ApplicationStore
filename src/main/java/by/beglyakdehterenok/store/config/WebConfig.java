@@ -42,6 +42,8 @@ public class WebConfig implements WebMvcConfigurer{
 
         registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/"+ uploadPath + "/");
     }
+
+
 //    @Bean(name = "multipartResolver")
 //    public CommonsMultipartResolver multipartResolver() {
 //        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();

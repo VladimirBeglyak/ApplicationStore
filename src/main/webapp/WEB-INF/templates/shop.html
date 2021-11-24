@@ -300,6 +300,39 @@
                     <!--     cart end               -->
 
                     <!--    pagination              -->
+
+<!--**************************************************************************************************-->
+<!--                    <div align="center">-->
+<!--                        <div class="row">-->
+<!--                            <span th:text="'Total Items: '+${totalItems} +' - Page '+${currentPage} + ' of '+ ${totalPages}"></span>-->
+
+<!--                            <a th:if="${currentPage > 1}"-->
+<!--                               th:href="@{'/catalog/page/1?sortField='+${sortField}+'&sortDir=' + ${sortDir}}">First</a>-->
+<!--                            <span th:unless="${currentPage > 1}">First</span>-->
+
+<!--                            <a th:if="${currentPage > 1}"-->
+<!--                               th:href="@{'/catalog/page/' + ${currentPage - 1} + '?sortField='+${sortField}+'&sortDir=' + ${sortDir} + ${keyword!=null ? '&keyword=' + keyword : ''}}">Previous</a>-->
+<!--                            <span th:unless="${currentPage > 1}">Previous</span>-->
+
+<!--                            <span th:each="i : ${#numbers.sequence(1,totalPages)}">-->
+
+<!--                <a th:if="${i != currentPage}"-->
+<!--                   th:href="@{'/catalog/page/' + ${i} + '?sortField='+${sortField}+'&sortDir=' + ${sortDir} + ${keyword!=null ? '&keyword=' + keyword : ''}}">[[${i}]]</a>-->
+<!--                <span th:unless="${i != currentPage}" th:text="${i}+' '"></span>-->
+<!--            </span>-->
+
+<!--                            <a th:if="${currentPage < totalPages}"-->
+<!--                               th:href="@{'/catalog/page/' + ${currentPage+1} + '?sortField='+${sortField}+'&sortDir=' + ${sortDir} + ${keyword!=null ? '&keyword=' + keyword : ''}}">Next</a>-->
+<!--                            <span th:unless="${currentPage < totalPages}">Next</span>-->
+
+<!--                            <a th:if="${currentPage < totalPages}"-->
+<!--                               th:href="@{'/catalog/page/' + ${totalPages} + '?sortField='+${sortField}+'&sortDir=' + ${sortDir} + ${keyword!=null ? '&keyword=' + keyword : ''}}">Last</a>-->
+<!--                            <span th:unless="${currentPage < totalPages}">Last</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+                    <!--**************************************************************************************************-->
+
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="product__pagination">
@@ -311,6 +344,11 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
+
                 </div>
             </div>
         </div>

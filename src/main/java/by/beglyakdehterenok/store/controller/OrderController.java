@@ -12,6 +12,8 @@ import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,24 +47,26 @@ public class OrderController {
 
 
     @PostMapping("/add-to-cart")
-    public String save(@RequestParam("nameOfChooseClothing") String name,
-                       @RequestParam("choosedSize") String size,
-                       @RequestParam("quantity") Long quantity,
-                       @ModelAttribute("cart") Cart cart,
-                       @CurrentSecurityContext(expression = "authentication.name") Authentication authentication,
-                       Model model){
+    public RedirectView save(@RequestParam("nameOfChooseClothing") String name,
+                             @RequestParam("choosedSize") String size,
+                             @RequestParam("quantity") Long quantity,
+                             @ModelAttribute("cart") Cart cart,
+                             @CurrentSecurityContext(expression = "authentication.name") Authentication authentication,
+                             RedirectAttributes redirectAttributes){
         if (authentication==null){
-            return "redirect:/auth/login";
+            return new RedirectView("/auth/login");
         }
 
         Order order = orderService.addNewOrderToCart(name, size, quantity, authentication.getName());
         cart.getOrders().add(order);
+        Double totalSumByOrderInCart = orderService.getTotalSumByOrderInCart(cart.getOrders());
+        redirectAttributes.addFlashAttribute("totalSumInCart",totalSumByOrderInCart);
 
-        return "redirect:/order/shopping-cart";
+        return new RedirectView("/order/shopping-cart");
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteOrderFromCart(@PathVariable("id") Long id, @ModelAttribute("cart") Cart cart){
+    public String deleteOrderFromCart(@PathVariable("id") Long id, @ModelAttribute("cart") Cart cart,Model model){
         Order deletedOrder = cart.getOrders().stream()
                 .filter(order -> order.getClothing().getId().equals(id))
                 .findFirst().get();
@@ -71,8 +75,6 @@ public class OrderController {
 
         return "redirect:/order/shopping-cart";
     }
-
-
 
 
 

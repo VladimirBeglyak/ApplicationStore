@@ -8,19 +8,27 @@ import by.beglyakdehterenok.store.mapper.ClothingMapperImpl;
 import by.beglyakdehterenok.store.service.BrandService;
 import by.beglyakdehterenok.store.service.CategoryService;
 import by.beglyakdehterenok.store.service.ClothingService;
+import by.beglyakdehterenok.store.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@MultipartConfig
 @RequestMapping("/catalog")
 public class CatalogController {
 
@@ -112,7 +120,7 @@ public class CatalogController {
                                            BindingResult bindingResult
 //                                           @RequestParam("countOfClothing") Long countOfClothing
 //                                          @RequestParam("img") MultipartFile multipartFile
-    ) {
+    ) throws IOException {
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getErrorCount());
             System.out.println(clothing);
@@ -120,12 +128,11 @@ public class CatalogController {
         }
 //        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 //        clothing.setImagePath(fileName);
-        System.out.println(clothing);
+//        System.out.println(clothing);
 
-        clothingService.addNewClothing(clothing);
+        Clothing savedClothing = clothingService.addNewClothing(clothing);
 
-//        Clothing savedClothing = clothingService.addNewClothingToStorage(clothing, countOfClothing);
-//        String uploadDir = "clothing-photos/" + savedClothing.getId();
+//        String uploadDir = "/resources/clothing-photos/" + savedClothing.getId();
 //        FileUploadUtil.saveFile(uploadDir,fileName,multipartFile);
 
         return "redirect:/catalog/all";
@@ -152,11 +159,13 @@ public class CatalogController {
 //    @PreAuthorize("hasAuthority('account:write')")
     public String showAllCatalogForManagerAndAdmin(Model model) {
 
-        List<Clothing> storageServiceAll = clothingService.findAll();
+        String keyword=null;
 
-        System.out.println(storageServiceAll);
-        model.addAttribute("allClothingOnStorage", storageServiceAll);
-        return "catalog-all";
+//        List<Clothing> storageServiceAll = clothingService.findAll();
+//
+//        System.out.println(storageServiceAll);
+//        model.addAttribute("allClothingOnStorage", storageServiceAll);
+        return listByPage(1,"name","asc",keyword,model);
     }
 
     @GetMapping("/{id}")
@@ -183,6 +192,39 @@ public class CatalogController {
         model.addAttribute("allClothing",clothingDtoList);
         return "shop";
     }
+
+
+
+    @GetMapping("/all/page/{pageNumber}")
+    public String listByPage(@PathVariable("pageNumber") int currentPage,
+                            @Param("sortField") String sortField,
+                            @Param("sortDir") String sortDir,
+                            @Param("keyword") String keyword,
+                            Model model){
+        Page<Clothing> page = clothingService.getAllPageable(currentPage, sortField, sortDir,keyword);
+        long totalItems = page.getTotalElements();
+        int totalPages = page.getTotalPages();
+
+        List<Clothing> listClothing = page.getContent();
+
+        model.addAttribute("currentPage",currentPage);
+        model.addAttribute("listClothing", listClothing);
+        model.addAttribute("totalItems", totalItems);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("keyword", keyword);
+
+        String reverseSortDir=sortDir.equals("asc") ? "desc" : "asc";
+        model.addAttribute("reverseSortDir", reverseSortDir);
+
+        return "catalog-all";
+    }
+
+
+
+
+
 
 //    @GetMapping("/sort")
 //    public ModelAndView sortByCategory(@RequestParam("category") String name){

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,6 +40,11 @@ public class OrderService {
         order.setAccount(account);
         order.setQuantity(countOfClothing);
         return order;
+    }
+
+    @Transactional
+    public Double getTotalSumByOrderInCart(List<Order> orders){
+        return getTotalSumOfOrderByAccountId(orders);
     }
 
     public List<Order> findAllByAccountIdOrderByIdDesc(Long id){

@@ -26,50 +26,152 @@
 <body>
 
 <div th:insert="~{header :: header}"></div>
-<div class="container-fluid">
-    <table class="table caption-top table-light table-hover table-bordered">
-        <caption>Catalog</caption>
-        <thead class="table-dark">
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Count</th>
-            <th>Size</th>
-            <th>Season</th>
-            <th>Type</th>
-            <th>Brand</th>
-            <th>Category</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="clothing : ${allClothingOnStorage}">
-            <td th:text="${clothing.id}"></td>
-            <td th:text="${clothing.name}"></td>
-            <td th:text="${clothing.price}"></td>
-            <td th:text="${clothing.count}"></td>
-            <td th:text="${clothing.size.name()}"></td>
-            <td th:text="${clothing.season.name()}"></td>
-            <td th:text="${clothing.type.name()}"></td>
-            <td th:text="${clothing.brand.name}"></td>
-            <td th:text="${clothing.category.name}"></td>
-            <td>
-                <a th:href="@{/catalog/delete(clothingId=${clothing.id})}">Delete</a>
-            </td>
-            <td>
-                <a th:href="@{/catalog/update(clothingId=${clothing.id})}">Update</a>
-            </td>
-<!--            <td><a th:href="@{/account/details(clothingId=${storage.id})}">Show more details</a></td>-->
-        </tr>
-        </tbody>
+<div class="container-fluid" align="center">
 
-    </table>
+    <div>
+        <form th:action="@{/catalog/all/page/1}" method="">
+            <input type="hidden" name="sortField" th:value="${sortField}"/>
+            <input type="hidden" name="sortDir" th:value="${sortDir}"/>
+            Filter:
+            <input type="text" name="keyword" th:value="${keyword}" required/>
 
-    <button type="button" onclick="window.location.href='/catalog/add'" class="btn btn-success">Add New Clothing</button>
+            <input type="submit" value="Search"/>
+
+            <input type="button" value="Clear" onclick="clearFilter()"/>
+        </form>
+    </div>
+
+    <div>
+        <table class="table caption-top table-light table-hover table-bordered">
+            <caption>Catalog</caption>
+            <thead class="table-dark">
+            <tr>
+
+                <th>
+                    <a th:href="@{'/catalog/all/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir} + ${keyword!=null ? '&keyword=' + keyword : ''}}">
+                        Id
+                    </a>
+                </th>
+
+                <th>
+                    <a th:href="@{'/catalog/all/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir} + ${keyword!=null ? '&keyword=' + keyword : ''}}">
+                        Name
+                    </a>
+                </th>
+
+                <th>
+                    <a th:href="@{'/catalog/all/page/' + ${currentPage} + '?sortField=price&sortDir=' + ${reverseSortDir} + ${keyword!=null ? '&keyword=' + keyword : ''}}">
+                        Price
+                    </a>
+                </th>
+
+                <th>
+                    <a th:href="@{'/catalog/all/page/' + ${currentPage} + '?sortField=count&sortDir=' + ${reverseSortDir} + ${keyword!=null ? '&keyword=' + keyword : ''}}">
+                        Count
+                    </a>
+                </th>
+
+                <th>
+                    <a th:href="@{'/catalog/all/page/' + ${currentPage} + '?sortField=size&sortDir=' + ${reverseSortDir} + ${keyword!=null ? '&keyword=' + keyword : ''}}">
+                        Size
+                    </a>
+                </th>
+
+                <th>
+                    <a th:href="@{'/catalog/all/page/' + ${currentPage} + '?sortField=season&sortDir=' + ${reverseSortDir} + ${keyword!=null ? '&keyword=' + keyword : ''}}">
+                        Season
+                    </a>
+                </th>
+
+                <th>
+                    <a th:href="@{'/catalog/all/page/' + ${currentPage} + '?sortField=type&sortDir=' + ${reverseSortDir} + ${keyword!=null ? '&keyword=' + keyword : ''}}">
+                        Type
+                    </a>
+                </th>
+
+                <th>
+                    <a th:href="@{'/catalog/all/page/' + ${currentPage} + '?sortField=brand&sortDir=' + ${reverseSortDir} + ${keyword!=null ? '&keyword=' + keyword : ''}}">
+                        Brand
+                    </a>
+                </th>
+
+                <th>
+                    <a th:href="@{'/catalog/all/page/' + ${currentPage} + '?sortField=category&sortDir=' + ${reverseSortDir} + ${keyword!=null ? '&keyword=' + keyword : ''}}">
+                        Category
+                    </a>
+                </th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="clothing : ${listClothing}">
+                <td th:text="${clothing.id}"></td>
+                <td th:text="${clothing.name}"></td>
+                <td th:text="${clothing.price}"></td>
+                <td th:text="${clothing.count}"></td>
+                <td th:text="${clothing.size.name()}"></td>
+                <td th:text="${clothing.season.name()}"></td>
+                <td th:text="${clothing.type.name()}"></td>
+                <td th:text="${clothing.brand.name}"></td>
+                <td th:text="${clothing.category.name}"></td>
+                <td>
+                    <a th:href="@{/catalog/delete(clothingId=${clothing.id})}">Delete</a>
+                </td>
+                <td>
+                    <a th:href="@{/catalog/update(clothingId=${clothing.id})}">Update</a>
+                </td>
+                <!--            <td><a th:href="@{/account/details(clothingId=${storage.id})}">Show more details</a></td>-->
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+
+    <br/>
+    <br/>
+
+    <div align="center">
+        <div class="row">
+            <span th:text="'Total Items: '+${totalItems} +' - Page '+${currentPage} + ' of '+ ${totalPages}"></span>
+
+            <a th:if="${currentPage > 1}"
+               th:href="@{'/catalog/all/page/1?sortField='+${sortField}+'&sortDir=' + ${sortDir}}">First</a>
+            <span th:unless="${currentPage > 1}">First</span>
+
+            <a th:if="${currentPage > 1}"
+               th:href="@{'/catalog/all/page/' + ${currentPage - 1} + '?sortField='+${sortField}+'&sortDir=' + ${sortDir} + ${keyword!=null ? '&keyword=' + keyword : ''}}">Previous</a>
+            <span th:unless="${currentPage > 1}">Previous</span>
+
+            <span th:each="i : ${#numbers.sequence(1,totalPages)}">
+
+                <a th:if="${i != currentPage}"
+                   th:href="@{'/catalog/all/page/' + ${i} + '?sortField='+${sortField}+'&sortDir=' + ${sortDir} + ${keyword!=null ? '&keyword=' + keyword : ''}}">[[${i}]]</a>
+                <span th:unless="${i != currentPage}" th:text="${i}+' '"></span>
+            </span>
+
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{'/catalog/all/page/' + ${currentPage+1} + '?sortField='+${sortField}+'&sortDir=' + ${sortDir} + ${keyword!=null ? '&keyword=' + keyword : ''}}">Next</a>
+            <span th:unless="${currentPage < totalPages}">Next</span>
+
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{'/catalog/all/page/' + ${totalPages} + '?sortField='+${sortField}+'&sortDir=' + ${sortDir} + ${keyword!=null ? '&keyword=' + keyword : ''}}">Last</a>
+            <span th:unless="${currentPage < totalPages}">Last</span>
+        </div>
+    </div>
+
+    <button type="button" onclick="window.location.href='/catalog/add'" class="btn btn-success">Add New Clothing
+    </button>
 
 </div>
 
 <div th:insert="~{footer :: footer}"></div>
+
+<script>
+    function clearFilter(){
+        window.location='/catalog/all'
+    }
+</script>
 
 </body>
 </html>

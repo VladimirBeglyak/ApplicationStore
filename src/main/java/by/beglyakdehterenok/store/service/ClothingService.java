@@ -11,6 +11,10 @@ import by.beglyakdehterenok.store.repository.BrandRepository;
 import by.beglyakdehterenok.store.repository.CategoryRepository;
 import by.beglyakdehterenok.store.repository.ClothingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,24 +38,16 @@ public class ClothingService{
     }
 
     @Transactional
-    public void addNewClothing(Clothing clothing){
-//        Storage storage = new Storage();
+    public Clothing addNewClothing(Clothing clothing){
         Brand brand = brandRepository.getOne(clothing.getBrand().getId());
         Category category = categoryRepository.getOne(clothing.getCategory().getId());
         clothing.setCategory(category);
         clothing.setBrand(brand);
-//        storage.setCount(count);
-//        storage.setClothing(clothing);
-//        Storage savedStorage = storageRepository.save(storage);
-        clothingRepository.save(clothing);
+        return clothingRepository.save(clothing);
     }
 
     @Transactional
     public List<Clothing> findAll(){
-//        List<Storage> storages = storageRepository.findAll();
-//        List<Clothing> clothing = storages.stream()
-//                .map(storage1 -> storage1.getClothing())
-//                .collect(Collectors.toList());
         return clothingRepository.findAll();
     }
 
@@ -95,6 +91,21 @@ public class ClothingService{
                 .map(clothing -> clothingMapper.mapFrom(clothing))
                 .collect(Collectors.toList());
     }
+
+    public Page<Clothing> getAllPageable(int pageNumber,String sortField, String sortDir,String keyword){
+        Sort sort = Sort.by(sortField);
+        sort=sortDir.equals("asc") ? sort.ascending() : sort.descending();
+
+        Pageable pageable=PageRequest.of(pageNumber-1, 5, sort);
+
+        if (keyword!=null){
+            return clothingRepository.findAll(keyword,pageable);
+        }
+
+        return clothingRepository.findAll(pageable);
+
+    }
+
 
 
 

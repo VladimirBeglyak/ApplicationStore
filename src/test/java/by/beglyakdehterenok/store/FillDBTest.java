@@ -103,7 +103,6 @@ public class FillDBTest {
     }
 
     @Test
-    @Transactional
     public void saveClothes(){
 
         Category suit = categoryRepository.findByName("Suit");
@@ -118,9 +117,7 @@ public class FillDBTest {
         Brand adidas = brandRepository.findByName("Adidas");
         Brand air_jordan = brandRepository.findByName("Air Jordan");
 
-        List<Clothing> clothingList = List.of(
-
-
+        List.of(
                 new Clothing("Nike SportSuit 2021", 200d, "Nike SportSuit Desc", null, suit, Size.XS, nike, Type.MAN, Season.SUMMER, 10L),
                 new Clothing("Nike SportSuit 2021", 200d, "Nike SportSuit Desc", null, suit, Size.M, nike, Type.MAN, Season.SUMMER, 15L),
                 new Clothing("Nike SportSuit 2021", 200d, "Nike SportSuit Desc", null, suit, Size.XXL, nike, Type.MAN, Season.SUMMER, 20L),
@@ -151,12 +148,10 @@ public class FillDBTest {
                 new Clothing("Air Jordan XX", 320d, "Air Jordan XX Desc", null, sneakers, Size.M, air_jordan, Type.MAN, Season.SUMMER, 25L),
                 new Clothing("Air Jordan XX", 320d, "Air Jordan XX Desc", null, sneakers, Size.S, air_jordan, Type.MAN, Season.SUMMER, 25L),
                 new Clothing("Air Jordan XX", 320d, "Air Jordan XX Desc", null, sneakers, Size.XS, air_jordan, Type.MAN, Season.SUMMER, 25L)
-        );
+        ).stream().forEach(clothing -> clothingService.addNewClothing(clothing));
 
-        clothingList.stream().forEach(clothing -> clothingService.addNewClothing(clothing));
-        for (Clothing clothing : clothingList) {
-            System.out.println(clothing);
-        }
+//        List<Clothing> clothing = clothingRepository.saveAll(clothingList);
+//        System.out.println(clothing);
     }
 
 

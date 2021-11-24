@@ -1,5 +1,14 @@
 package by.beglyakdehterenok.store.entity;
 
+import java.util.List;
+import java.util.Map;
+
 public enum Size {
-    XS,S,M,XL,XXL,XXXL
+
+    S,
+    XS,
+    XXL,
+    M,
+    XL,
+    XXXL
 }

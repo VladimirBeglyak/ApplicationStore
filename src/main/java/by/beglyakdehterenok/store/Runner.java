@@ -1,25 +1,13 @@
 package by.beglyakdehterenok.store;
 
-import by.beglyakdehterenok.store.config.DatabaseConfig;
-import by.beglyakdehterenok.store.entity.Clothing;
-import by.beglyakdehterenok.store.entity.Season;
-import by.beglyakdehterenok.store.entity.Size;
-import by.beglyakdehterenok.store.entity.Type;
-import by.beglyakdehterenok.store.repository.BrandRepository;
-import by.beglyakdehterenok.store.repository.CategoryRepository;
-import by.beglyakdehterenok.store.repository.ClothingRepository;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import java.util.List;
-
 public class Runner {
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(DatabaseConfig.class);
-        ClothingRepository clothingRepository = context.getBean("clothingRepository", ClothingRepository.class);
-        CategoryRepository categoryRepository = context.getBean("categoryRepository", CategoryRepository.class);
-        BrandRepository brandRepository = context.getBean("brandRepository", BrandRepository.class);
-
-
+//        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(DatabaseConfig.class);
+//        ClothingRepository clothingRepository = context.getBean("clothingRepository", ClothingRepository.class);
+//        CategoryRepository categoryRepository = context.getBean("categoryRepository", CategoryRepository.class);
+//        BrandRepository brandRepository = context.getBean("brandRepository", BrandRepository.class);
+//
+//
 //        List<Clothing> clothingList = List.of(
 //                new Clothing("Nike SportSuit 2021", 200d, "Nike SportSuit Desc", null, categoryRepository.findByName("Suit"), Size.XS, brandRepository.findByName("Nike"), Type.MAN, Season.SUMMER, 10L),
 //                new Clothing("Nike SportSuit 2021", 200d, "Nike SportSuit Desc", null, categoryRepository.findByName("Suit"), Size.M, brandRepository.findByName("Nike"), Type.MAN, Season.SUMMER, 15L),
@@ -57,5 +45,9 @@ public class Runner {
 //        for (Clothing clothing : clothingList) {
 //            System.out.println(clothing);
 //        }
+
+        MyInterface<Double> calculator = (x,y)-> x*y;
+        Double apply = calculator.apply(10d, 40d);
+        System.out.println(apply);
     }
 }
