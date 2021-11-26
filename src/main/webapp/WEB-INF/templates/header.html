@@ -14,14 +14,14 @@
           rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="/resources/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/resources/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="/resources/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="/resources/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="/resources/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="/resources/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="/resources/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="/resources/css/style.css" type="text/css">
+    <link rel="stylesheet" th:href="/resources/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" th:href="/resources/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" th:href="/resources/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" th:href="/resources/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" th:href="/resources/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" th:href="/resources/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" th:href="/resources/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" th:href="/resources/css/style.css" type="text/css">
 </head>
 <body>
 <!-- Page Preloder -->
@@ -49,7 +49,7 @@
     <div class="offcanvas__nav__option">
         <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
         <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
-        <a href="#"><img src="/resources/img/icon/cart.png" alt=""> <span>0</span></a>
+        <a href="#"><img src="/resources/img/icon/cart.png" alt=""><span>0</span></a>
         <div class="price">$0.00</div>
     </div>
     <div id="mobile-menu-wrap"></div>
@@ -90,6 +90,11 @@
                                 <li><a th:href="@{/shop(lang=ru_RU)}" th:text="RU"></a></li>
                             </ul>
                         </div>
+<!--                        <div th:if="${Abs != null}">-->
+<!--                            <form action="/logout" method="post">-->
+<!--                                <button type="submit">Logout</button>-->
+<!--                            </form>-->
+<!--                        </div>-->
                     </div>
                 </div>
             </div>
@@ -125,7 +130,7 @@
                 <div class="header__nav__option">
                     <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
                     <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
-                    <a href="#"><img src="/resources/img/icon/cart.png" alt=""> <span>0</span></a>
+                    <a th:href="@{/account/top-up-account}"><img src="/resources/img/icon/cart.png" alt=""> <span>0</span></a>
                     <div class="price">$0.00</div>
                 </div>
             </div>
@@ -137,15 +142,15 @@
 
 
 <!-- Js Plugins -->
-<script src="/resources/js/jquery-3.3.1.min.js"></script>
-<script src="/resources/js/bootstrap.min.js"></script>
-<script src="/resources/js/jquery.nice-select.min.js"></script>
-<script src="/resources/js/jquery.nicescroll.min.js"></script>
-<script src="/resources/js/jquery.magnific-popup.min.js"></script>
-<script src="/resources/js/jquery.countdown.min.js"></script>
-<script src="/resources/js/jquery.slicknav.js"></script>
-<script src="/resources/js/mixitup.min.js"></script>
-<script src="/resources/js/owl.carousel.min.js"></script>
-<script src="/resources/js/main.js"></script>
+<script th:src="/resources/js/jquery-3.3.1.min.js"></script>
+<script th:src="/resources/js/bootstrap.min.js"></script>
+<script th:src="/resources/js/jquery.nice-select.min.js"></script>
+<script th:src="/resources/js/jquery.nicescroll.min.js"></script>
+<script th:src="/resources/js/jquery.magnific-popup.min.js"></script>
+<script th:src="/resources/js/jquery.countdown.min.js"></script>
+<script th:src="/resources/js/jquery.slicknav.js"></script>
+<script th:src="/resources/js/mixitup.min.js"></script>
+<script th:src="/resources/js/owl.carousel.min.js"></script>
+<script th:src="/resources/js/main.js"></script>
 </body>
 </html>

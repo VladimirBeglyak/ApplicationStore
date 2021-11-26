@@ -10,10 +10,10 @@ import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order,Long> {
 
+    List<Order> findAllByAccount_IdOrderById(Long id);
 
 //    Optional<Order> findById(Long id);
 //    Optional<Order> findOrderByAccount_Id(Long id);
-    List<Order> findAllByAccount_IdOrderById(Long id);
 //    double countByFinalPriceWhereAccount_Id(Long id);
 //    boolean existsByClothing_NameAndAccount_Id(String name,Long id);
 //    int updateExistOrder(Integer quantity,Long id,String name);

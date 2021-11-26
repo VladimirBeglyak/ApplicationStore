@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,13 +49,13 @@ public class FillDBTest {
     @Test
     public void saveAccounts(){
         List<Account> accounts = List.of(
-                new Account("Ivan", "Ivanov", Role.USER, Gender.MALE, new Address("Belarus", "Minsk", "Lenina", "14"), LocalDate.of(1986, 10, 20), 100, "+375295874152", "test12@mail.ru", "ivan", "ivan", new ArrayList<Order>()),
-                new Account("Petr", "Petrov", Role.USER, Gender.MALE, new Address("Belarus", "Grodno", "Zvezdnaya", "15"), LocalDate.of(1996, 5, 15), 110, "+375336478525", "test2@mail.ru", "petr", "petr", new ArrayList<Order>()),
-                new Account("Max", "Maximov", Role.USER, Gender.MALE, new Address("Belarus", "Minsk", "Nekrasova", "30"), LocalDate.of(2000, 1, 1), 50, "+375291234578", "test3@mail.ru", "max", "max", new ArrayList<Order>()),
-                new Account("Sveta", "Svetikova", Role.USER, Gender.FEMALE, new Address("Belarus", "Vitebsk", "Lenina", "110"), LocalDate.of(1998, 2, 25), 400, "+375256984578", "test4@mail.ru", "sveta", "sveta", new ArrayList<Order>()),
-                new Account("Alex", "Ivanov", Role.USER, Gender.MALE, new Address("Belarus", "Minsk", "Kozlova", "20"), LocalDate.of(1987, 10, 15), 800, "+375292584536", "test5@mail.ru", "alex", "alex", new ArrayList<Order>()),
-                new Account("Michael", "Bubnov", Role.MANAGER, Gender.MALE, new Address("Belarus", "Gomel", "Pushkina", "18"), LocalDate.of(1990, 3, 8), 200, "+375292581476", "test6@mail.ru", "mike", "mike", new ArrayList<Order>()),
-                new Account("Admin", "Admin", Role.ADMIN, Gender.MALE, new Address("Belarus", "Gomel", "Lenina", "2"), LocalDate.of(1950, 3, 8), 0, "+375299361236", "admin@mail.ru", "admin", "admin", new ArrayList<Order>())
+                new Account("Ivan", "Ivanov", Role.USER, Gender.MALE, new Address("Belarus", "Minsk", "Lenina", "14"), Date.valueOf(LocalDate.of(1986, 10, 20)), 100, "+375295874152", "test12@mail.ru", "ivan", "ivan", new ArrayList<Order>()),
+                new Account("Petr", "Petrov", Role.USER, Gender.MALE, new Address("Belarus", "Grodno", "Zvezdnaya", "15"), Date.valueOf(LocalDate.of(1996, 5, 15)), 110, "+375336478525", "test2@mail.ru", "petr", "petr", new ArrayList<Order>()),
+                new Account("Max", "Maximov", Role.USER, Gender.MALE, new Address("Belarus", "Minsk", "Nekrasova", "30"), Date.valueOf(LocalDate.of(2000, 1, 1)), 50, "+375291234578", "test3@mail.ru", "max", "max", new ArrayList<Order>()),
+                new Account("Sveta", "Svetikova", Role.USER, Gender.FEMALE, new Address("Belarus", "Vitebsk", "Lenina", "110"), Date.valueOf(LocalDate.of(1998, 2, 25)), 400, "+375256984578", "test4@mail.ru", "sveta", "sveta", new ArrayList<Order>()),
+                new Account("Alex", "Ivanov", Role.USER, Gender.MALE, new Address("Belarus", "Minsk", "Kozlova", "20"), Date.valueOf(LocalDate.of(1987, 10, 15)), 800, "+375292584536", "test5@mail.ru", "alex", "alex", new ArrayList<Order>()),
+                new Account("Michael", "Bubnov", Role.MANAGER, Gender.MALE, new Address("Belarus", "Gomel", "Pushkina", "18"), Date.valueOf(LocalDate.of(1990, 3, 8)), 200, "+375292581476", "test6@mail.ru", "mike", "mike", new ArrayList<Order>()),
+                new Account("Admin", "Admin", Role.ADMIN, Gender.MALE, new Address("Belarus", "Gomel", "Lenina", "2"), Date.valueOf(LocalDate.of(1950, 3, 8)), 0, "+375299361236", "admin@mail.ru", "admin", "admin", new ArrayList<Order>())
         );
 
         accounts.stream()

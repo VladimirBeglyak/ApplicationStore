@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
@@ -47,7 +48,7 @@ public class AccountRepositoryTest extends BaseTest<Account> {
         account.setGender(Gender.MALE);
         account.setAccountAmount(10);
         account.setAddress(new Address("Belarus", "Minsk", "Kozlova", "10"));
-        account.setBirthday(LocalDate.of(1990, Month.JANUARY, 10));
+        account.setBirthday(Date.valueOf(LocalDate.of(1990, Month.JANUARY, 10)));
         account.setEmail("test1@mail.ru");
         account.setLogin("qwerty");
         account.setPhoneNumber("+375336790383");

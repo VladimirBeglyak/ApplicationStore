@@ -1,5 +1,6 @@
 package by.beglyakdehterenok.store.service;
 
+import by.beglyakdehterenok.store.dto.AccountDto;
 import by.beglyakdehterenok.store.entity.Account;
 import by.beglyakdehterenok.store.mapper.AccountMapperImpl;
 import by.beglyakdehterenok.store.repository.AccountRepository;
@@ -47,15 +48,15 @@ public class AccountService implements BaseService<Account, Long> {
         return accountRepository.findById(id);
     }
 
-    public Account findByFirstName(String name) {
-        return accountRepository.findByFirstName(name);
-    }
-
-    public Account findByLogin(String login) {
-        return accountRepository.findByLogin(login).get();
-    }
-
     public Long getAccountIdByLogin(String login) {
         return new AccountMapperImpl().mapFrom(accountRepository.findByLogin(login).get()).getId();
+    }
+
+    public void topUpAccount(String login,Double accountAmount) {
+        Account account = accountRepository.findByLogin(login).get();
+        Double currentMoney = account.getAccountAmount();
+        currentMoney+=accountAmount;
+        account.setAccountAmount(currentMoney);
+        accountRepository.saveAndFlush(account);
     }
 }

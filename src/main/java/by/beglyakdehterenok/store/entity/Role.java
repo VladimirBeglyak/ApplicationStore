@@ -10,7 +10,7 @@ public enum Role {
 
     USER(Set.of(Permission.ACCOUNT_READ)),
     ADMIN(Set.of(Permission.ACCOUNT_WRITE)),
-    MANAGER(Set.of(Permission.ACCOUNT_READ,Permission.ACCOUNT_WRITE));
+    MANAGER(Set.of(Permission.ACCOUNT_READ));
 
     private final Set<Permission> permissions;
 

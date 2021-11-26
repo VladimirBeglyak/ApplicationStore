@@ -10,5 +10,6 @@ public class Cart {
 
     private List<Order> orders=new ArrayList<>();
 
+    private Double totalSum;
 
 }

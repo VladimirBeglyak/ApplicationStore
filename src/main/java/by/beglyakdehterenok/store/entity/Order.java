@@ -3,6 +3,8 @@ package by.beglyakdehterenok.store.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
@@ -13,10 +15,10 @@ import javax.persistence.*;
 @ToString(exclude = "account")
 public class Order extends BaseEntity {
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "date_of_create")
+    private LocalDateTime dateOfCreate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
 
@@ -27,4 +29,9 @@ public class Order extends BaseEntity {
     @Column(nullable = false)
     private Long quantity;
 
+    @Transient
+    public Clothing getClothingByNewCount(){
+        clothing.setCount(clothing.getCount()-quantity);
+        return clothing;
+    }
 }

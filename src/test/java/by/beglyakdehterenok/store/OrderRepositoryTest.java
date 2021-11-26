@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class OrderRepositoryTest extends BaseTest<Order>{
         Account account = accountRepository.findById(1L).get();
         System.out.println(account);
         Order order = new Order();
-        order.setName("Second Order");
+        order.setDateOfCreate(LocalDateTime.now());
         order.setQuantity(1L);
         order.setAccount(account);
         orderRepository.save(order);

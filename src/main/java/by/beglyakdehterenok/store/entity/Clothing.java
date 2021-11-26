@@ -56,8 +56,4 @@ public class Clothing extends BaseEntity {
     @Column(name = "count",nullable = false)
     private Long count;
 
-//    public void addSize(Size size){
-//        sizes.add(size);
-//    }
-
 }

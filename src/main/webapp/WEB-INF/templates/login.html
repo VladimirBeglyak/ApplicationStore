@@ -25,26 +25,38 @@
 <body>
 
 <div th:insert="~{header :: header}"></div>
+<div class="container">
+    <div>
+        <form action="/auth/login" method="post">
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="login" class="form-label">Login</label>
+                    <input type="text" class="form-control w-50" id="login" name="username" placeholder="Enter login">
+                </div>
 
-<form action="/auth/login" method="post">
-    <div class="container-fluid col-md-6">
-        <div class="mb-3">
-            <label for="login" class="form-label">Login</label>
-            <input type="text" class="form-control w-50" id="login" name="username" placeholder="Enter login">
-        </div>
-
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control w-50" id="password" name="password" placeholder="Enter the Password">
-        </div>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-
-        <div>
-            <button type="button" onclick="window.location.href='/account/register'" class="btn btn-light">Register</button>
-        </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control w-50" id="password" name="password"
+                           placeholder="Enter the Password">
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" onclick="window.location.href='/account/register'" class="btn btn-light">
+                        Register
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
+
+
+    <div th:if="${account != null}">
+        <form action="/logout" method="post">
+            <button type="submit" class="btn btn-light">Logout</button>
+        </form>
+    </div>
+</div>
+
 
 <div th:insert="~{footer :: footer}"></div>
 

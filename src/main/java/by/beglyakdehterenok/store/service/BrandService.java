@@ -25,7 +25,7 @@ public class BrandService implements BaseService<Brand,Long>{
 
     @Override
     public List<Brand> findAll(){
-        return (List<Brand>) brandRepository.findAll();
+        return brandRepository.findAll();
     }
 
     @Override

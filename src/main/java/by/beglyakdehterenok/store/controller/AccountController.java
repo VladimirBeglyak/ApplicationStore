@@ -1,24 +1,22 @@
 package by.beglyakdehterenok.store.controller;
 
+import by.beglyakdehterenok.store.dto.AccountDto;
 import by.beglyakdehterenok.store.entity.*;
+import by.beglyakdehterenok.store.mapper.AccountMapperImpl;
 import by.beglyakdehterenok.store.service.AccountService;
 import by.beglyakdehterenok.store.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
-import javax.sql.DataSource;
 import javax.validation.Valid;
-import java.sql.Connection;
-import java.util.DoubleSummaryStatistics;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -26,17 +24,12 @@ import java.util.stream.Collectors;
 public class AccountController {
 
     private final AccountService accountService;
-    private final PasswordEncoder passwordEncoder;
     private final OrderService orderService;
-    private final DataSource dataSource;
 
     @Autowired
-    public AccountController(AccountService accountService, PasswordEncoder passwordEncoder, OrderService orderService, DataSource dataSource) {
+    public AccountController(AccountService accountService, OrderService orderService) {
         this.accountService = accountService;
-        this.passwordEncoder = passwordEncoder;
         this.orderService = orderService;
-
-        this.dataSource = dataSource;
     }
 
     @ModelAttribute
@@ -64,6 +57,22 @@ public class AccountController {
         return "register";
     }
 
+    @GetMapping("/top-up-account")
+    public String showPageTopUpAccount(@CurrentSecurityContext(expression = "authentication.name") Authentication authentication) {
+        if (authentication == null) {
+            return "redirect:/auth/login";
+        }
+        return "add-money-to-account";
+    }
+
+    @PostMapping("/top-up-account")
+    public RedirectView showPageTopUpAccount(@CurrentSecurityContext(expression = "authentication.name") Authentication authentication,
+                                             @RequestParam("accountAmount") Double accountAmount) {
+        String login = authentication.getName();
+        accountService.topUpAccount(login,accountAmount);
+        return new RedirectView("/order/shopping-cart");
+    }
+
 //    @GetMapping("/account")
 //    public ModelAndView account(ModelAndView modelAndView){
 //        modelAndView.addObject("message","Hello message from model");
@@ -73,13 +82,13 @@ public class AccountController {
 //        return modelAndView;
 //    }
 
-    @GetMapping("/account/{id}")
-    public ModelAndView account(@PathVariable("id") Long id, ModelAndView modelAndView) {
-        Optional<Account> account = accountService.findById(id);
-        modelAndView.addObject("account", account.get());
-        modelAndView.setViewName("index");
-        return modelAndView;
-    }
+//    @GetMapping("/account/{id}")
+//    public ModelAndView account(@PathVariable("id") Long id, ModelAndView modelAndView) {
+//        Optional<Account> account = accountService.findById(id);
+//        modelAndView.addObject("account", account.get());
+//        modelAndView.setViewName("index");
+//        return modelAndView;
+//    }
 
     @PostMapping("/save")
     public String saveAccount(@Valid @ModelAttribute("newAccount") Account account, Errors errors) {

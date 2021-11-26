@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -41,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                    .antMatchers("/account/all/**","/catalog/all/**","/catalog/save/**").hasAuthority(Permission.ACCOUNT_WRITE.getPermission())
+                    .antMatchers("/account/all/**","/catalog/all/**","/catalog/save/**","/catalog/add/").hasAuthority(Permission.ACCOUNT_WRITE.getPermission())
 //                .antMatchers(HttpMethod.GET,"/sec/user").hasAnyAuthority(Permission.ACCOUNT_READ.getPermission(),Permission.ACCOUNT_WRITE.getPermission())
 //                .antMatchers(HttpMethod.GET,"/sec/admin").hasAuthority(Permission.ACCOUNT_WRITE.getPermission())
                 .anyRequest().permitAll()
@@ -53,14 +54,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/auth/login").permitAll()
                 .defaultSuccessUrl("/auth/success")
                 .and()
-                .exceptionHandling().accessDeniedHandler(myAccessDeniedHandler);
-//                .and()
-//                .logout()
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout","POST"))
-//                .invalidateHttpSession(true)
-//                .clearAuthentication(true)
-//                .deleteCookies("JSESSIONID")
-//                .logoutSuccessUrl("/shop");
+                .exceptionHandling().accessDeniedHandler(myAccessDeniedHandler)
+                .and()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout","POST"))
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/shop");
     }
 
     @Override

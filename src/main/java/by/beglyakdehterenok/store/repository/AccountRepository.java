@@ -12,7 +12,9 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<Account,Long>, CrudRepository<Account,Long>, Repository<Account,Long> {
 
     Account findByFirstName(String name);
+
     Optional<Account> findById(Long id);
+
     Optional<Account> findByLogin(String login);
 
     @Query("select a.email from Account a")

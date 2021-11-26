@@ -29,7 +29,10 @@
 <h2>Add new Clothes to Storage</h2>
 
 <div class="container-fluid col-md-7">
-    <form th:action="@{/catalog/save}" th:object="${newClothing}" method="post">
+    <form th:action="@{/catalog/save}"
+          th:object="${newClothing}"
+          method="post"
+          enctype="multipart/form-data">
 
         <input type="hidden" th:field="*{id}">
 
@@ -37,7 +40,7 @@
             <div class="col">
                 <label for="category">Category:
                     <select id="category" th:field="*{category.id}" class="form-control">
-                        <option th:each="cat : ${allCategories}"
+                        <option th:each="cat, stat : ${allCategories}"
                                 th:value="${cat.id}"
                                 th:text="${cat.name}">
                         </option>
@@ -90,13 +93,12 @@
         </div>
 
 
-<!--        <br>-->
-<!--        <div>-->
-<!--            <label for="image">Image:</label>-->
-<!--            <input type="file" id="image"-->
-<!--                   th:name="img" class="form-control wide"/>-->
-<!--        </div>-->
-<!--        <br>-->
+        <br>
+        <div>
+            <label for="image">Image:</label>
+            <input type="file" id="image" th:name="image"/>
+        </div>
+        <br>
 
         <div>
             <label for="description">Description:</label>

@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class CategoryCreationDto {
+
     private List<Category> categoriesDto =new ArrayList<>();
 
     public void addCategory(Category category){

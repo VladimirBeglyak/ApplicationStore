@@ -3,6 +3,7 @@ package by.beglyakdehterenok.store.controller;
 
 import by.beglyakdehterenok.store.entity.Cart;
 import by.beglyakdehterenok.store.entity.Order;
+import by.beglyakdehterenok.store.exception.NotEnoughMoneyException;
 import by.beglyakdehterenok.store.service.AccountService;
 import by.beglyakdehterenok.store.service.ClothingService;
 import by.beglyakdehterenok.store.service.OrderService;
@@ -60,7 +61,8 @@ public class OrderController {
         Order order = orderService.addNewOrderToCart(name, size, quantity, authentication.getName());
         cart.getOrders().add(order);
         Double totalSumByOrderInCart = orderService.getTotalSumByOrderInCart(cart.getOrders());
-        redirectAttributes.addFlashAttribute("totalSumInCart",totalSumByOrderInCart);
+        cart.setTotalSum(totalSumByOrderInCart);
+//        redirectAttributes.addFlashAttribute("totalSumInCart",totalSumByOrderInCart);
 
         return new RedirectView("/order/shopping-cart");
     }
@@ -78,17 +80,19 @@ public class OrderController {
 
 
 
-    @PostMapping("/new")
-    public String save(@ModelAttribute ("newOrder") Order order,
-                       @CurrentSecurityContext(expression = "authentication.name") Authentication authentication,
-                       @RequestParam("clothingId") Long clothingId,
-                       Model model){
+
+    @GetMapping("/save")
+    public String save(@ModelAttribute("cart") Cart cart,
+                       @CurrentSecurityContext(expression = "authentication.name") Authentication authentication){
 
         String login = authentication.getName();
-        Long id = accountService.getAccountIdByLogin(login);
-//        orderService.addNewOrder(id,clothingId,order);
 
-        return "redirect:/catalog";
+        try {
+            orderService.saveOrder(login,cart);
+        } catch (NotEnoughMoneyException exception){
+            return "error-order";
+        }
+        return "redirect:/catalog/";
     }
 
 

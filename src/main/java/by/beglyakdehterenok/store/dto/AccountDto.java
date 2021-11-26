@@ -10,4 +10,5 @@ import lombok.*;
 public class AccountDto {
     private Long id;
     private String login;
+    private Double accountAmount;
 }
