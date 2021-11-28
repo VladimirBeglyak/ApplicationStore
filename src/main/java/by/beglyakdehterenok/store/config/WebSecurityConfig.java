@@ -1,6 +1,7 @@
 package by.beglyakdehterenok.store.config;
 
 import by.beglyakdehterenok.store.entity.Permission;
+import by.beglyakdehterenok.store.entity.Role;
 import by.beglyakdehterenok.store.exception.MyAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,7 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                    .antMatchers("/account/all/**","/catalog/all/**","/catalog/save/**","/catalog/add").hasAuthority(Permission.ACCOUNT_WRITE.getPermission())
+                    .antMatchers("/account/all/**","/catalog/all/**","/catalog/save/**","/catalog/add","/account/private").hasAuthority(Permission.ACCOUNT_WRITE.getPermission())
+                    .antMatchers("/account/private").hasAnyAuthority(Permission.ACCOUNT_READ.getPermission(),Permission.ACCOUNT_WRITE.getPermission())
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()

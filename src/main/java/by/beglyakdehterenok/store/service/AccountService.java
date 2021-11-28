@@ -76,4 +76,8 @@ public class AccountService implements BaseService<Account, Long> {
         }
         return accountRepository.findAll(pageable);
     }
+
+    public Account findByName(String name){
+        return accountRepository.findByLogin(name).get();
+    }
 }

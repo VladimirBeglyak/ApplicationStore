@@ -42,6 +42,16 @@ public class AccountController {
         model.addAttribute("user", new User());
     }
 
+    @GetMapping("/private")
+    public String showPrivateCabinet(@CurrentSecurityContext(expression = "authentication.name") Authentication authentication,
+                                     Model model) {
+
+        Account account = accountService.findByName(authentication.getName());
+        model.addAttribute("account",account);
+        return "private-cabinet";
+
+    }
+
     @GetMapping("/all")
     public String showAllAccounts(Model model,String keyword) {
         return listByPage(1,"firstName","asc",keyword,5,model);
@@ -95,7 +105,7 @@ public class AccountController {
                                              @RequestParam("accountAmount") Double accountAmount) {
         String login = authentication.getName();
         accountService.topUpAccount(login,accountAmount);
-        return new RedirectView("/order/shopping-cart");
+        return new RedirectView("/account/private");
     }
 
     @PostMapping("/save")
