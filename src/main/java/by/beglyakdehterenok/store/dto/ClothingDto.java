@@ -17,11 +17,10 @@ public class ClothingDto {
     private String name;
     private Double price;
     private String description;
-    private String imagePath;
+    private String image;
     private Category category;
     private Season season;
     private Size size;
     private Brand brand;
     private Type type;
-
 }

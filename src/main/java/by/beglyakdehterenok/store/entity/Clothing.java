@@ -30,8 +30,9 @@ public class Clothing extends BaseEntity {
     @Column(nullable = false)
     private String description;
 
-    @Column(name = "image",unique = true)
-    private String imagePath;
+    @Lob
+    @Column(name = "image",columnDefinition = "MEDIUMBLOB")
+    private String image;
 
     @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
     @JoinColumn(name = "category_id")
@@ -55,5 +56,15 @@ public class Clothing extends BaseEntity {
 
     @Column(name = "count",nullable = false)
     private Long count;
+
+//    @Transient
+//    public String getImagePath(){
+//        if (image == null || getId()==null){
+//            return null;
+//        } else {
+//            return "/users/BEGLYAK/work/clothing-photos/" + getId() + "/" +image;
+//        }
+//
+//    }
 
 }

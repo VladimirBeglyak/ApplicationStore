@@ -1,20 +1,13 @@
 package by.beglyakdehterenok.store;
 
-import by.beglyakdehterenok.store.config.DatabaseConfig;
 import by.beglyakdehterenok.store.entity.*;
 import by.beglyakdehterenok.store.repository.*;
 import by.beglyakdehterenok.store.service.ClothingService;
 import by.beglyakdehterenok.store.service.OrderService;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 public class ClothingRepositoryTest extends BaseTest<Clothing> {
@@ -49,7 +42,7 @@ public class ClothingRepositoryTest extends BaseTest<Clothing> {
         clothing.setName("Adidas DRose");
         clothing.setPrice(100d);
         clothing.setDescription("sdfghjk");
-        clothing.setImagePath("/fghfgh/fghfgh");
+        clothing.setImage("/fghfgh/fghfgh");
         clothing.setCategory(category);
         clothing.setSize(Size.XS);
         clothing.setBrand(brand);

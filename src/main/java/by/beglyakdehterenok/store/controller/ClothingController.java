@@ -4,7 +4,6 @@ import by.beglyakdehterenok.store.dto.BrandDto;
 import by.beglyakdehterenok.store.dto.CategoryDto;
 import by.beglyakdehterenok.store.dto.ClothingDto;
 import by.beglyakdehterenok.store.entity.*;
-import by.beglyakdehterenok.store.mapper.ClothingMapperImpl;
 import by.beglyakdehterenok.store.service.BrandService;
 import by.beglyakdehterenok.store.service.CategoryService;
 import by.beglyakdehterenok.store.service.ClothingService;
@@ -18,14 +17,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Controller
 @MultipartConfig
@@ -47,8 +46,6 @@ public class ClothingController {
     @ModelAttribute
     public void addAttributes(Model model) {
 
-        Brand brand = new Brand();
-        Category category = new Category();
         Order order = new Order();
         List<CategoryDto> allCategories = categoryService.findAllCategoriesDto();
         List<BrandDto> allBrands = brandService.findAllBrandsDto();
@@ -59,29 +56,25 @@ public class ClothingController {
         model.addAttribute("allSizes", sizes);
         model.addAttribute("allCategories", allCategories);
         model.addAttribute("allBrands", allBrands);
-        model.addAttribute("newBrand", brand);
-        model.addAttribute("newCategory", category);
-        model.addAttribute("newClothing", new Clothing());
         model.addAttribute("newOrder", order);
 
     }
 
     @GetMapping("/")
-//    @PreAuthorize("hasAuthority('account:write')")
-    public String showMainPageCatalog(Model model,String keyword) {
-        return listCatalogForUser(1, "name", "asc", keyword,6, model);
+    public String showMainPageCatalog(Model model, String keyword) {
+        return listCatalogForUser(1, "name", "asc", keyword, 6, model);
     }
 
 
     @GetMapping("/page/{pageNumber}")
     public String listCatalogForUser(@PathVariable("pageNumber") int currentPage,
-                             @Param("sortField") String sortField,
-                             @Param("sortDir") String sortDir,
-                             @Param("keyword") String keyword,
-                             @Param("size") int size,
-                             Model model) {
+                                     @Param("sortField") String sortField,
+                                     @Param("sortDir") String sortDir,
+                                     @Param("keyword") String keyword,
+                                     @Param("size") int size,
+                                     Model model) {
 
-        Page<Clothing> page = clothingService.getAllPageableCatalogForUser(currentPage, sortField, sortDir, keyword,size);
+        Page<Clothing> page = clothingService.getAllPageableCatalogForUser(currentPage, sortField, sortDir, keyword, size);
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
 
@@ -94,7 +87,7 @@ public class ClothingController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("keyword", keyword);
-        model.addAttribute("size",size);
+        model.addAttribute("size", size);
 
         String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
         model.addAttribute("reverseSortDir", reverseSortDir);
@@ -104,14 +97,15 @@ public class ClothingController {
 
 
     @GetMapping("/add")
-//    @PreAuthorize("hasAuthority('admin:write')")
-    public String addNewClothingToCatalog() {
+    public String addNewClothingToCatalog(Model model) {
+        model.addAttribute("newClothing", new Clothing());
         return "clothing-info";
     }
 
 
     @GetMapping("/add-new-brand")
-    public String addNewBrand() {
+    public String addNewBrand(Model model) {
+        model.addAttribute("newBrand", new Brand());
         return "brand-add";
     }
 
@@ -122,7 +116,8 @@ public class ClothingController {
     }
 
     @GetMapping("/add-new-category")
-    public String addNewCategory(ModelAndView modelAndView) {
+    public String addNewCategory(Model model) {
+        model.addAttribute("newCategory", new Category());
         return "category-add";
     }
 
@@ -133,26 +128,31 @@ public class ClothingController {
     }
 
     @PostMapping("/save")
-//    @PreAuthorize("hasAuthority('account:write')")
-    public String saveNewClothingToCatalog(@Valid @ModelAttribute("newClothing") Clothing clothing,
-                                           BindingResult bindingResult,
-                                           @RequestParam("image") MultipartFile multipartFile) throws IOException {
+    public String saveNewClothingToCatalog(@RequestParam("photo") MultipartFile multipartFile,
+                                           @Valid Clothing clothing,
+                                           BindingResult bindingResult) throws IOException {
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getErrorCount());
             System.out.println(clothing);
             return "clothing-info";
         }
 
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename()); //получить имя файла
-        clothing.setImagePath(fileName);
-        Clothing savedClothing = clothingService.addNewClothing(clothing);
-        String uploadDir = "src/main/webapp/resources/img/clothing-photos/" + savedClothing.getId();
-        FileUploadUtil.saveFile(uploadDir,fileName,multipartFile);
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        if (fileName.contains("..")) {
+            System.out.println("not a valid file");
+        }
+
+        try {
+            clothing.setImage(Base64.getEncoder().encodeToString(multipartFile.getBytes()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        clothingService.addNewClothing(clothing);
         return "redirect:/catalog/all";
     }
 
     @GetMapping("/delete")
-//    @PreAuthorize("hasAuthority('account:write')")
     public String deleteClothingFromStorage(@RequestParam("clothingId") Long id) {
         System.out.println("id = " + id);
         clothingService.deleteClothing(id);
@@ -160,7 +160,6 @@ public class ClothingController {
     }
 
     @RequestMapping("/update")
-//    @PreAuthorize("hasAuthority('account:write')")
     public String updateInfo(@RequestParam("clothingId") Long id, Model model) {
         ClothingDto clothing = clothingService.findClothingDtoById(id);
         System.out.println(clothing);
@@ -194,9 +193,8 @@ public class ClothingController {
     }
 
     @GetMapping("/all")
-//    @PreAuthorize("hasAuthority('account:write')")
-    public String showAllCatalog(Model model,String keyword) {
-        return listByPage(1, "name", "asc", keyword,5, model);
+    public String showAllCatalog(Model model, String keyword) {
+        return listByPage(1, "name", "asc", keyword, 5, model);
     }
 
 
@@ -208,7 +206,7 @@ public class ClothingController {
                              @Param("size") int size,
                              Model model) {
 
-        Page<Clothing> page = clothingService.getAllPageable(currentPage, sortField, sortDir, keyword,size);
+        Page<Clothing> page = clothingService.getAllPageable(currentPage, sortField, sortDir, keyword, size);
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
 
@@ -221,123 +219,12 @@ public class ClothingController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("keyword", keyword);
-        model.addAttribute("size",size);
+        model.addAttribute("size", size);
 
         String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
         model.addAttribute("reverseSortDir", reverseSortDir);
 
         return "catalog-all";
     }
-
-
-
-
-//    @GetMapping("/sort")
-//    public ModelAndView sortByCategory(@RequestParam("category") String name){
-//
-//    }
-    //Misha*******************************
-
-//    private final ClothingService clothingService;
-//
-//    @Autowired
-//    public CatalogController(ClothingService clothingService) {
-//        this.clothingService = clothingService;
-//    }
-//
-//    @ModelAttribute
-//    public void addCategoriesBrandsSizes(Model model) {
-//        int countOfAllClothing = clothingService.countAll();
-//        List<BrandDto> allBrandsDto = new BrandService().findAll().stream()
-//                .map(Brand::createDto).collect(Collectors.toList());
-//        List<CategoryDto> allCategoriesDto = new CategoryService().findAll().stream()
-//                .map(Category::createDto).collect(Collectors.toList());
-//        Size[] allSizes = Size.values();
-//
-//        model.addAttribute("countOfAllClothing", countOfAllClothing);
-//        model.addAttribute("allBrands", allBrandsDto);
-//        model.addAttribute("allCategories", allCategoriesDto);
-//        model.addAttribute("allSizes", allSizes);
-//    }
-//
-//    //формирование каталога по категории, бренду, размеру, строке поиска, сотрировке и номеру страницы
-//    @GetMapping("/catalog")
-//    public ModelAndView showCatalogPageByCategories(@RequestParam() Map<String, String> allParams,
-//                                                    @SessionAttribute("sortType") String currentSortingType,
-//                                                    ModelAndView model) {
-//        //если в парметрах есть сортировка то меняем текущую и кидаем в сессиию
-//        if (allParams.containsKey("sortType")) {
-//            model.addObject("sortType", allParams.get("sortType"));
-//        }
-//        List<Clothing> clothingList = null;
-//        //далее сортируем в зависимости от категории
-//        if (allParams.containsKey("category")) {
-//            String categoryName = allParams.get("category");
-//            if (categoryName.equals("All")) {
-//                clothingList = currentSortingType.equals("desc") ?
-//                        clothingService.findAllByOrderByPriceDesc() :
-//                        clothingService.findAllByOrderByPriceAsc();
-//            } else {
-//                clothingList = currentSortingType.equals("desc") ?
-//                        clothingService.findAllByCategoryNameOrderByPriceDesc(categoryName) :
-//                        clothingService.findAllByCategoryNameOrderByPriceAsc(categoryName);
-//            }
-//        } else if (allParams.containsKey("brand")) {
-//            String brandName = allParams.get("brand");
-//            clothingList = currentSortingType.equals("desc") ?
-//                    clothingService.findAllByBrandNameOrderByPriceDesc(brandName) :
-//                    clothingService.findAllByBrandNameOrderByPriceAsc(brandName);
-//        } else if (allParams.containsKey("size")) {
-//            String sizeName = allParams.get("size");
-//            clothingList = currentSortingType.equals("desc") ?
-//                    clothingService.findAllBySizeNameOrderByPriceDesc(sizeName) :
-//                    clothingService.findAllBySizeNameOrderByPriceAsc(sizeName);
-//        } else if (allParams.containsKey("search")) {
-//            String st = allParams.get("search");
-//            clothingList = currentSortingType.equals("desc") ?
-//                    clothingService.findAllByNameIgnoreCaseContainingOrderByPriceDesc(st) :
-//                    clothingService.findAllByNameIgnoreCaseContainingOrderByPriceAsc(st);
-//        }
-//        return clothingList != null ? getModelAndViewForCatalogPage(
-//                Integer.parseInt(allParams.get("page")), model, clothingList) :
-//                new ModelAndView("/error404");
-//    }
-//
-//    //формирование модели для страницы каталога, на странице будет по 6 элементов одежды
-//    private ModelAndView getModelAndViewForCatalogPage(@RequestParam("page") int pageNumber,
-//                                                       ModelAndView model,
-//                                                       List<Clothing> clothingList) {
-//        int listSize = clothingList.size();
-//        int numberOfPages = listSize % 6 == 0 ? listSize / 6 : listSize / 6 + 1;
-//        if (pageNumber > numberOfPages) {
-//            return new ModelAndView("/error404");
-//        }
-//        List<Clothing> resultList = getClothingListAccordingToPageNumber(pageNumber, clothingList);
-//
-//        model.addObject("numberOfPages", numberOfPages);
-//        model.addObject("resultList", resultList);
-//        model.setViewName("catalog");
-//        return model;
-//    }
-//
-//    //формирование списка вещей в зависимости от номера страницы, на странице будет по 6 элементов одежды
-//    private List<Clothing> getClothingListAccordingToPageNumber(int pageNumber, List<Clothing> clothingList) {
-//        int listSize = clothingList.size();
-//        int numberOfPages = listSize % 6 == 0 ?
-//                listSize / 6 : (listSize / 6) + 1;
-//        int indexOfFirstElement = (pageNumber - 1) * 6;
-//        List<Clothing> resultList = new ArrayList<>();
-//        if (pageNumber == numberOfPages) {
-//            for (int i = indexOfFirstElement; i < listSize; i++) {
-//                resultList.add(clothingList.get(i));
-//            }
-//        } else {
-//            for (int i = indexOfFirstElement; i < indexOfFirstElement + 6; i++) {
-//                resultList.add(clothingList.get(i));
-//            }
-//        }
-//        return resultList;
-//    }
-//
 
 }

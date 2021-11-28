@@ -43,7 +43,6 @@ public class AccountController {
     }
 
     @GetMapping("/all")
-//    @PreAuthorize("hasAnyAuthority('account:write')")
     public String showAllAccounts(Model model,String keyword) {
         return listByPage(1,"firstName","asc",keyword,5,model);
     }
@@ -61,9 +60,6 @@ public class AccountController {
         int totalPages = page.getTotalPages();
         List<Account> allAccounts = page.getContent();
 
-//        List<Account> allAccounts = page.getContent().stream()
-//                .filter(account -> account.getRole().name().equals(Role.USER.name()))
-//                .collect(Collectors.toList());
 
         model.addAttribute("allAccounts",allAccounts);
         model.addAttribute("totalItems",totalItems);
@@ -102,23 +98,6 @@ public class AccountController {
         return new RedirectView("/order/shopping-cart");
     }
 
-//    @GetMapping("/account")
-//    public ModelAndView account(ModelAndView modelAndView){
-//        modelAndView.addObject("message","Hello message from model");
-//        Account account = accountRepository.findByFirstName("Olga");
-//        modelAndView.addObject("account",account);
-//        modelAndView.setViewName("index");
-//        return modelAndView;
-//    }
-
-//    @GetMapping("/account/{id}")
-//    public ModelAndView account(@PathVariable("id") Long id, ModelAndView modelAndView) {
-//        Optional<Account> account = accountService.findById(id);
-//        modelAndView.addObject("account", account.get());
-//        modelAndView.setViewName("index");
-//        return modelAndView;
-//    }
-
     @PostMapping("/save")
     public String saveAccount(@Valid @ModelAttribute("newAccount") Account account, Errors errors) {
         if (errors.hasErrors()) {
@@ -131,7 +110,6 @@ public class AccountController {
     }
 
     @GetMapping("/delete")
-//    @PreAuthorize("hasAuthority('account:write')")
     public String deleteClothingFromStorage(@RequestParam("accountId") Long id) {
         System.out.println("id = " + id);
         accountService.delete(id);
@@ -139,7 +117,6 @@ public class AccountController {
     }
 
     @RequestMapping("/update")
-//    @PreAuthorize("hasAuthority('account:write')")
     public String updateInfo(@RequestParam("accountId") Long id, Model model) {
         Account account = accountService.findById(id).get();
         System.out.println(account);
@@ -148,7 +125,6 @@ public class AccountController {
     }
 
     @GetMapping("/details")
-//    @PreAuthorize("hasAuthority('account:write')")
     public String showOrderDetailsByAccountId(@RequestParam("accountId") Long id, Model model) {
 
         List<Order> ordersByAccountId = orderService.findAllByAccountIdOrderByIdDesc(id);

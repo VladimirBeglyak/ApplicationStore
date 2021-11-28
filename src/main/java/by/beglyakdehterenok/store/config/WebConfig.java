@@ -25,25 +25,12 @@ public class WebConfig implements WebMvcConfigurer{
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("../resources/config/*","../webapp/resources/**").addResourceLocations("../webapp/resources/**","../resources/config/*").setCachePeriod(1);
-        exposeDirectory("clothing-photos",registry);
     }
 
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
-
-
-    private void exposeDirectory(String dirName, ResourceHandlerRegistry registry) {
-        Path uploadDir = Paths.get(dirName);
-        String uploadPath = uploadDir.toFile().getAbsolutePath();
-
-        if (dirName.startsWith("../")) dirName = dirName.replace("../", "");
-
-        registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/"+ uploadPath + "/");
-    }
-
-
 
     @Bean
     public CommonsMultipartResolver multipartResolver(){
@@ -54,18 +41,6 @@ public class WebConfig implements WebMvcConfigurer{
         multipartResolver.setMaxInMemorySize(40960);
         return multipartResolver;
     }
-
-//    @Bean(name = "multipartResolver")
-//    public CommonsMultipartResolver multipartResolver() {
-//        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-//        multipartResolver.setMaxUploadSize(100000);
-//        return multipartResolver;
-//    }
-//
-//    @Bean
-//    public StandardServletMultipartResolver multipartResolverServlet() {
-//        return new StandardServletMultipartResolver();
-//    }
 
 
 }

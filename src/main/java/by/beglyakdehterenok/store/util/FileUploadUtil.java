@@ -11,8 +11,11 @@ import java.nio.file.StandardCopyOption;
 
 public class FileUploadUtil {
 
+    private static final String BASE_PATH = "/users/BEGLYAK/work/";
+
     public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
-        String basePath = "/users/BEGLYAK/work" + uploadDir;
+        String basePath = BASE_PATH + uploadDir;
+
         Path imageFullPath = Path.of(basePath, fileName);
 
         if (!Files.exists(imageFullPath)) {

@@ -15,7 +15,7 @@ public class ClothingMapperImpl implements BaseMapper<Clothing, ClothingDto>{
                 entity.getName(),
                 entity.getPrice(),
                 entity.getDescription(),
-                entity.getImagePath(),
+                entity.getImage(),
                 entity.getCategory(),
                 entity.getSeason(),
                 entity.getSize(),

@@ -3848,4 +3848,7 @@ ol {
 	.categories__text:before {
 		height: 250px;
 	}
+	.btn-space {
+		margin-right: 15px;
+	}
 }

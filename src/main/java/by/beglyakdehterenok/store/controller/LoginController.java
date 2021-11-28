@@ -26,23 +26,4 @@ public class LoginController {
     public String auth(){
         return "redirect:/catalog/";
     }
-
-//    @PostMapping("/login/entry")
-//    public String loginEntry(LoginAccountDto accountDto, Model model){
-//        Account account = accountService.findByLogin(accountDto.getLogin());
-//        if (account != null && account.getPassword().equals(accountDto.getPassword())){
-//            model.addAttribute("accountId", account.getId());
-//            String url;
-//            switch (account.getRole()){
-//                case USER: url = "redirect:/catalog/category/All/1";
-//                    break;
-//                case MANAGER: url = "redirect:/manager";
-//                    break;
-//                case ADMIN: url = "redirect:/admin";
-//                    break;
-//                default: url = "redirect:/login";
-//            }
-//            return url;
-//        } return "redirect:/login";
-//    }
 }

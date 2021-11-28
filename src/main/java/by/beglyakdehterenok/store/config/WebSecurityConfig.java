@@ -19,7 +19,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true) //для работы preAuthorities
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
@@ -42,13 +41,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                    .antMatchers("/account/all/**","/catalog/all/**","/catalog/save/**","/catalog/add/").hasAuthority(Permission.ACCOUNT_WRITE.getPermission())
-//                .antMatchers(HttpMethod.GET,"/sec/user").hasAnyAuthority(Permission.ACCOUNT_READ.getPermission(),Permission.ACCOUNT_WRITE.getPermission())
-//                .antMatchers(HttpMethod.GET,"/sec/admin").hasAuthority(Permission.ACCOUNT_WRITE.getPermission())
+                    .antMatchers("/account/all/**","/catalog/all/**","/catalog/save/**","/catalog/add").hasAuthority(Permission.ACCOUNT_WRITE.getPermission())
                 .anyRequest().permitAll()
-
-//                .antMatchers(HttpMethod.GET,"/catalog/all").hasAuthority(Permission.ACCOUNT_READ.getPermission())
-//                .antMatchers(HttpMethod.GET,"/account/all").hasAuthority(Permission.ACCOUNT_READ.getPermission()) // это если убрать preAuthority в controllers
                 .and()
                 .formLogin()
                 .loginPage("/auth/login").permitAll()

@@ -81,20 +81,4 @@ public class OrderService {
         clothingRepository.saveAll(clothes);
     }
 
-//    //считает общую сумму всех заказов в корзине
-//    public double countByFinalPriceWhereAccount_Id(Long id){
-//        return orderRepository.countByFinalPriceWhereAccount_Id(id);
-//    }
-//
-//    //если заказ существует - обновляет воличесто и итоговую цену
-//    public void saveOrUpdate(Order order, Long accountId){
-//        if (orderRepository.existsByClothing_NameAndAccount_Id(order.getClothing().getName(), accountId)) {
-//            orderRepository.updateExistOrder(order.getQuantity(), accountId, order.getClothing().getName());
-//        } else {
-//            orderRepository.save(order);
-//        }
-//    }
-//
-//
-
 }

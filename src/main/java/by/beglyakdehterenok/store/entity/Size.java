@@ -9,6 +9,7 @@ public enum Size {
     XS,
     XXL,
     M,
+    L,
     XL,
     XXXL
 }

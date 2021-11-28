@@ -10,7 +10,6 @@ import by.beglyakdehterenok.store.mapper.ClothingMapperImpl;
 import by.beglyakdehterenok.store.repository.BrandRepository;
 import by.beglyakdehterenok.store.repository.CategoryRepository;
 import by.beglyakdehterenok.store.repository.ClothingRepository;
-import by.beglyakdehterenok.store.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,9 +17,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -127,63 +128,4 @@ public class ClothingService {
         }
         return clothingRepository.findAllPageableCustom(pageable);
     }
-
-
-//
-//    public int countAll(){
-//        return (int) clothingRepository.count();
-//    }
-//
-//    public Clothing findById(Long id){
-//        return clothingRepository.findById(id).get();
-//    }
-//
-//    //выборка по всей одежде
-//    public List<Clothing> findAllByOrderByPriceAsc(){
-//        return clothingRepository.findAllByOrderByPriceAsc();
-//    }
-//    public List<Clothing> findAllByOrderByPriceDesc(){
-//        return clothingRepository.findAllByOrderByPriceDesc();
-//    }
-//
-//
-//    //выборка по категории
-//    public List<Clothing> findAllByCategoryNameOrderByPriceAsc(String name){
-//        by.beglyak.investor.service.CategoryService categoryService = new by.beglyak.investor.service.CategoryService();
-//        return clothingRepository.findAllByCategoriesContainingOrderByPriceAsc(categoryService.findByName(name));
-//    }
-//    public List<Clothing> findAllByCategoryNameOrderByPriceDesc(String name){
-//        by.beglyak.investor.service.CategoryService categoryService = new by.beglyak.investor.service.CategoryService();
-//        return clothingRepository.findAllByCategoriesContainingOrderByPriceDesc(categoryService.findByName(name));
-//    }
-//
-//
-//    //выборка по бренду
-//    public List<Clothing> findAllByBrandNameOrderByPriceAsc(String name){
-//        return clothingRepository.findAllByBrand_NameOrderByPriceAsc(name);
-//    }
-//    public List<Clothing> findAllByBrandNameOrderByPriceDesc(String name){
-//        return clothingRepository.findAllByBrand_NameOrderByPriceDesc(name);
-//    }
-//
-//
-//    //выборка по размеру
-//    public List<Clothing> findAllBySizeNameOrderByPriceAsc(String sizeName){
-//        return clothingRepository.findAllBySizesContainingOrderByPriceAsc(Size.valueOf(sizeName));
-//    }
-//    public List<Clothing> findAllBySizeNameOrderByPriceDesc(String sizeName){
-//        return clothingRepository.findAllBySizesContainingOrderByPriceDesc(Size.valueOf(sizeName));
-//    }
-//
-//
-//    //методы для строки поиска по названию
-//    public List<Clothing> findAllByNameIgnoreCaseContainingOrderByPriceAsc(String st){
-//        return clothingRepository.findAllByNameIgnoreCaseContainingOrderByPriceAsc(st);
-//    }
-//    public List<Clothing> findAllByNameIgnoreCaseContainingOrderByPriceDesc(String st){
-//        return clothingRepository.findAllByNameIgnoreCaseContainingOrderByPriceDesc(st);
-//    }
-//
-//
-
 }
