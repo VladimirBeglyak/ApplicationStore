@@ -6,6 +6,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/account-order.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/templates" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/malefashion/about.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/malefashion" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/shop-details.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/templates" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/shop.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/templates" />
       </map>
     </option>
   </component>

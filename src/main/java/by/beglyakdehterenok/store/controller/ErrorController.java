@@ -8,8 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/error")
 public class ErrorController {
 
-    @GetMapping
-    public String showErrorPage(){
+    @GetMapping("/access-denied")
+    public String showErrorPageAccessDenied(){
         return "error-page";
+    }
+
+    @GetMapping("/money")
+    public String showErrorPageNotEnoughMoney(){
+        return "error-order";
     }
 }

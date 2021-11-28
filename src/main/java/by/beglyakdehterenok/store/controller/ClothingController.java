@@ -50,14 +50,12 @@ public class ClothingController {
         Brand brand = new Brand();
         Category category = new Category();
         Order order = new Order();
-        List<ClothingDto> allClothing = clothingService.findAllAndGroupByName();
         List<CategoryDto> allCategories = categoryService.findAllCategoriesDto();
         List<BrandDto> allBrands = brandService.findAllBrandsDto();
         Size[] sizes = Size.values();
 
         model.addAttribute("allSeasons", Season.values());
         model.addAttribute("allTypes", Type.values());
-        model.addAttribute("allClothing", allClothing);
         model.addAttribute("allSizes", sizes);
         model.addAttribute("allCategories", allCategories);
         model.addAttribute("allBrands", allBrands);
@@ -69,9 +67,41 @@ public class ClothingController {
     }
 
     @GetMapping("/")
-    public String showMainPageCatalog() {
+//    @PreAuthorize("hasAuthority('account:write')")
+    public String showMainPageCatalog(Model model,String keyword) {
+        return listCatalogForUser(1, "name", "asc", keyword,6, model);
+    }
+
+
+    @GetMapping("/page/{pageNumber}")
+    public String listCatalogForUser(@PathVariable("pageNumber") int currentPage,
+                             @Param("sortField") String sortField,
+                             @Param("sortDir") String sortDir,
+                             @Param("keyword") String keyword,
+                             @Param("size") int size,
+                             Model model) {
+
+        Page<Clothing> page = clothingService.getAllPageableCatalogForUser(currentPage, sortField, sortDir, keyword,size);
+        long totalItems = page.getTotalElements();
+        int totalPages = page.getTotalPages();
+
+        List<Clothing> allClothing = page.getContent();
+
+        model.addAttribute("allClothing", allClothing);
+        model.addAttribute("totalItems", totalItems);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("size",size);
+
+        String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+        model.addAttribute("reverseSortDir", reverseSortDir);
+
         return "shop";
     }
+
 
     @GetMapping("/add")
 //    @PreAuthorize("hasAuthority('admin:write')")
@@ -138,19 +168,6 @@ public class ClothingController {
         return "clothing-info";
     }
 
-    @GetMapping("/all")
-//    @PreAuthorize("hasAuthority('account:write')")
-    public String showAllCatalogForManagerAndAdmin(Model model) {
-
-        String keyword = null;
-
-//        List<Clothing> storageServiceAll = clothingService.findAll();
-//
-//        System.out.println(storageServiceAll);
-//        model.addAttribute("allClothingOnStorage", storageServiceAll);
-        return listByPage(1, "name", "asc", keyword, model);
-    }
-
     @GetMapping("/{id}")
     public String showDetails(@PathVariable("id") Long id, Model model) {
         ClothingDto clothing = clothingService.findClothingDtoById(id);
@@ -176,32 +193,43 @@ public class ClothingController {
         return "shop";
     }
 
+    @GetMapping("/all")
+//    @PreAuthorize("hasAuthority('account:write')")
+    public String showAllCatalog(Model model,String keyword) {
+        return listByPage(1, "name", "asc", keyword,5, model);
+    }
+
 
     @GetMapping("/all/page/{pageNumber}")
     public String listByPage(@PathVariable("pageNumber") int currentPage,
                              @Param("sortField") String sortField,
                              @Param("sortDir") String sortDir,
                              @Param("keyword") String keyword,
+                             @Param("size") int size,
                              Model model) {
-        Page<Clothing> page = clothingService.getAllPageable(currentPage, sortField, sortDir, keyword);
+
+        Page<Clothing> page = clothingService.getAllPageable(currentPage, sortField, sortDir, keyword,size);
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
 
         List<Clothing> listClothing = page.getContent();
 
-        model.addAttribute("currentPage", currentPage);
         model.addAttribute("listClothing", listClothing);
         model.addAttribute("totalItems", totalItems);
         model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", currentPage);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("keyword", keyword);
+        model.addAttribute("size",size);
 
         String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
         model.addAttribute("reverseSortDir", reverseSortDir);
 
         return "catalog-all";
     }
+
+
 
 
 //    @GetMapping("/sort")

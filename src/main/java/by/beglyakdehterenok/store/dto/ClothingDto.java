@@ -23,4 +23,5 @@ public class ClothingDto {
     private Size size;
     private Brand brand;
     private Type type;
+
 }

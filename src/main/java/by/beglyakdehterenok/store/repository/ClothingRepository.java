@@ -17,14 +17,10 @@ import java.util.Set;
 public interface ClothingRepository extends JpaRepository<Clothing, Long>,
         CrudRepository<Clothing, Long>, PagingAndSortingRepository<Clothing,Long> {
 
-    @Query("select c from Clothing c group by c.name")
+    @Query("select c from Clothing c where c.count > 0 group by c.name")
     List<Clothing> findAllAndGroupByName();
 
-    @Query("select c from Clothing c " +
-            "group by c.name")
-    Page<Clothing> findAllForShopPage(String keyword,Pageable pageable);
-
-    @Query("select c.size from Clothing c where c.name=:name")
+    @Query("select c.size from Clothing c where c.name=:name and c.count>0")
     List<Size> findAllSizesByClothing(@Param("name") String name);
 
     @Query("select c from Clothing c where c.category.name=:name group by c.name")
@@ -36,26 +32,16 @@ public interface ClothingRepository extends JpaRepository<Clothing, Long>,
     Clothing findByNameAndSize(String name, Size size);
 
     @Query("select c from Clothing c where " +
-            " concat(c.id,' ',c.name,' ',c.count,' ',c.price,' ',c.season,' ',c.size,' ',c.type,' ',c.brand.name,' ',c.category.name) " +
+            " concat(c.name,' ',c.count,' ',c.price,' ',c.season,' ',c.size,' ',c.type,' ',c.brand.name,' ',c.category.name) " +
             "like %?1%")
     Page<Clothing> findAll(String keyword, Pageable pageable);
 
+    @Query("select c from Clothing c where c.count > 0" +
+            "and concat(c.name,' ',c.count,' ',c.price,' ',c.season,' ',c.size,' ',c.type,' ',c.brand.name,' ',c.category.name) " +
+            "like %?1% group by c.name")
+    Page<Clothing> findAllAndGroupByName(String keyword, Pageable pageable);
 
-
-
-//    List<Clothing> findAllByOrderByPriceAsc();
-//    List<Clothing> findAllByOrderByPriceDesc();
-//
-//    List<Clothing> findAllByCategoriesContainingOrderByPriceAsc(Category category);
-//    List<Clothing> findAllByCategoriesContainingOrderByPriceDesc(Category category);
-//
-//    List<Clothing> findAllByBrand_NameOrderByPriceAsc(String name);
-//    List<Clothing> findAllByBrand_NameOrderByPriceDesc(String name);
-//
-//    List<Clothing> findAllBySizesContainingOrderByPriceAsc(Size size);
-//    List<Clothing> findAllBySizesContainingOrderByPriceDesc(Size size);
-//
-//    List<Clothing> findAllByNameIgnoreCaseContainingOrderByPriceAsc(String st);
-//    List<Clothing> findAllByNameIgnoreCaseContainingOrderByPriceDesc(String st);
+    @Query("select c from Clothing c where c.count > 0 group by c.name")
+    Page<Clothing> findAllPageableCustom(Pageable pageable);
 
 }

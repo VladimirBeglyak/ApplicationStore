@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "orders")
@@ -33,5 +34,10 @@ public class Order extends BaseEntity {
     public Clothing getClothingByNewCount(){
         clothing.setCount(clothing.getCount()-quantity);
         return clothing;
+    }
+
+    @Transient
+    public String formatDateOfCreate(){
+        return dateOfCreate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm"));
     }
 }

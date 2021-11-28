@@ -1,7 +1,7 @@
 package by.beglyakdehterenok.store.controller;
 
 
-import by.beglyakdehterenok.store.entity.Cart;
+import by.beglyakdehterenok.store.model.Cart;
 import by.beglyakdehterenok.store.entity.Order;
 import by.beglyakdehterenok.store.exception.NotEnoughMoneyException;
 import by.beglyakdehterenok.store.service.AccountService;
@@ -16,33 +16,25 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 @Controller
 @RequestMapping("/order")
 @SessionAttributes("cart")
 public class OrderController {
 
     private final OrderService orderService;
-    private final AccountService accountService;
-    private final ClothingService clothingService;
 
     @Autowired
-    public OrderController(OrderService orderService, AccountService accountService, ClothingService clothingService) {
+    public OrderController(OrderService orderService) {
         this.orderService = orderService;
-        this.accountService = accountService;
-        this.clothingService = clothingService;
     }
 
     @ModelAttribute("cart")
-    public Cart addAttributeCart(){
+    public Cart addAttributeCart() {
         return new Cart();
     }
 
     @GetMapping("/shopping-cart")
-    public String showShoppingCart(){
+    public String showShoppingCart() {
         return "shopping-cart";
     }
 
@@ -53,8 +45,8 @@ public class OrderController {
                              @RequestParam("quantity") Long quantity,
                              @ModelAttribute("cart") Cart cart,
                              @CurrentSecurityContext(expression = "authentication.name") Authentication authentication,
-                             RedirectAttributes redirectAttributes){
-        if (authentication==null){
+                             RedirectAttributes redirectAttributes) {
+        if (authentication == null) {
             return new RedirectView("/auth/login");
         }
 
@@ -62,13 +54,12 @@ public class OrderController {
         cart.getOrders().add(order);
         Double totalSumByOrderInCart = orderService.getTotalSumByOrderInCart(cart.getOrders());
         cart.setTotalSum(totalSumByOrderInCart);
-//        redirectAttributes.addFlashAttribute("totalSumInCart",totalSumByOrderInCart);
 
         return new RedirectView("/order/shopping-cart");
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteOrderFromCart(@PathVariable("id") Long id, @ModelAttribute("cart") Cart cart,Model model){
+    public String deleteOrderFromCart(@PathVariable("id") Long id, @ModelAttribute("cart") Cart cart) {
         Order deletedOrder = cart.getOrders().stream()
                 .filter(order -> order.getClothing().getId().equals(id))
                 .findFirst().get();
@@ -79,28 +70,19 @@ public class OrderController {
     }
 
 
-
-
     @GetMapping("/save")
-    public String save(@ModelAttribute("cart") Cart cart,
-                       @CurrentSecurityContext(expression = "authentication.name") Authentication authentication){
+    public RedirectView save(@ModelAttribute("cart") Cart cart,
+                             @CurrentSecurityContext(expression = "authentication.name") Authentication authentication,
+                             Model model) {
 
         String login = authentication.getName();
 
         try {
-            orderService.saveOrder(login,cart);
-        } catch (NotEnoughMoneyException exception){
-            return "error-order";
+            orderService.saveOrder(login, cart);
+            model.addAttribute("cart", new Cart());
+        } catch (NotEnoughMoneyException exception) {
+            return new RedirectView("/error/money");
         }
-        return "redirect:/catalog/";
+        return new RedirectView("/catalog/");
     }
-
-
-//    @GetMapping("/allOrders")
-//    public ModelAndView showOrders(@RequestParam("account") String name, ModelAndView modelAndView){
-//        Order order = orderRepository.findByAccountFirstName(name);
-//        modelAndView.addObject("order",order);
-//        modelAndView.setViewName("order");
-//        return modelAndView;
-//    }
 }

@@ -2,22 +2,17 @@ package by.beglyakdehterenok.store.service;
 
 import by.beglyakdehterenok.store.entity.*;
 import by.beglyakdehterenok.store.exception.NotEnoughMoneyException;
+import by.beglyakdehterenok.store.model.Cart;
 import by.beglyakdehterenok.store.repository.AccountRepository;
 import by.beglyakdehterenok.store.repository.ClothingRepository;
 import by.beglyakdehterenok.store.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.function.BiPredicate;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class OrderService {
@@ -54,17 +49,13 @@ public class OrderService {
     }
 
     public Double getTotalSumOfOrderByAccountId(List<Order> orders) {
-
         Map<Double, DoubleSummaryStatistics> collect = orders.stream()
                 .collect(Collectors.groupingBy(order -> order.getClothing().getPrice(),
                         Collectors.summarizingDouble(value -> value.getQuantity())));
-
         double totalSum = 0;
-
         for (Map.Entry<Double, DoubleSummaryStatistics> entry : collect.entrySet()) {
             totalSum += entry.getKey().doubleValue() * entry.getValue().getSum();
         }
-
         return totalSum;
     }
 
@@ -87,18 +78,7 @@ public class OrderService {
                 .map(order -> order.getClothingByNewCount())
                 .collect(Collectors.toList());
 
-//        Map<Clothing, Long> clothingAndCountOfClothingInOrder = orders.stream()
-//                .collect(Collectors.toMap(order -> (order.getClothing()), (order -> order.getQuantity())));
-//
-//        List<Long> newCountOfClothing = new LinkedList<>();
-//        for (Map.Entry<Clothing, Long> entry : clothingAndCountOfClothingInOrder.entrySet()) {
-//            newCountOfClothing.addFirst(entry.getKey().getCount() - entry.getValue());
-//        }
-
-
         clothingRepository.saveAll(clothes);
-
-        System.out.println(orders);
     }
 
 //    //считает общую сумму всех заказов в корзине

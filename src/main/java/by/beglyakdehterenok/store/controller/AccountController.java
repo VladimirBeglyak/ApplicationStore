@@ -6,6 +6,8 @@ import by.beglyakdehterenok.store.mapper.AccountMapperImpl;
 import by.beglyakdehterenok.store.service.AccountService;
 import by.beglyakdehterenok.store.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
@@ -34,20 +36,47 @@ public class AccountController {
 
     @ModelAttribute
     public void addAttributes(Model model) {
-        List<Account> accounts = accountService.findAll().stream()
-                .filter(account -> account.getRole().name().equals(Role.USER.name()))
-                .collect(Collectors.toList());
-        System.out.println(accounts);
         model.addAttribute("allRoles", Role.values());
         model.addAttribute("allGenders", Gender.values());
         model.addAttribute("newAccount", new Account());
         model.addAttribute("user", new User());
-        model.addAttribute("allAccounts", accounts);
     }
 
     @GetMapping("/all")
 //    @PreAuthorize("hasAnyAuthority('account:write')")
-    public String showAllAccounts() {
+    public String showAllAccounts(Model model,String keyword) {
+        return listByPage(1,"firstName","asc",keyword,5,model);
+    }
+
+    @GetMapping("/all/page/{pageNumber}")
+    public String listByPage(@PathVariable ("pageNumber") int currentPage,
+                             @Param("sortField") String sortField,
+                             @Param("sortDir") String sortDir,
+                             @Param("keyword") String keyword,
+                             @Param("size") int size,
+                             Model model){
+
+        Page<Account> page = accountService.getAllPageable(currentPage,sortField,sortDir,keyword,size);
+        long totalItems = page.getTotalElements();
+        int totalPages = page.getTotalPages();
+        List<Account> allAccounts = page.getContent();
+
+//        List<Account> allAccounts = page.getContent().stream()
+//                .filter(account -> account.getRole().name().equals(Role.USER.name()))
+//                .collect(Collectors.toList());
+
+        model.addAttribute("allAccounts",allAccounts);
+        model.addAttribute("totalItems",totalItems);
+        model.addAttribute("totalPages",totalPages);
+        model.addAttribute("currentPage",currentPage);
+        model.addAttribute("sortField",sortField);
+        model.addAttribute("sortDir",sortDir);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("size", size);
+
+        String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+        model.addAttribute("reverseSortDir",reverseSortDir);
+
         return "accounts";
     }
 
@@ -98,7 +127,7 @@ public class AccountController {
             return "register";
         }
         accountService.save(account);
-        return "shop";
+        return "redirect:/auth/login";
     }
 
     @GetMapping("/delete")
@@ -124,15 +153,6 @@ public class AccountController {
 
         List<Order> ordersByAccountId = orderService.findAllByAccountIdOrderByIdDesc(id);
         Double totalSum = orderService.getTotalSumOfOrderByAccountId(ordersByAccountId);
-//        Map<Double, DoubleSummaryStatistics> collect = ordersByAccountId.stream()
-//                .collect(Collectors.groupingBy(order -> order.getClothing().getPrice(),
-//                        Collectors.summarizingDouble(value -> value.getQuantity())));
-//
-//        double totalSum=0;
-//
-//        for (Map.Entry<Double, DoubleSummaryStatistics> entry : collect.entrySet()) {
-//            totalSum+=entry.getKey().doubleValue()*entry.getValue().getSum();
-//        }
 
         System.out.println(ordersByAccountId);
         model.addAttribute("ordersByAccountId", ordersByAccountId);

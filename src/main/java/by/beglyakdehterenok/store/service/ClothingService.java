@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ClothingService{
+public class ClothingService {
 
     private final ClothingRepository clothingRepository;
     private final CategoryRepository categoryRepository;
@@ -51,69 +51,82 @@ public class ClothingService{
     }
 
     @Transactional
-    public List<Clothing> findAll(){
+    public List<Clothing> findAll() {
         return clothingRepository.findAll();
     }
 
     @Transactional
-    public Clothing findById(Long id){
+    public Clothing findById(Long id) {
         return clothingRepository.getOne(id);
     }
 
     @Transactional
-    public ClothingDto findClothingDtoById(Long id){
+    public ClothingDto findClothingDtoById(Long id) {
         return clothingMapper.mapFrom(clothingRepository.getOne(id));
     }
 
     @Transactional
-    public void deleteClothing(Long id){
+    public void deleteClothing(Long id) {
         clothingRepository.deleteById(id);
     }
 
     @Transactional
-    public List<Size> findAllSizesByClothingName(String name){
+    public List<Size> findAllSizesByClothingName(String name) {
         return clothingRepository.findAllSizesByClothing(name);
     }
 
     @Transactional
-    public List<ClothingDto> findAllAndGroupByName(){
-       return clothingRepository.findAllAndGroupByName().stream()
+    public List<ClothingDto> findAllAndGroupByName() {
+        return clothingRepository.findAllAndGroupByName().stream()
                 .map(clothing -> clothingMapper.mapFrom(clothing))
-               .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
     @Transactional
-    public List<ClothingDto> findAllByCategory(String name){
+    public List<ClothingDto> findAllByCategory(String name) {
         return clothingRepository.findAllByCategory(name).stream()
                 .map(clothing -> clothingMapper.mapFrom(clothing))
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public List<ClothingDto> findAllByBrand(String name){
+    public List<ClothingDto> findAllByBrand(String name) {
         return clothingRepository.findAllByBrand(name).stream()
                 .map(clothing -> clothingMapper.mapFrom(clothing))
                 .collect(Collectors.toList());
     }
 
-    public Page<Clothing> getAllPageable(int pageNumber,String sortField, String sortDir,String keyword){
+    public Page<Clothing> getAllPageable(int pageNumber,
+                                         String sortField,
+                                         String sortDir,
+                                         String keyword,
+                                         int size) {
         Sort sort = Sort.by(sortField);
-        sort=sortDir.equals("asc") ? sort.ascending() : sort.descending();
+        sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 
-        Pageable pageable=PageRequest.of(pageNumber-1, 5, sort);
+        Pageable pageable = PageRequest.of(pageNumber - 1, size, sort);
 
-        if (keyword!=null){
-            return clothingRepository.findAll(keyword,pageable);
+        if (keyword != null) {
+            return clothingRepository.findAll(keyword, pageable);
         }
-
         return clothingRepository.findAll(pageable);
-
     }
 
+    public Page<Clothing> getAllPageableCatalogForUser(int pageNumber,
+                                         String sortField,
+                                         String sortDir,
+                                         String keyword,
+                                         int size) {
+        Sort sort = Sort.by(sortField);
+        sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 
+        Pageable pageable = PageRequest.of(pageNumber - 1, size, sort);
 
-
-
+        if (keyword != null) {
+            return clothingRepository.findAllAndGroupByName(keyword, pageable);
+        }
+        return clothingRepository.findAllPageableCustom(pageable);
+    }
 
 
 //

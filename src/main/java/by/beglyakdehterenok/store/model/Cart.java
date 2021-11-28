@@ -1,5 +1,6 @@
-package by.beglyakdehterenok.store.entity;
+package by.beglyakdehterenok.store.model;
 
+import by.beglyakdehterenok.store.entity.Order;
 import lombok.Data;
 
 import java.util.ArrayList;
