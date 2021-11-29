@@ -11,7 +11,7 @@
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-    rel="stylesheet">
+          rel="stylesheet">
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="/resources/css/bootstrap.min.css" type="text/css">
@@ -50,17 +50,13 @@
         <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
         <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
         <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png" alt=""><span>0</span></a>
-        <div class="price"><a th:href="@{/account/private}" th:text="Cabinet"></a></div>
+        <div class="price"><a th:href="@{/account/private}" th:text="#{navbar.cabinet}"></a></div>
     </div>
     <div id="mobile-menu-wrap"></div>
     <div class="offcanvas__text">
     </div>
 </div>
 <!-- Offcanvas Menu End -->
-
-
-
-
 
 
 <!-- Header Section Begin -->
@@ -108,8 +104,9 @@
                 <div class="header__nav__option">
                     <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
                     <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
-                    <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png" alt=""><span>0</span></a>
-                    <div class="price"><a th:href="@{/account/private}" th:text="Cabinet"></a></div>
+                    <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png"
+                                                              alt=""><span>0</span></a>
+                    <div class="price"><a th:href="@{/account/private}" th:text="#{navbar.cabinet}"></a></div>
                 </div>
             </div>
         </div>
@@ -119,196 +116,187 @@
 <!-- Header Section End -->
 
 
-
-
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-option">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb__text">
-                        <h4>Shopping Cart</h4>
-                        <div class="breadcrumb__links">
-                            <a th:href="@{/shop/}">Home</a>
-                            <a th:href="@{/catalog/}">Shop</a>
-                            <span>Shopping Cart</span>
-                        </div>
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4 th:text="#{navbar.shopingcart}">Shopping Cart</h4>
+                    <div class="breadcrumb__links">
+                        <a th:href="@{/shop/}" th:text="#{navbar.home}">Home</a>
+                        <a th:href="@{/catalog/}" th:text="#{navbar.shop}">Shop</a>
+                        <span th:text="#{navbar.shopingcart}">Shopping Cart</span>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- Breadcrumb Section End -->
-
-    <!-- Shopping Cart Section Begin -->
-    <section class="shopping-cart spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="shopping__cart__table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Size</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                <tr th:each="order : ${cart.orders}">
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="/resources/img/shopping-cart/cart-1.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6 th:text="${order.clothing.name}"></h6>
-                                            <h5 th:text="${'$'+order.clothing.price}">$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item" style="text-align: center">
-                                        <div>
-                                            <h5 th:text="${order.clothing.size}"></h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item" style="text-align: center">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <h5 th:text="${order.quantity}"></h5>
-<!--                                                <input type="text" value="1">-->
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price" th:text="${'$'+order.clothing.price*order.quantity}"></td>
-                                    <td class="cart__close"><a th:href="@{/order/delete/{id}(id=${order.clothing.id})}"><i class="fa fa-close"></i></a></td>
-                                </tr>
-
-<!--                                <tr>-->
-<!--                                    <td class="product__cart__item">-->
-<!--                                        <div class="product__cart__item__pic">-->
-<!--                                            <img src="/resources/img/shopping-cart/cart-2.jpg" alt="">-->
-<!--                                        </div>-->
-<!--                                        <div class="product__cart__item__text">-->
-<!--                                            <h6>Diagonal Textured Cap</h6>-->
-<!--                                            <h5>$98.49</h5>-->
-<!--                                        </div>-->
-<!--                                    </td>-->
-<!--                                    <td class="quantity__item">-->
-<!--                                        <div class="quantity">-->
-<!--                                            <div class="pro-qty-2">-->
-<!--                                                <input type="text" value="1">-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </td>-->
-<!--                                    <td class="cart__price">$ 32.50</td>-->
-<!--                                    <td class="cart__close"><i class="fa fa-close"></i></td>-->
-<!--                                </tr>-->
-<!--                                <tr>-->
-<!--                                    <td class="product__cart__item">-->
-<!--                                        <div class="product__cart__item__pic">-->
-<!--                                            <img src="/resources/img/shopping-cart/cart-3.jpg" alt="">-->
-<!--                                        </div>-->
-<!--                                        <div class="product__cart__item__text">-->
-<!--                                            <h6>Basic Flowing Scarf</h6>-->
-<!--                                            <h5>$98.49</h5>-->
-<!--                                        </div>-->
-<!--                                    </td>-->
-<!--                                    <td class="quantity__item">-->
-<!--                                        <div class="quantity">-->
-<!--                                            <div class="pro-qty-2">-->
-<!--                                                <input type="text" value="1">-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </td>-->
-<!--                                    <td class="cart__price">$ 47.00</td>-->
-<!--                                    <td class="cart__close"><i class="fa fa-close"></i></td>-->
-<!--                                </tr>-->
-<!--                                <tr>-->
-<!--                                    <td class="product__cart__item">-->
-<!--                                        <div class="product__cart__item__pic">-->
-<!--                                            <img src="/resources/img/shopping-cart/cart-4.jpg" alt="">-->
-<!--                                        </div>-->
-<!--                                        <div class="product__cart__item__text">-->
-<!--                                            <h6>Basic Flowing Scarf</h6>-->
-<!--                                            <h5>$98.49</h5>-->
-<!--                                        </div>-->
-<!--                                    </td>-->
-<!--                                    <td class="quantity__item">-->
-<!--                                        <div class="quantity">-->
-<!--                                            <div class="pro-qty-2">-->
-<!--                                                <input type="text" value="1">-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </td>-->
-<!--                                    <td class="cart__price">$ 30.00</td>-->
-<!--                                    <td class="cart__close"><i class="fa fa-close"></i></td>-->
-<!--                                </tr>-->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="continue__btn">
-                                <a th:href="@{/catalog/}">Continue Shopping</a>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="continue__btn update__btn">
-                                <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="cart__discount">
-                        <h6>Discount codes</h6>
-                        <form action="#">
-                            <input type="text" placeholder="Coupon code">
-                            <button type="submit">Apply</button>
-                        </form>
-                    </div>
-                    <div class="cart__total">
-                        <h6>Cart total</h6>
-                        <ul>
-                            <li>Subtotal <span th:text="'$'+${cart.totalSum}"></span></li>
-                            <li>Total <span th:text="'$'+${cart.totalSum}"></span></li>
-                        </ul>
-                        <a th:href="@{/order/save}" class="primary-btn">Proceed to checkout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Shopping Cart Section End -->
-
-    <!-- Footer Section Begin -->
-<div th:insert="~{footer :: footer}"></div>
-    <!-- Footer Section End -->
-
-    <!-- Search Begin -->
-    <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
         </div>
     </div>
-    <!-- Search End -->
+</section>
+<!-- Breadcrumb Section End -->
 
-    <!-- Js Plugins -->
-    <script src="/resources/js/jquery-3.3.1.min.js"></script>
-    <script src="/resources/js/bootstrap.min.js"></script>
-    <script src="/resources/js/jquery.nice-select.min.js"></script>
-    <script src="/resources/js/jquery.nicescroll.min.js"></script>
-    <script src="/resources/js/jquery.magnific-popup.min.js"></script>
-    <script src="/resources/js/jquery.countdown.min.js"></script>
-    <script src="/resources/js/jquery.slicknav.js"></script>
-    <script src="/resources/js/mixitup.min.js"></script>
-    <script src="/resources/js/owl.carousel.min.js"></script>
-    <script src="/resources/js/main.js"></script>
+<!-- Shopping Cart Section Begin -->
+<section class="shopping-cart spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="shopping__cart__table">
+                    <table>
+                        <thead>
+                        <tr style="text-align: center">
+                            <th th:text="#{cart.table.product}">Product</th>
+                            <th th:text="#{cart.table.size}">Size</th>
+                            <th th:text="#{cart.table.count}">Quantity</th>
+                            <th th:text="#{cart.table.total}">Total</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr th:each="order : ${cart.orders}" style="text-align: center">
+                            <td class="product__cart__item">
+                                <div class="product__cart__item__pic">
+                                    <img th:src="@{'data:image/jpeg;base64,' + ${order.clothing.image}}"
+                                         style="width: 90px;height: 90px" alt="Not found"/>
+                                </div>
+                                <div class="product__cart__item__text">
+                                    <h6 th:text="${order.clothing.name}"></h6>
+                                    <h5 th:text="${'$'+order.clothing.price}">$98.49</h5>
+                                </div>
+                            </td>
+                            <td class="quantity__item">
+                                <div>
+                                    <h5 th:text="${order.clothing.size}"></h5>
+                                </div>
+                            </td>
+                            <td class="quantity__item">
+                                <div>
+                                    <h5 th:text="${order.quantity}"></h5>
+                                    <!--                                                <input type="text" value="1">-->
+                                </div>
+                            </td>
+                            <td class="cart__price" th:text="${'$'+order.clothing.price*order.quantity}"></td>
+                            <td class="cart__close"><a th:href="@{/order/delete/{id}(id=${order.clothing.id})}"><i
+                                    class="fa fa-close"></i></a></td>
+                        </tr>
+
+                        <!--                                <tr>-->
+                        <!--                                    <td class="product__cart__item">-->
+                        <!--                                        <div class="product__cart__item__pic">-->
+                        <!--                                            <img src="/resources/img/shopping-cart/cart-2.jpg" alt="">-->
+                        <!--                                        </div>-->
+                        <!--                                        <div class="product__cart__item__text">-->
+                        <!--                                            <h6>Diagonal Textured Cap</h6>-->
+                        <!--                                            <h5>$98.49</h5>-->
+                        <!--                                        </div>-->
+                        <!--                                    </td>-->
+                        <!--                                    <td class="quantity__item">-->
+                        <!--                                        <div class="quantity">-->
+                        <!--                                            <div class="pro-qty-2">-->
+                        <!--                                                <input type="text" value="1">-->
+                        <!--                                            </div>-->
+                        <!--                                        </div>-->
+                        <!--                                    </td>-->
+                        <!--                                    <td class="cart__price">$ 32.50</td>-->
+                        <!--                                    <td class="cart__close"><i class="fa fa-close"></i></td>-->
+                        <!--                                </tr>-->
+                        <!--                                <tr>-->
+                        <!--                                    <td class="product__cart__item">-->
+                        <!--                                        <div class="product__cart__item__pic">-->
+                        <!--                                            <img src="/resources/img/shopping-cart/cart-3.jpg" alt="">-->
+                        <!--                                        </div>-->
+                        <!--                                        <div class="product__cart__item__text">-->
+                        <!--                                            <h6>Basic Flowing Scarf</h6>-->
+                        <!--                                            <h5>$98.49</h5>-->
+                        <!--                                        </div>-->
+                        <!--                                    </td>-->
+                        <!--                                    <td class="quantity__item">-->
+                        <!--                                        <div class="quantity">-->
+                        <!--                                            <div class="pro-qty-2">-->
+                        <!--                                                <input type="text" value="1">-->
+                        <!--                                            </div>-->
+                        <!--                                        </div>-->
+                        <!--                                    </td>-->
+                        <!--                                    <td class="cart__price">$ 47.00</td>-->
+                        <!--                                    <td class="cart__close"><i class="fa fa-close"></i></td>-->
+                        <!--                                </tr>-->
+                        <!--                                <tr>-->
+                        <!--                                    <td class="product__cart__item">-->
+                        <!--                                        <div class="product__cart__item__pic">-->
+                        <!--                                            <img src="/resources/img/shopping-cart/cart-4.jpg" alt="">-->
+                        <!--                                        </div>-->
+                        <!--                                        <div class="product__cart__item__text">-->
+                        <!--                                            <h6>Basic Flowing Scarf</h6>-->
+                        <!--                                            <h5>$98.49</h5>-->
+                        <!--                                        </div>-->
+                        <!--                                    </td>-->
+                        <!--                                    <td class="quantity__item">-->
+                        <!--                                        <div class="quantity">-->
+                        <!--                                            <div class="pro-qty-2">-->
+                        <!--                                                <input type="text" value="1">-->
+                        <!--                                            </div>-->
+                        <!--                                        </div>-->
+                        <!--                                    </td>-->
+                        <!--                                    <td class="cart__price">$ 30.00</td>-->
+                        <!--                                    <td class="cart__close"><i class="fa fa-close"></i></td>-->
+                        <!--                                </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="continue__btn">
+                            <a th:href="@{/catalog/}" th:text="#{shopping.cart.button.continue}">Continue Shopping</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <!--                    <div class="cart__discount">-->
+                <!--                        <h6>Discount codes</h6>-->
+                <!--                        <form action="#">-->
+                <!--                            <input type="text" placeholder="Coupon code">-->
+                <!--                            <button type="submit">Apply</button>-->
+                <!--                        </form>-->
+                <!--                    </div>-->
+                <div class="cart__total" th:if="${cart.totalSum!=null}">
+                    <h6 th:text="#{shopping.cart.total}">Cart total</h6>
+                    <h5 th:text="#{cart.table.total}"></h5>
+                    <h6 th:text="'$'+${cart.totalSum}" style="text-align: right;color: red"></h6>
+                    <a th:href="@{/order/save}" class="primary-btn" th:text="#{shopping.cart.button.pay}">Proceed to checkout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shopping Cart Section End -->
+
+<!-- Footer Section Begin -->
+<div th:insert="~{footer :: footer}"></div>
+<!-- Footer Section End -->
+
+<!-- Search Begin -->
+<div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch">+</div>
+        <form class="search-model-form">
+            <input type="text" id="search-input" placeholder="Search here.....">
+        </form>
+    </div>
+</div>
+<!-- Search End -->
+
+<!-- Js Plugins -->
+<script src="/resources/js/jquery-3.3.1.min.js"></script>
+<script src="/resources/js/bootstrap.min.js"></script>
+<script src="/resources/js/jquery.nice-select.min.js"></script>
+<script src="/resources/js/jquery.nicescroll.min.js"></script>
+<script src="/resources/js/jquery.magnific-popup.min.js"></script>
+<script src="/resources/js/jquery.countdown.min.js"></script>
+<script src="/resources/js/jquery.slicknav.js"></script>
+<script src="/resources/js/mixitup.min.js"></script>
+<script src="/resources/js/owl.carousel.min.js"></script>
+<script src="/resources/js/main.js"></script>
 </body>
 
 </html>

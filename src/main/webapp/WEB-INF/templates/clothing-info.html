@@ -48,7 +48,7 @@
         <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
         <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
         <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png" alt=""><span>0</span></a>
-        <div class="price"><a th:href="@{/account/private}" th:text="Cabinet"></a></div>
+        <div class="price"><a th:href="@{/account/private}" th:text="#{navbar.cabinet}"></a></div>
     </div>
     <div id="mobile-menu-wrap"></div>
     <div class="offcanvas__text">
@@ -107,7 +107,7 @@
                     <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
                     <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
                     <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png" alt=""><span>0</span></a>
-                    <div class="price"><a th:href="@{/account/private}" th:text="Cabinet"></a></div>
+                    <div class="price"><a th:href="@{/account/private}" th:text="#{navbar.cabinet}"></a></div>
                 </div>
             </div>
         </div>
@@ -116,8 +116,8 @@
 </header>
 <!-- Header Section End -->
 
-<section>
-    <h2>Add new Clothes to Storage</h2>
+<section style="padding-top: 100px">
+    <h2 th:text="#{clothong.addnew}" style="text-align: center">Add new Clothes to Storage</h2>
 
     <div class="container-fluid col-md-10">
         <form th:action="@{/catalog/save}"

@@ -35,7 +35,8 @@ public class AccountController {
     }
 
     @ModelAttribute
-    public void addAttributes(Model model) {
+    public void addAttributes(@CurrentSecurityContext(expression = "authentication.name") Authentication authentication,Model model) {
+        model.addAttribute("account",accountService.findByName(authentication.getName()));
         model.addAttribute("allRoles", Role.values());
         model.addAttribute("allGenders", Gender.values());
         model.addAttribute("newAccount", new Account());
@@ -88,7 +89,9 @@ public class AccountController {
 
 
     @GetMapping("/register")
-    public String showPage() {
+    public String showPage(@CurrentSecurityContext(expression = "authentication.name") Authentication authentication,
+                           Model model) {
+        model.addAttribute("account",accountService.findByName(authentication.getName()));
         return "register";
     }
 

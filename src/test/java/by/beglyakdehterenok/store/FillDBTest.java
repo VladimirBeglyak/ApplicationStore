@@ -35,16 +35,7 @@ public class FillDBTest {
     private CategoryRepository categoryRepository;
 
     @Autowired
-    private ClothingRepository clothingRepository;
-
-    @Autowired
     private ClothingService clothingService;
-
-    @Autowired
-    private CategoryMapperImpl categoryMapper;
-
-    @Autowired
-    private BrandMapperImpl brandMapper;
 
     @Test
     public void saveAccounts(){
@@ -130,6 +121,7 @@ public class FillDBTest {
 //        Brand air_jordan = brandRepository.findByName("Air Jordan");
 
         List.of(
+/*
                 new Clothing("RNT23 1", 290d, "Пальто выполнено из износостойкого текстиля с искусственным утеплителем. Детали: отложной воротник, застежка на молнии и пуговицах, утеплитель из искусственного меха на спинке и груди, 2 кармана, шлица", null, coat, Size.XS, rnt23, Type.ADULT, Season.WINTER, 5L),
                 new Clothing("RNT23 1", 290d, "Пальто выполнено из износостойкого текстиля с искусственным утеплителем. Детали: отложной воротник, застежка на молнии и пуговицах, утеплитель из искусственного меха на спинке и груди, 2 кармана, шлица", null, coat, Size.L, rnt23, Type.ADULT, Season.WINTER, 10L),
                 new Clothing("RNT23 1", 290d, "Пальто выполнено из износостойкого текстиля с искусственным утеплителем. Детали: отложной воротник, застежка на молнии и пуговицах, утеплитель из искусственного меха на спинке и груди, 2 кармана, шлица", null, coat, Size.M, rnt23, Type.ADULT, Season.WINTER, 15L),
@@ -151,6 +143,30 @@ public class FillDBTest {
                 new Clothing("Only & Sons 2", 220d, "Пальто выполнено из плотного смесового текстиля с добавлением хлопка. Модель с шелковистой подкладкой. Детали: асимметричная застежка на молнии и кнопках, боковые карманы без застежек.", null, coat, Size.L, byName, Type.ADULT, Season.WINTER, 15L),
                 new Clothing("Only & Sons 2", 220d, "Пальто выполнено из плотного смесового текстиля с добавлением хлопка. Модель с шелковистой подкладкой. Детали: асимметричная застежка на молнии и кнопках, боковые карманы без застежек.", null, coat, Size.S, byName, Type.ADULT, Season.WINTER, 10L)
 
+*/
+
+
+
+                new Clothing("RNT23 1", 290d, "desc", null, coat, Size.XS, rnt23, Type.ADULT, Season.WINTER, 5L),
+                new Clothing("RNT23 1", 290d, "desc", null, coat, Size.L, rnt23, Type.ADULT, Season.WINTER, 10L),
+                new Clothing("RNT23 1", 290d, "desc", null, coat, Size.M, rnt23, Type.ADULT, Season.WINTER, 15L),
+
+                new Clothing("Joop!", 881d, "desc", null, coat, Size.XS, joop, Type.ADULT, Season.WINTER, 10L),
+                new Clothing("Joop!", 881d, "desc", null, coat, Size.L, joop, Type.ADULT, Season.WINTER, 5L),
+                new Clothing("Joop!", 881d, "desc", null, coat, Size.M, joop, Type.ADULT, Season.WINTER, 10L),
+
+
+                new Clothing("Only & Sons", 125d, "desc", null, coat, Size.M, byName, Type.ADULT, Season.WINTER, 5L),
+                new Clothing("Only & Sons", 125d, "desc", null, coat, Size.L, byName, Type.ADULT, Season.WINTER, 2L),
+                new Clothing("Only & Sons", 125d, "desc", null, coat, Size.XS, byName, Type.ADULT, Season.WINTER, 18L),
+
+                new Clothing("Mango Man", 125d, "desc", null, coat, Size.XL, mango_man, Type.ADULT, Season.WINTER, 15L),
+                new Clothing("Mango Man", 125d, "desc", null, coat, Size.M, mango_man, Type.ADULT, Season.WINTER, 10L),
+                new Clothing("Mango Man", 125d, "desc", null, coat, Size.XXXL, mango_man, Type.ADULT, Season.WINTER, 5L),
+
+                new Clothing("Only & Sons 2", 220d, "desc", null, coat, Size.M, byName, Type.ADULT, Season.WINTER, 5L),
+                new Clothing("Only & Sons 2", 220d, "desc", null, coat, Size.L, byName, Type.ADULT, Season.WINTER, 15L),
+                new Clothing("Only & Sons 2", 220d, "desc", null, coat, Size.S, byName, Type.ADULT, Season.WINTER, 10L)
 
 
 

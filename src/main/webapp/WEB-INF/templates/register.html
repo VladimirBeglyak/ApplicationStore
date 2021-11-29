@@ -48,7 +48,7 @@
         <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
         <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
         <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png" alt=""><span>0</span></a>
-        <div class="price"><a th:href="@{/account/private}" th:text="Cabinet"></a></div>
+        <div class="price"><a th:href="@{/account/private}" th:text="#{navbar.cabinet}"></a></div>
     </div>
     <div id="mobile-menu-wrap"></div>
     <div class="offcanvas__text">
@@ -107,7 +107,7 @@
                     <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
                     <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
                     <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png" alt=""><span>0</span></a>
-                    <div class="price"><a th:href="@{/account/private}" th:text="Cabinet"></a></div>
+                    <div class="price"><a th:href="@{/account/private}" th:text="#{navbar.cabinet}"></a></div>
                 </div>
             </div>
         </div>
@@ -141,7 +141,8 @@
         </div>
 
 
-        <div>
+<!--        <div th:if="${account.role.name()=='ADMIN'}">-->
+        <div th:if="${account.role.name()=='ADMIN'}">
             <ul style="list-style-type:none">Role:
                 <li th:each="role : ${allRoles}">
                     <input id="roles" type="checkbox" th:field="*{role}" th:value="${role.name()}">

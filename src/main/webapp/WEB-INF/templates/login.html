@@ -47,17 +47,13 @@
         <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
         <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
         <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png" alt=""><span>0</span></a>
-        <div class="price"><a th:href="@{/account/private}" th:text="Cabinet"></a></div>
+        <div class="price"><a th:href="@{/account/private}" th:text="#{navbar.cabinet}"></a></div>
     </div>
     <div id="mobile-menu-wrap"></div>
     <div class="offcanvas__text">
     </div>
 </div>
 <!-- Offcanvas Menu End -->
-
-
-
-
 
 
 <!-- Header Section Begin -->
@@ -105,8 +101,9 @@
                 <div class="header__nav__option">
                     <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
                     <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
-                    <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png" alt=""><span>0</span></a>
-                    <div class="price"><a th:href="@{/account/private}" th:text="Cabinet"></a></div>
+                    <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png"
+                                                              alt=""><span>0</span></a>
+                    <div class="price"><a th:href="@{/account/private}" th:text="#{navbar.cabinet}"></a></div>
                 </div>
             </div>
         </div>
@@ -116,48 +113,62 @@
 <!-- Header Section End -->
 
 
+<section class="container" style="height: 650px;padding-top: 100px">
 
-
-
-
-<section class="container">
     <div class="container">
-        <div>
-            <form action="/auth/login" method="post">
-                <div class="col-6">
-                    <div class="mb-3">
-                        <label for="login" class="form-label">Login</label>
-                        <input type="text" class="form-control w-50" id="login" name="username" placeholder="Enter login">
-<!--                                        <p th:each="error : ${#fields.errors('username')}" th:text="${error}" style="color: red"></p>-->
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6" style="text-align: center">
+                <form action="/auth/login" method="post" class="align-content-center">
+                    <div>
+                        <div>
+                            <label for="login" class="form-label" th:text="#{account.login}">Login</label>
+                            <input type="text" class="form-control" style="text-align: center" id="login" name="username" placeholder="Enter login">
+                            <!--                                        <p th:each="error : ${#fields.errors('username')}" th:text="${error}" style="color: red"></p>-->
+                        </div>
+
+                        <br>
+                        <br>
+
+                        <div>
+                            <label for="password" class="form-label" th:text="#{account.password}">Password</label>
+                            <input type="password" class="form-control" style="text-align: center" id="password" name="password"
+                                   placeholder="Enter the Password">
+                            <!--                <p th:each="error : ${#fields.errors('password')}" th:text="${error}" style="color: red"></p>-->
+                        </div>
+
+                        <br>
+                        <br>
+
                     </div>
 
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control w-50" id="password" name="password" placeholder="Enter the Password">
-                        <!--                <p th:each="error : ${#fields.errors('password')}" th:text="${error}" style="color: red"></p>-->
+                    <div class="row" style="align-content: center">
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary mr-5" th:text="#{button.submit}">Submit</button>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" onclick="window.location.href='/account/register'" class="btn btn-light mr-5" th:text="#{button.register}">Register</button>
+                        </div>
+                        <div class="col-4">
+                            <form action="/logout" method="post">
+                                <button type="submit" class="btn btn-light" th:text="#{button.logout}" th:if="${account != null}">Logout</button>
+                            </form>
+                        </div>
+
                     </div>
+                </form>
 
-
-
-
-                    <div class="btn-group">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="button" onclick="window.location.href='/account/register'" class="btn btn-light">
-                            Register
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-
-        <div th:if="${account != null}">
-            <form action="/logout" method="post">
-                <button type="submit" class="btn btn-light">Logout</button>
-            </form>
+            </div>
+            <div class="col-lg-3"></div>
         </div>
     </div>
+
+
+
 </section>
+
+
+
 
 <div th:insert="~{footer :: footer}"></div>
 

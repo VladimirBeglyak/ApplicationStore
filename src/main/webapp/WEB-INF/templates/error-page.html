@@ -47,17 +47,13 @@
         <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
         <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
         <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png" alt=""><span>0</span></a>
-        <div class="price"><a th:href="@{/account/private}" th:text="Cabinet"></a></div>
+        <div class="price"><a th:href="@{/account/private}" th:text="#{navbar.cabinet}"></a></div>
     </div>
     <div id="mobile-menu-wrap"></div>
     <div class="offcanvas__text">
     </div>
 </div>
 <!-- Offcanvas Menu End -->
-
-
-
-
 
 
 <!-- Header Section Begin -->
@@ -105,8 +101,9 @@
                 <div class="header__nav__option">
                     <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
                     <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
-                    <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png" alt=""><span>0</span></a>
-                    <div class="price"><a th:href="@{/account/private}" th:text="Cabinet"></a></div>
+                    <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png"
+                                                              alt=""><span>0</span></a>
+                    <div class="price"><a th:href="@{/account/private}" th:text="#{navbar.cabinet}"></a></div>
                 </div>
             </div>
         </div>
@@ -116,12 +113,30 @@
 <!-- Header Section End -->
 
 
+<section style="height: 650px;padding-top: 200px">
+    <div class="col-12">
+        <div class="row container-fluid">
+            <div class="col-2"></div>
+            <div class="col-md-8" style="text-align: center">
+                <h4 th:text="#{error.dontaccess}"></h4>
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="row container-fluid" style="text-align: center">
+            <div class="col-2"></div>
+            <div class="col-md-8" style="text-align: center">
+                <input type="button" class="btn-info btn- align-content-center"
+                       onclick="window.location.href='/catalog/'"
+                       th:value="#{shopping.cart.button.start}">
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+</section>
 
-
-
-<div class="container w-100">
-    <h2 class="text-center">Вам недоступна эта страница</h2>
-</div>
 <div th:insert="~{footer :: footer}"></div>
 <!-- Js Plugins -->
 <script src="/resources/js/jquery-3.3.1.min.js"></script>

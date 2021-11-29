@@ -50,7 +50,7 @@
         <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
         <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
         <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png" alt=""><span>0</span></a>
-        <div class="price"><a th:href="@{/account/private}" th:text="Cabinet"></a></div>
+        <div class="price"><a th:href="@{/account/private}" th:text="#{navbar.cabinet}"></a></div>
     </div>
     <div id="mobile-menu-wrap"></div>
     <div class="offcanvas__text">
@@ -109,7 +109,7 @@
                     <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
                     <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
                     <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png" alt=""><span>0</span></a>
-                    <div class="price"><a th:href="@{/account/private}" th:text="Cabinet"></a></div>
+                    <div class="price"><a th:href="@{/account/private}" th:text="#{navbar.cabinet}"></a></div>
                 </div>
             </div>
         </div>
@@ -127,9 +127,9 @@
                 <div class="breadcrumb__text">
                     <h4>Shopping Cart</h4>
                     <div class="breadcrumb__links">
-                        <a th:href="@{/shop/}">Home</a>
-                        <a th:href="@{/catalog/}">Shop</a>
-                        <span>Shopping Cart</span>
+                        <a th:href="@{/shop/}" th:text="#{navbar.home}">Home</a>
+                        <a th:href="@{/catalog/}" th:text="#{navbar.shop}">Shop</a>
+                        <span th:text="#{navbar.shopingcart}">Shopping Cart</span>
                     </div>
                 </div>
             </div>
@@ -143,33 +143,82 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <h2>Личная информация</h2>
-                <p th:text="${account.firstName} + ${account.lastName}"></p>
+                <h2 th:text="#{private.cabinet.info}">Личная информация</h2>
+                <br>
+                <h5 th:text="#{account.firstname} + ' ' + #{account.form.last_name}"></h5>
+                <p th:text="${account.firstName} + ' ' + ${account.lastName}"></p>
+
+                <h5 th:text="#{account.birthday}"></h5>
                 <p th:text="${account.birthday.toLocalDate().toString()}"></p>
+
+                <h5 th:text="Email"></h5>
                 <p th:text="${account.email}"></p>
+
+                <h5 th:text="#{account.phone_number}"></h5>
                 <p th:text="${account.phoneNumber}"></p>
-                <button type="button"><a th:href="@{/account/update(accountId=${account.id})}">Update</a></button>
-                <h2 th:text="Address"></h2>
+                <br>
+
+                <button type="button" class="btn btn-light"><a th:href="@{/account/update(accountId=${account.id})}" th:text="#{button.update}">Update</a></button>
+
+                <br>
+                <br>
+
+                <h2 th:text="#{private.cabinet.address}"></h2>
+                <br>
                 <div>
+                    <h5 th:text="#{account.country}"></h5>
                     <p th:text="${account.address.country}"></p>
+
+                    <h5 th:text="#{account.town}"></h5>
                     <p th:text="${account.address.town}"></p>
+
+                    <h5 th:text="#{account.street}"></h5>
                     <p th:text="${account.address.street}"></p>
+
+                    <h5 th:text="#{account.apartment}"></h5>
                     <p th:text="${account.address.apartment}"></p>
+
                 </div>
 
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                    <button type="button"><a th:href="@{/account/details(accountId=${account.id})}">Show more details</a></button>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+<!--                <div class="row">-->
+<!--                    <div class="col-lg-6 col-md-6 col-sm-6">-->
+<!--&lt;!&ndash;                    <button type="button"><a th:href="@{/account/details(accountId=${account.id})}" th:text="#{button.showmoredetails}">Show more details</a></button>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-6 col-md-6 col-sm-6">-->
 
-                    </div>
-                </div>
+<!--                    </div>-->
+<!--                </div>-->
             </div>
             <div class="col-lg-4">
-                <h2 th:text="Money"></h2>
+                <h2 th:text="#{private.cabinet.money}"></h2>
+                <br>
                 <p th:text="'$'+${account.accountAmount}"></p>
-                <button type="button"><a th:href="@{/account/top-up-account}">Add Money</a></button>
+                <br>
+                <button type="button" class="btn btn-light"><a th:href="@{/account/top-up-account}" th:text="#{button.money}">Add Money</a></button>
+
+                <br>
+                <br>
+                <h2 th:text="#{private.cabinet.orders}"></h2>
+                <br>
+                <button type="button" class="btn btn-light"><a th:href="@{/account/details(accountId=${account.id})}" th:text="#{button.showmoredetails}">Show more details</a></button>
+
+
+                <br>
+                <br>
+                <div th:if="${account.role.name()=='ADMIN'} or ${account.role.name()=='MANAGER'}">
+                    <h2 th:text="#{admin.info.accounts}"></h2>
+                    <br>
+                    <button type="button" class="btn btn-light"><a th:href="@{/account/all}" th:text="#{button.showmoredetails}">Show more details</a></button>
+                </div>
+
+                <br>
+                <br>
+                <div th:if="${account.role.name()=='ADMIN'} or ${account.role.name()=='MANAGER'}">
+                    <h2 th:text="#{admin.info.catalog.all}"></h2>
+                    <br>
+                    <button type="button" class="btn btn-light"><a th:href="@{/catalog/all}" th:text="#{button.showmoredetails}">Show more details</a></button>
+                </div>
+
             </div>
         </div>
     </div>

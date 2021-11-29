@@ -1,127 +1,141 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="description" content="Male_Fashion Template">
-  <meta name="keywords" content="Male_Fashion, unica, creative, html">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Male_Fashion Template">
+    <meta name="keywords" content="Male_Fashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-        rel="stylesheet">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+          rel="stylesheet">
 
-  <!-- Css Styles -->
-  <link rel="stylesheet" href="/resources/css/bootstrap.min.css" type="text/css">
-  <link rel="stylesheet" href="/resources/css/font-awesome.min.css" type="text/css">
-  <link rel="stylesheet" href="/resources/css/elegant-icons.css" type="text/css">
-  <link rel="stylesheet" href="/resources/css/magnific-popup.css" type="text/css">
-  <link rel="stylesheet" href="/resources/css/nice-select.css" type="text/css">
-  <link rel="stylesheet" href="/resources/css/owl.carousel.min.css" type="text/css">
-  <link rel="stylesheet" href="/resources/css/slicknav.min.css" type="text/css">
-  <link rel="stylesheet" href="/resources/css/style.css" type="text/css">
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/resources/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/style.css" type="text/css">
 </head>
 <body>
 
 <!-- Page Preloder -->
 <div id="preloder">
-  <div class="loader"></div>
+    <div class="loader"></div>
 </div>
 
 <!-- Offcanvas Menu Begin -->
 <div class="offcanvas-menu-overlay"></div>
 <div class="offcanvas-menu-wrapper">
-  <div class="offcanvas__option">
-    <div class="offcanvas__links">
-      <a th:href="@{/auth/login/}" th:text="#{navbar.signin}"></a>
+    <div class="offcanvas__option">
+        <div class="offcanvas__links">
+            <a th:href="@{/auth/login/}" th:text="#{navbar.signin}"></a>
+        </div>
+        <div class="offcanvas__top__hover">
+            <span th:text="#{navbar.lang}"><i class="arrow_carrot-down"></i></span>
+            <ul>
+                <li><a th:href="@{/shop(lang=en_US)}" th:text="EN"></a></li>
+                <li><a th:href="@{/shop(lang=ru_RU)}" th:text="RU"></a></li>
+            </ul>
+        </div>
     </div>
-    <div class="offcanvas__top__hover">
-      <span th:text="#{navbar.lang}"><i class="arrow_carrot-down"></i></span>
-      <ul>
-        <li><a th:href="@{/shop(lang=en_US)}" th:text="EN"></a></li>
-        <li><a th:href="@{/shop(lang=ru_RU)}" th:text="RU"></a></li>
-      </ul>
+    <div class="offcanvas__nav__option">
+        <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
+        <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
+        <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png" alt=""><span>0</span></a>
+        <div class="price"><a th:href="@{/account/private}" th:text="#{navbar.cabinet}"></a></div>
     </div>
-  </div>
-  <div class="offcanvas__nav__option">
-    <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
-    <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
-    <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png" alt=""><span>0</span></a>
-    <div class="price"><a th:href="@{/account/private}" th:text="Cabinet"></a></div>
-  </div>
-  <div id="mobile-menu-wrap"></div>
-  <div class="offcanvas__text">
-  </div>
+    <div id="mobile-menu-wrap"></div>
+    <div class="offcanvas__text">
+    </div>
 </div>
 <!-- Offcanvas Menu End -->
 
 
-
-
-
-
 <!-- Header Section Begin -->
 <header class="header">
-  <div class="header__top">
+    <div class="header__top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-7">
+                </div>
+                <div class="col-lg-6 col-md-5">
+                    <div class="header__top__right">
+                        <div class="header__top__links">
+                            <a th:href="@{/auth/login/}" th:text="#{navbar.signin}"></a>
+                        </div>
+                        <div class="header__top__hover">
+                            <span th:text="#{navbar.lang}"><i class="arrow_carrot-down"></i></span>
+                            <ul>
+                                <li><a th:href="@{/shop(lang=en_US)}" th:text="#{lang.en}"></a></li>
+                                <li><a th:href="@{/shop(lang=ru_RU)}" th:text="#{lang.ru}"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
-      <div class="row">
-        <div class="col-lg-6 col-md-7">
-        </div>
-        <div class="col-lg-6 col-md-5">
-          <div class="header__top__right">
-            <div class="header__top__links">
-              <a th:href="@{/auth/login/}" th:text="#{navbar.signin}"></a>
+        <div class="row">
+            <div class="col-lg-3 col-md-3">
+                <div class="header__logo">
+                    <a th:href="@{/shop/}"><img src="/resources/img/logo.png" alt=""></a>
+                </div>
             </div>
-            <div class="header__top__hover">
-              <span th:text="#{navbar.lang}"><i class="arrow_carrot-down"></i></span>
-              <ul>
-                <li><a th:href="@{/shop(lang=en_US)}" th:text="#{lang.en}"></a></li>
-                <li><a th:href="@{/shop(lang=ru_RU)}" th:text="#{lang.ru}"></a></li>
-              </ul>
+            <div class="col-lg-6 col-md-6">
+                <nav class="header__menu mobile-menu">
+                    <ul>
+                        <li class="active"><a th:href="@{/shop/}"><span th:text="#{navbar.home}"></span></a></li>
+                        <li><a th:href="@{/catalog/}"><span th:text="#{navbar.shop}"></span></a></li>
+                        <li><a th:href="@{/order/shopping-cart}" th:text="#{navbar.shopingcart}"></a></li>
+                        <li><a th:href="@{/shop/contact/}" th:text="#{navbar.contacts}"></a></li>
+                    </ul>
+                </nav>
             </div>
-          </div>
+            <div class="col-lg-3 col-md-3">
+                <div class="header__nav__option">
+                    <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
+                    <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
+                    <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png"
+                                                              alt=""><span>0</span></a>
+                    <div class="price"><a th:href="@{/account/private}" th:text="#{navbar.cabinet}"></a></div>
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="canvas__open"><i class="fa fa-bars"></i></div>
     </div>
-  </div>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-3 col-md-3">
-        <div class="header__logo">
-          <a th:href="@{/shop/}"><img src="/resources/img/logo.png" alt=""></a>
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-6">
-        <nav class="header__menu mobile-menu">
-          <ul>
-            <li class="active"><a th:href="@{/shop/}"><span th:text="#{navbar.home}"></span></a></li>
-            <li><a th:href="@{/catalog/}"><span th:text="#{navbar.shop}"></span></a></li>
-            <li><a th:href="@{/order/shopping-cart}" th:text="#{navbar.shopingcart}"></a></li>
-            <li><a th:href="@{/shop/contact/}" th:text="#{navbar.contacts}"></a></li>
-          </ul>
-        </nav>
-      </div>
-      <div class="col-lg-3 col-md-3">
-        <div class="header__nav__option">
-          <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
-          <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
-          <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png" alt=""><span>0</span></a>
-          <div class="price"><a th:href="@{/account/private}" th:text="Cabinet"></a></div>
-        </div>
-      </div>
-    </div>
-    <div class="canvas__open"><i class="fa fa-bars"></i></div>
-  </div>
 </header>
 <!-- Header Section End -->
 
 
-
-
-<h2 th:text="#{order.error.needmoremoney}"></h2>
-
-<input type="button" onclick="window.location.href='/account/top-up-account'" th:value="#{order.error.needmoremoney}">
+<section style="height: 650px;padding-top: 200px">
+    <div class="col-12">
+        <div class="row container-fluid">
+            <div class="col-2"></div>
+            <div class="col-md-8" style="text-align: center">
+                <h4 th:text="#{order.error.needmoremoney}"></h4>
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="row container-fluid" style="text-align: center">
+            <div class="col-2"></div>
+            <div class="col-md-8" style="text-align: center">
+                <input type="button" class="btn-info btn- align-content-center" onclick="window.location.href='/account/top-up-account'"
+                       th:value="#{button.money}">
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+</section>
 
 
 <div th:insert="~{footer :: footer}"></div>

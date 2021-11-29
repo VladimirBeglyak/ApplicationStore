@@ -4,13 +4,15 @@ import by.beglyakdehterenok.store.dto.BrandDto;
 import by.beglyakdehterenok.store.dto.CategoryDto;
 import by.beglyakdehterenok.store.dto.ClothingDto;
 import by.beglyakdehterenok.store.entity.*;
+import by.beglyakdehterenok.store.service.AccountService;
 import by.beglyakdehterenok.store.service.BrandService;
 import by.beglyakdehterenok.store.service.CategoryService;
 import by.beglyakdehterenok.store.service.ClothingService;
-import by.beglyakdehterenok.store.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -21,10 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.annotation.MultipartConfig;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @MultipartConfig
@@ -34,12 +34,14 @@ public class ClothingController {
     private final BrandService brandService;
     private final CategoryService categoryService;
     private final ClothingService clothingService;
+    private final AccountService accountService;
 
     @Autowired
-    public ClothingController(BrandService brandService, CategoryService categoryService, ClothingService clothingService) {
+    public ClothingController(BrandService brandService, CategoryService categoryService, ClothingService clothingService, AccountService accountService) {
         this.brandService = brandService;
         this.categoryService = categoryService;
         this.clothingService = clothingService;
+        this.accountService = accountService;
     }
 
 
@@ -50,6 +52,7 @@ public class ClothingController {
         List<CategoryDto> allCategories = categoryService.findAllCategoriesDto();
         List<BrandDto> allBrands = brandService.findAllBrandsDto();
         Size[] sizes = Size.values();
+
 
         model.addAttribute("allSeasons", Season.values());
         model.addAttribute("allTypes", Type.values());
