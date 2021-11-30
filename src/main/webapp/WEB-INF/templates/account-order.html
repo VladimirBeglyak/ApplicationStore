@@ -118,59 +118,63 @@
 <!-- Header Section End -->
 
 
+<section style="height: 500px">
+    
+    <table class="table table-light table-hover table-bordered">
 
 
 
-<table class="table table-light table-hover table-bordered">
-
-
-
-    <thead class="table-dark">
-    <tr>
-<!--        <th>id</th>-->
-        <th th:text="#{order.dateofcreate}">Date of Create</th>
-        <th th:text="#{clothing.name}">Name of Clothing</th>
-        <th th:text="#{clothing.size}">Size</th>
-        <th th:text="#{clothing.price}">Price</th>
-        <th th:text="#{order.quantity}">Quantity</th>
-        <th th:text="#{order.totalPrice}">Total Price</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="order : ${ordersByAccountId}">
-<!--        <td th:text="${order.id}"></td>-->
-        <td th:text="${order.formatDateOfCreate()}"></td>
-        <td th:text="${order.clothing.name}"></td>
-        <td th:text="${order.clothing.size}"></td>
-        <td th:text="${order.clothing.price}"></td>
-        <td th:text="${order.quantity}"></td>
-        <td th:text="${order.quantity*order.clothing.price}"></td>
-<!--        <td>-->
-<!--            <a th:href="@{/account/delete(accountId=${account.id})}">Delete</a>-->
-<!--        </td>-->
-<!--        <td>-->
-<!--            <a th:href="@{/account/update(accountId=${account.id})}">Update</a>-->
-<!--        </td>-->
-<!--        <td>-->
-<!--            <a th:href="@{/account/update(accountId=${account.id})}">Show more details</a>-->
-<!--        </td>-->
-    </tr>
-    </tbody>
-    <tfooter>
+        <thead class="table-dark">
         <tr>
-            <td th:text="#{cart.table.total}">Total:</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td th:text="${totalSumOfOrderByAccount}"></td>
+            <!--        <th>id</th>-->
+            <th th:text="#{order.dateofcreate}">Date of Create</th>
+            <th th:text="#{clothing.name}">Name of Clothing</th>
+            <th th:text="#{clothing.size}">Size</th>
+            <th th:text="#{clothing.price}">Price</th>
+            <th th:text="#{order.quantity}">Quantity</th>
+            <th th:text="#{order.totalPrice}">Total Price</th>
         </tr>
-    </tfooter>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${ordersByAccountId}">
+            <!--        <td th:text="${order.id}"></td>-->
+            <td th:text="${order.formatDateOfCreate()}"></td>
+            <td th:text="${order.clothing.name}"></td>
+            <td th:text="${order.clothing.size}"></td>
+            <td th:text="${order.clothing.price}"></td>
+            <td th:text="${order.quantity}"></td>
+            <td th:text="${order.quantity*order.clothing.price}"></td>
+            <!--        <td>-->
+            <!--            <a th:href="@{/account/delete(accountId=${account.id})}">Delete</a>-->
+            <!--        </td>-->
+            <!--        <td>-->
+            <!--            <a th:href="@{/account/update(accountId=${account.id})}">Update</a>-->
+            <!--        </td>-->
+            <!--        <td>-->
+            <!--            <a th:href="@{/account/update(accountId=${account.id})}">Show more details</a>-->
+            <!--        </td>-->
+        </tr>
+        </tbody>
+        <tfooter>
+            <tr>
+                <td th:text="#{cart.table.total}">Total:</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td th:text="${totalSumOfOrderByAccount}"></td>
+            </tr>
+        </tfooter>
 
-</table>
-<div class="container-fluid">
+    </table>
+    <div class="container-fluid">
 
-</div>
+    </div>
+    
+</section>
+
+
+
 
 <div th:insert="~{footer :: footer}"></div>
 

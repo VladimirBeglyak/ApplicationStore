@@ -36,7 +36,7 @@ public class CategoryService implements BaseService<Category,Long>{
 
     @Override
     public void save(Category category) {
-        categoryRepository.save(category);
+        categoryRepository.saveAndFlush(category);
     }
 
     @Override

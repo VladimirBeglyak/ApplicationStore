@@ -15,6 +15,6 @@ import java.util.List;
 @ToString(callSuper = true)
 public class Category extends BaseEntity{
 
-    @Column(name = "category_name", length = 30, unique = true)
+    @Column(name = "category_name", length = 30)
     private String name;
 }

@@ -16,7 +16,7 @@ import java.util.List;
 @ToString(callSuper = true)
 public class Brand extends BaseEntity {
 
-    @Column(name = "brand_name", length = 40, unique = true)
+    @Column(name = "brand_name", length = 40)
     private String name;
 
 }

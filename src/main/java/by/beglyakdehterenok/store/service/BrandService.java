@@ -30,7 +30,7 @@ public class BrandService implements BaseService<Brand,Long>{
 
     @Override
     public void save(Brand brand) {
-        brandRepository.save(brand);
+        brandRepository.saveAndFlush(brand);
     }
 
     @Override

@@ -1,10 +1,9 @@
 package by.beglyakdehterenok.store.controller;
 
-import by.beglyakdehterenok.store.dto.AccountDto;
 import by.beglyakdehterenok.store.entity.*;
-import by.beglyakdehterenok.store.mapper.AccountMapperImpl;
 import by.beglyakdehterenok.store.service.AccountService;
 import by.beglyakdehterenok.store.service.OrderService;
+import com.google.cloud.storage.Acl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -12,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import by.beglyakdehterenok.store.entity.Role;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/account")
@@ -35,11 +34,10 @@ public class AccountController {
     }
 
     @ModelAttribute
-    public void addAttributes(@CurrentSecurityContext(expression = "authentication.name") Authentication authentication,Model model) {
-        model.addAttribute("account",accountService.findByName(authentication.getName()));
+    public void addAttributes(Model model) {
+
         model.addAttribute("allRoles", Role.values());
         model.addAttribute("allGenders", Gender.values());
-        model.addAttribute("newAccount", new Account());
         model.addAttribute("user", new User());
     }
 
@@ -89,9 +87,8 @@ public class AccountController {
 
 
     @GetMapping("/register")
-    public String showPage(@CurrentSecurityContext(expression = "authentication.name") Authentication authentication,
-                           Model model) {
-        model.addAttribute("account",accountService.findByName(authentication.getName()));
+    public String showPage(Model model) {
+        model.addAttribute("newAccount",new Account());
         return "register";
     }
 
