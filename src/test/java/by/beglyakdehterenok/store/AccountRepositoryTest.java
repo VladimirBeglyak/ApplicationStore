@@ -24,14 +24,6 @@ public class AccountRepositoryTest extends BaseTest<Account> {
     @Autowired
     private AccountRepository accountRepository;
 
-
-    @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private OrderService orderService;
-
-
     @Test
     @Override
     List<Account> findAll() {

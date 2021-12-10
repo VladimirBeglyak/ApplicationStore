@@ -3,7 +3,6 @@ package by.beglyakdehterenok.store.controller;
 import by.beglyakdehterenok.store.entity.*;
 import by.beglyakdehterenok.store.service.AccountService;
 import by.beglyakdehterenok.store.service.OrderService;
-import com.google.cloud.storage.Acl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -35,10 +34,8 @@ public class AccountController {
 
     @ModelAttribute
     public void addAttributes(Model model) {
-
         model.addAttribute("allRoles", Role.values());
         model.addAttribute("allGenders", Gender.values());
-        model.addAttribute("user", new User());
     }
 
     @GetMapping("/private")

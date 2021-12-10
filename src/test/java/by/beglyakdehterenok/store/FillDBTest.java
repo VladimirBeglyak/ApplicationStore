@@ -101,8 +101,7 @@ public class FillDBTest {
     @Test
     public void saveClothes(){
 
-//        Category suit = categoryRepository.findByName("Suit");
-//        Category sneakers = categoryRepository.findByName("Sneakers");
+
         Category coat = categoryRepository.findByName("Coat");
 
         Brand rnt23 = brandRepository.findByName("RNT23");
@@ -115,37 +114,8 @@ public class FillDBTest {
 
 
 
-//        Brand huggo_boss = brandRepository.findByName("Huggo Boss");
-//        Brand gucci = brandRepository.findByName("Gucci");
-//        Brand adidas = brandRepository.findByName("Adidas");
-//        Brand air_jordan = brandRepository.findByName("Air Jordan");
 
         List.of(
-/*
-                new Clothing("RNT23 1", 290d, "Пальто выполнено из износостойкого текстиля с искусственным утеплителем. Детали: отложной воротник, застежка на молнии и пуговицах, утеплитель из искусственного меха на спинке и груди, 2 кармана, шлица", null, coat, Size.XS, rnt23, Type.ADULT, Season.WINTER, 5L),
-                new Clothing("RNT23 1", 290d, "Пальто выполнено из износостойкого текстиля с искусственным утеплителем. Детали: отложной воротник, застежка на молнии и пуговицах, утеплитель из искусственного меха на спинке и груди, 2 кармана, шлица", null, coat, Size.L, rnt23, Type.ADULT, Season.WINTER, 10L),
-                new Clothing("RNT23 1", 290d, "Пальто выполнено из износостойкого текстиля с искусственным утеплителем. Детали: отложной воротник, застежка на молнии и пуговицах, утеплитель из искусственного меха на спинке и груди, 2 кармана, шлица", null, coat, Size.M, rnt23, Type.ADULT, Season.WINTER, 15L),
-
-                new Clothing("Joop!", 881d, "Пальто выполнено из мягкого драпа. Детали: застежка на пуговицы, два внешних кармана, гладкая текстильная подкладка, воротник-стойка.", null, coat, Size.XS, joop, Type.ADULT, Season.WINTER, 10L),
-                new Clothing("Joop!", 881d, "Пальто выполнено из мягкого драпа. Детали: застежка на пуговицы, два внешних кармана, гладкая текстильная подкладка, воротник-стойка.", null, coat, Size.L, joop, Type.ADULT, Season.WINTER, 5L),
-                new Clothing("Joop!", 881d, "Пальто выполнено из мягкого драпа. Детали: застежка на пуговицы, два внешних кармана, гладкая текстильная подкладка, воротник-стойка.", null, coat, Size.M, joop, Type.ADULT, Season.WINTER, 10L),
-
-
-                new Clothing("Only & Sons", 125d, "Пальто выполнено из смесового текстиля. Детали: прямой фасон, воротник-стойка, прорезные карманы, застежка на кнопки, подкладка.", null, coat, Size.M, byName, Type.ADULT, Season.WINTER, 5L),
-                new Clothing("Only & Sons", 125d, "Пальто выполнено из смесового текстиля. Детали: прямой фасон, воротник-стойка, прорезные карманы, застежка на кнопки, подкладка.", null, coat, Size.L, byName, Type.ADULT, Season.WINTER, 2L),
-                new Clothing("Only & Sons", 125d, "Пальто выполнено из смесового текстиля. Детали: прямой фасон, воротник-стойка, прорезные карманы, застежка на кнопки, подкладка.", null, coat, Size.XS, byName, Type.ADULT, Season.WINTER, 18L),
-
-                new Clothing("Mango Man", 125d, "Пальто выполнено из смесового текстиля с шерстью. Детали: прямой фасон, воротник с лацканами, спереди два кармана, двубортная застежка на пуговицы, сзади шлица, подкладка.", null, coat, Size.XL, mango_man, Type.ADULT, Season.WINTER, 15L),
-                new Clothing("Mango Man", 125d, "Пальто выполнено из смесового текстиля с шерстью. Детали: прямой фасон, воротник с лацканами, спереди два кармана, двубортная застежка на пуговицы, сзади шлица, подкладка.", null, coat, Size.M, mango_man, Type.ADULT, Season.WINTER, 10L),
-                new Clothing("Mango Man", 125d, "Пальто выполнено из смесового текстиля с шерстью. Детали: прямой фасон, воротник с лацканами, спереди два кармана, двубортная застежка на пуговицы, сзади шлица, подкладка.", null, coat, Size.XXXL, mango_man, Type.ADULT, Season.WINTER, 5L),
-
-                new Clothing("Only & Sons 2", 220d, "Пальто выполнено из плотного смесового текстиля с добавлением хлопка. Модель с шелковистой подкладкой. Детали: асимметричная застежка на молнии и кнопках, боковые карманы без застежек.", null, coat, Size.M, byName, Type.ADULT, Season.WINTER, 5L),
-                new Clothing("Only & Sons 2", 220d, "Пальто выполнено из плотного смесового текстиля с добавлением хлопка. Модель с шелковистой подкладкой. Детали: асимметричная застежка на молнии и кнопках, боковые карманы без застежек.", null, coat, Size.L, byName, Type.ADULT, Season.WINTER, 15L),
-                new Clothing("Only & Sons 2", 220d, "Пальто выполнено из плотного смесового текстиля с добавлением хлопка. Модель с шелковистой подкладкой. Детали: асимметричная застежка на молнии и кнопках, боковые карманы без застежек.", null, coat, Size.S, byName, Type.ADULT, Season.WINTER, 10L)
-
-*/
-
-
 
                 new Clothing("RNT23 1", 290d, "desc", null, coat, Size.XS, rnt23, Type.ADULT, Season.WINTER, 5L),
                 new Clothing("RNT23 1", 290d, "desc", null, coat, Size.L, rnt23, Type.ADULT, Season.WINTER, 10L),
@@ -172,39 +142,9 @@ public class FillDBTest {
 
 
 
-//                new Clothing("Nike SportSuit 2021", 200d, "Nike SportSuit Desc", null, suit, Size.M, nike, Type.MAN, Season.SUMMER, 15L),
-//                new Clothing("Nike SportSuit 2021", 200d, "Nike SportSuit Desc", null, suit, Size.XXL, nike, Type.MAN, Season.SUMMER, 20L),
-//
-//                new Clothing("Tommy Hilfiger Coat", 400d, "Tommy Hilfiger Coat Desc", null, coat, Size.M, tommy_hilfiger, Type.MAN, Season.WINTER, 40L),
-//                new Clothing("Tommy Hilfiger Coat", 400d, "Tommy Hilfiger Coat Desc", null, coat, Size.S, tommy_hilfiger, Type.MAN, Season.WINTER, 50L),
-//                new Clothing("Tommy Hilfiger Coat", 400d, "Tommy Hilfiger Coat Desc", null, coat, Size.XXL, tommy_hilfiger, Type.MAN, Season.WINTER, 30L),
-//
-//                new Clothing("D&G Coat", 200d, "D&G Coat Desc", null, coat, Size.XXL, DG, Type.MAN, Season.WINTER, 20L),
-//                new Clothing("D&G Coat", 200d, "D&G Coat Desc", null, coat, Size.XS, DG, Type.MAN, Season.WINTER, 10L),
-//                new Clothing("D&G Coat", 200d, "D&G Coat Desc", null, coat, Size.M, DG, Type.MAN, Season.WINTER, 15L),
-//                new Clothing("D&G Coat", 200d, "D&G Coat Desc", null, coat, Size.S, DG, Type.MAN, Season.WINTER, 20L),
-//
-//                new Clothing("Huggo Boss Suit", 500d, "Huggo Boss Suit Desc", null, suit, Size.XXL, huggo_boss, Type.MAN, Season.SUMMER, 50L),
-//                new Clothing("Huggo Boss Suit", 500d, "Huggo Boss Suit Desc", null, suit, Size.M, huggo_boss, Type.MAN, Season.SUMMER, 20L),
-//                new Clothing("Huggo Boss Suit", 500d, "Huggo Boss Suit Desc", null, suit, Size.XS, huggo_boss, Type.MAN, Season.SUMMER, 30L),
-//                new Clothing("Huggo Boss Suit", 500d, "Huggo Boss Suit Desc", null, suit, Size.XL, huggo_boss, Type.MAN, Season.SUMMER, 40L),
-//
-//                new Clothing("Gucci Suit 2021", 1500d, "Gucci Suit 2021 Desc", null, suit, Size.XL, gucci, Type.MAN, Season.SUMMER, 40L),
-//                new Clothing("Gucci Suit 2021", 1500d, "Gucci Suit 2021 Desc", null, suit, Size.M, gucci, Type.MAN, Season.SUMMER, 40L),
-//                new Clothing("Gucci Suit 2021", 1500d, "Gucci Suit 2021 Desc", null, suit, Size.S, gucci, Type.MAN, Season.SUMMER, 40L),
-//                new Clothing("Gucci Suit 2021", 1500d, "Gucci Suit 2021 Desc", null, suit, Size.XS, gucci, Type.MAN, Season.SUMMER, 40L),
-//
-//                new Clothing("Adidas DRose 5", 250d, "Adidas DRose 5 Desc", null, sneakers, Size.XL, adidas, Type.MAN, Season.SUMMER, 10L),
-//                new Clothing("Adidas DRose 5", 250d, "Adidas DRose 5 Desc", null, sneakers, Size.M, adidas, Type.MAN, Season.SUMMER, 20L),
-//                new Clothing("Adidas DRose 5", 250d, "Adidas DRose 5 Desc", null, sneakers, Size.XXL, adidas, Type.MAN, Season.SUMMER, 30L),
-//
-//                new Clothing("Air Jordan XX", 320d, "Air Jordan XX Desc", null, sneakers, Size.M, air_jordan, Type.MAN, Season.SUMMER, 25L),
-//                new Clothing("Air Jordan XX", 320d, "Air Jordan XX Desc", null, sneakers, Size.S, air_jordan, Type.MAN, Season.SUMMER, 25L),
-//                new Clothing("Air Jordan XX", 320d, "Air Jordan XX Desc", null, sneakers, Size.XS, air_jordan, Type.MAN, Season.SUMMER, 25L)
+
         ).stream().forEach(clothing -> clothingService.addNewClothing(clothing));
 
-//        List<Clothing> clothing = clothingRepository.saveAll(clothingList);
-//        System.out.println(clothing);
     }
 
 

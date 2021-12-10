@@ -1,11 +1,8 @@
 package by.beglyakdehterenok.store.entity;
 
-import by.beglyakdehterenok.store.validation.CheckEmail;
 import lombok.*;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.*;
 import javax.validation.constraints.Size;
 import java.sql.Date;

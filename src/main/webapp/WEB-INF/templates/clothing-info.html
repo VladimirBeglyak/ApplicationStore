@@ -57,10 +57,6 @@
 <!-- Offcanvas Menu End -->
 
 
-
-
-
-
 <!-- Header Section Begin -->
 <header class="header">
     <div class="header__top">
@@ -106,7 +102,8 @@
                 <div class="header__nav__option">
                     <a href="#" class="search-switch"><img src="/resources/img/icon/search.png" alt=""></a>
                     <a href="#"><img src="/resources/img/icon/heart.png" alt=""></a>
-                    <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png" alt=""><span>0</span></a>
+                    <a th:href="@{/order/shopping-cart}"><img src="/resources/img/icon/cart.png"
+                                                              alt=""><span>0</span></a>
                     <div class="price"><a th:href="@{/account/private}" th:text="#{navbar.cabinet}"></a></div>
                 </div>
             </div>
@@ -119,7 +116,7 @@
 <section style="padding-top: 100px">
     <h2 th:text="#{clothong.addnew}" style="text-align: center">Add new Clothes to Storage</h2>
 
-    <div class="container-fluid col-md-10">
+    <div class="container-fluid col-md-7 container">
         <form th:action="@{/catalog/save}"
               method="post"
               th:object="${newClothing}"
@@ -127,136 +124,160 @@
 
             <input type="hidden" th:field="*{id}">
 
-
-
             <br>
 
-            <div class="row">
-                <div class="col">
-                    <label for="season">Season:</label>
-                    <br>
-                    <select th:field="*{season}" id="season" class="form-control">
-                        <option th:each="s : ${allSeasons}"
-                                th:value="${s.name()}"
-                                th:text="${s.name()}"></option>
-                    </select>
-                    <br>
+            <!--**********30.11.2021-->
+            <div class="block">
+                <div class="row h-75">
+
+                    <div class="col-1 align-content-center">
+                        <label for="season" th:text="#{clothes.form.season}">Season:</label>
+                    </div>
+
+                    <div class="col-3">
+                        <select th:field="*{season}" id="season" class="form-control w-75 h-75 text-align-center">
+                            <option th:each="s : ${allSeasons}"
+                                    th:value="${s.name()}"
+                                    th:text="#{${'season.' + #strings.toLowerCase(s.name())}}"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-4">
+
+                    </div>
+
+                    <div class="col-1 align-content-center">
+                        <label for="type" th:text="#{clothes.form.type}">Type:</label>
+                    </div>
+
+                    <div class="col-3">
+                        <select th:field="*{type}" id="type" class="form-control w-75 h-75 align-content-center">
+                            <option th:each="t : ${allTypes}"
+                                    th:value="${t.name()}"
+                                    th:text="#{${'type.' + #strings.toLowerCase(t.name())}}"></option>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="col">
-                    <label for="type">Type:</label>
-                    <br>
-                    <select th:field="*{type}" id="type" class="form-control">
-                        <option th:each="t : ${allTypes}"
-                                th:value="${t.name()}"
-                                th:text="${t.name()}"></option>
-                    </select>
-                    <br>
-                </div>
-            </div>
+                <br>
+                <br>
 
-            <br>
-            <br>
-
-            <div class="row">
-                <div class="col">
-                    <div class="row">
+                <div class="row">
+                    <div class="col-1">
                         <label for="category">Category:</label>
+                    </div>
+
+                    <div class="col-2">
                         <select id="category" th:field="*{category.id}">
                             <option th:each="cat : ${allCategories}"
                                     th:value="${cat.id}"
                                     th:text="${cat.name}">
                             </option>
                         </select>
-                        <button type="button" onclick="window.location.href='/catalog/add-new-category'" class="btn btn-dark">
+                    </div>
+
+                    <div class="col-2">
+                        <button type="button" onclick="window.location.href='/catalog/add-new-category'"
+                                class="btn btn-dark">
                             Add new Category
                         </button>
                     </div>
 
-                </div>
+                    <div class="col-2">
 
-                <div class="col">
-                    <div class="row">
+                    </div>
+
+                    <div class="col-1">
                         <label for="brand">Brand:</label>
+                    </div>
+
+                    <div class="col-2">
                         <select id="brand" th:field="*{brand.id}">
                             <option th:each="br : ${allBrands}"
                                     th:value="${br.id}"
                                     th:text="${br.name}">
                             </option>
                         </select>
-                        <br>
-                        <button type="button" onclick="window.location.href='/catalog/add-new-brand'" class="btn btn-dark">Add
+                    </div>
+
+                    <div class="col-2">
+                        <button type="button" onclick="window.location.href='/catalog/add-new-brand'"
+                                class="btn btn-dark">Add
                             new Brand
                         </button>
                     </div>
                 </div>
             </div>
-            <br>
-
-            <div>
-                <label for="photo">Image:</label>
-                <input type="file" id="photo" name="photo" class="form-control"/>
-            </div>
 
             <br>
-
-            <div>
-                <label for="description">Description:</label>
-                <input type="text" id="description"
-                       th:field="*{description}" class="form-control wide"/>
-            </div>
-
             <br>
 
+            <div class="block">
+                <div>
+                    <label for="photo">Image:</label>
+                    <input type="file" id="photo" name="photo"/>
+                </div>
 
-            <div class="row">
-                <div class="col">
+                <br>
+                <br>
+
+                <div>
+                    <label for="description">Description:</label>
+                    <input type="text" id="description"
+                           th:field="*{description}" class="form-control" style="height: 150px"/>
+                </div>
+
+                <br>
+                <br>
+
+                <div>
                     <label th:for="name">Name:</label>
                     <input type="text" th:field="*{name}" class="form-control"/>
-<!--                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red"></p>-->
+                    <!--                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red"></p>-->
                 </div>
+
+                <br>
+                <br>
+
+                <div>
+                    <label th:for="price">Price:</label>
+                    <input type="text" th:field="*{price}" class="form-control"/>
+                    <!--                <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color: red"></p>-->
+                </div>
+
             </div>
 
+            <br>
+            <br>
+
+            <div class="block">
+                    <ul>Choose size:
+                        <br>
+                        <li th:each="size : ${allSizes}" style="list-style: none">
+                            <input type="radio" id="size"
+                                   th:field="*{size}"
+                                   th:value="${size.name()}">
+                            <label for="size" th:text="${size.name()}"></label>
+                        </li>
+                    </ul>
+            </div>
+
+            <br>
             <br>
 
             <div>
-                <label th:for="price">Price:</label>
-                <input type="text" th:field="*{price}" class="form-control"/>
-<!--                <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color: red"></p>-->
-            </div>
-
-            <br>
-
-            <div class="col">
-                <ul>Choose size:
-                    <br>
-                    <li th:each="size : ${allSizes}" style="list-style: none">
-                        <input type="radio" id="size"
-                               th:field="*{size}"
-                               th:value="${size.name()}">
-                        <label for="size" th:text="${size.name()}"></label>
-                    </li>
-                </ul>
-            </div>
-
-            <br>
-
-
-
-            <div>
-                <label >Count of clothing:</label>
+                <label>Count of clothing:</label>
                 <input type="text" th:field="*{count}" class="form-control">
             </div>
             <br>
 
-            <button class="btn btn-success" type="submit" th:text="Save"></button>
+            <button class="btn btn-success" type="submit" th:text="#{button.addnew}"></button>
         </form>
 
         <br>
 
     </div>
 </section>
-
 
 
 <div th:insert="~{footer :: footer}"></div>

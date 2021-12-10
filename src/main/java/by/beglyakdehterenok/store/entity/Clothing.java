@@ -38,8 +38,6 @@ public class Clothing extends BaseEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
-//    @ElementCollection(targetClass = Size.class,fetch = FetchType.EAGER)
-//    @JoinTable(name = "clothing_size", joinColumns = @JoinColumn(name = "clothing_id"))
     @Column(name = "size", nullable = false)
     @Enumerated(EnumType.STRING)
     private Size size;
@@ -56,15 +54,5 @@ public class Clothing extends BaseEntity {
 
     @Column(name = "count",nullable = false)
     private Long count;
-
-//    @Transient
-//    public String getImagePath(){
-//        if (image == null || getId()==null){
-//            return null;
-//        } else {
-//            return "/users/BEGLYAK/work/clothing-photos/" + getId() + "/" +image;
-//        }
-//
-//    }
 
 }

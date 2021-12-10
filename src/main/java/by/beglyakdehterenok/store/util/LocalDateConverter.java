@@ -1,8 +1,7 @@
 package by.beglyakdehterenok.store.util;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 
+import org.springframework.stereotype.Component;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.sql.Date;
